@@ -97,6 +97,7 @@
 
 
   <meta name="description" content="本文逻辑串联 首先介绍了并发和并行的概念，这是最最基础的一个概念 然后介绍了为什么会有线程安全问题，并在之后知道了是由于以下的一些问题导致的： 内存可见性问题：概念 原子性问题：概念 指令重排序问题：概念   接着讲了Synchronized 怎么解决内存可见性问题，但是它太重了，因为它获取的是内置锁，而锁是及其昂贵的一种操作 为了便宜点，我们又寻找了使用Volatile 关键字解决内存可见性的问">
+<meta name="keywords" content="并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发编程笔记2-基础晋级">
 <meta property="og:url" content="http://yoursite.com/2019/04/11/Java并发编程笔记2-基础晋级/index.html">
@@ -104,7 +105,7 @@
 <meta property="og:description" content="本文逻辑串联 首先介绍了并发和并行的概念，这是最最基础的一个概念 然后介绍了为什么会有线程安全问题，并在之后知道了是由于以下的一些问题导致的： 内存可见性问题：概念 原子性问题：概念 指令重排序问题：概念   接着讲了Synchronized 怎么解决内存可见性问题，但是它太重了，因为它获取的是内置锁，而锁是及其昂贵的一种操作 为了便宜点，我们又寻找了使用Volatile 关键字解决内存可见性的问">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/1554959297493.png">
-<meta property="og:updated_time" content="2019-04-11T08:23:53.723Z">
+<meta property="og:updated_time" content="2019-04-11T08:32:28.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程笔记2-基础晋级">
 <meta name="twitter:description" content="本文逻辑串联 首先介绍了并发和并行的概念，这是最最基础的一个概念 然后介绍了为什么会有线程安全问题，并在之后知道了是由于以下的一些问题导致的： 内存可见性问题：概念 原子性问题：概念 指令重排序问题：概念   接着讲了Synchronized 怎么解决内存可见性问题，但是它太重了，因为它获取的是内置锁，而锁是及其昂贵的一种操作 为了便宜点，我们又寻找了使用Volatile 关键字解决内存可见性的问">
@@ -385,12 +386,30 @@
                 
               
 
-              <time title="创建时间：2019-04-11 16:23:53" itemprop="dateCreated datePublished" datetime="2019-04-11T16:23:53+08:00">2019-04-11</time>
+              <time title="创建时间：2019-04-11 16:32:28" itemprop="dateCreated datePublished" datetime="2019-04-11T16:32:28+08:00">2019-04-11</time>
             
 
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -574,31 +593,17 @@
 
     <footer class="post-footer">
       
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/04/11/设计模式笔记/" rel="next" title="设计模式笔记">
-                <i class="fa fa-chevron-left"></i> 设计模式笔记
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/11/Java并发编程笔记2-基础晋级-1/" rel="prev" title="Java并发编程笔记2-基础晋级">
-                Java并发编程笔记2-基础晋级 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
+        <div class="post-tags">
+          
+            <a href="/tags/并发/" rel="tag"># 并发</a>
+          
         </div>
+      
+
+      
+      
+      
+
       
 
       
@@ -664,14 +669,44 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">1</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
 
               
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
             </nav>
           

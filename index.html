@@ -337,144 +337,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Java并发编程笔记2-基础晋级-1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jaster">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静心听雨，无问西东">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/11/Java并发编程笔记2-基础晋级-1/" class="post-title-link" itemprop="url">Java并发编程笔记2-基础晋级</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-11 16:26:17" itemprop="dateCreated datePublished" datetime="2019-04-11T16:26:17+08:00">2019-04-11</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/Java并发编程笔记2-基础晋级/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -520,283 +382,30 @@
                 
               
 
-              <time title="创建时间：2019-04-11 16:23:53" itemprop="dateCreated datePublished" datetime="2019-04-11T16:23:53+08:00">2019-04-11</time>
+              <time title="创建时间：2019-04-11 16:32:28" itemprop="dateCreated datePublished" datetime="2019-04-11T16:32:28+08:00">2019-04-11</time>
             
 
             
           </span>
 
           
-
-          
+            <span class="post-category">
             
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="本文逻辑串联"><a href="#本文逻辑串联" class="headerlink" title="本文逻辑串联"></a>本文逻辑串联</h2><ol>
-<li>首先介绍了并发和并行的概念，这是最最基础的一个概念</li>
-<li>然后介绍了为什么会有线程安全问题，并在之后知道了是由于以下的一些问题导致的：<ul>
-<li>内存可见性问题：概念</li>
-<li>原子性问题：概念</li>
-<li>指令重排序问题：概念</li>
-</ul>
-</li>
-<li>接着讲了Synchronized 怎么解决内存可见性问题，但是它太重了，因为它获取的是内置锁，而锁是及其昂贵的一种操作</li>
-<li>为了便宜点，我们又寻找了使用Volatile 关键字解决内存可见性的问题</li>
-<li>然后开始讲了原子性的问题，什么是原子性，Synchronized 怎么解决原子性，Volatile 为啥不能解决原子性。</li>
-<li>到这里，我们可以解决线程不安全问题了（指令重排序问题呢？Synchronized 也能禁止指令重排序），就是大名鼎鼎的Synchronized </li>
-<li>但是我们说Synchronized 太贵了，所以我们找了一些便宜的操作–CAS，他提供了一种非阻塞的原子性操作。然后我们就有两种方法来解决线程不安全的问题了。</li>
-<li>然后我们又介绍了伪共享，这是一个题外话。</li>
-<li>最终来到了指令重排序，为什么讲这一部分呢？因为指令重排序也能导致线程不安全，而使用Volatile 关键字能禁止指令重排序，这样如果操作本身是原子的（比如读操作），我们有了第三种解决线程不安全的问题，Volatile 关键字。</li>
-<li>最后提供了一些锁的概念，乐观锁、悲观锁（数据库重），公平锁和非公平锁、独占锁和共享锁、可重入锁等。</li>
-</ol>
-<h2 id="并行和并发"><a href="#并行和并发" class="headerlink" title="并行和并发"></a>并行和并发</h2><p>首先要澄清并发和并行的概念，并发是指同一个<strong>时间段内</strong>多个任务同时都在执行，并且都没有执行结束；而并行是说在<strong>单位时间内</strong>多个任务同时在执行；所以可以明显看到，并发强调的是一个时间段，多个任务在同一个单位时间并不一定同时执行。</p>
-<p>在单cpu时代，是不存在什么多线程编程的，因为只有一个cpu，线程来回切换还费时间。但是多cpu时代，线程个数往往多于cpu个数，怎么样安排这些线程最合适就是我们要考虑的问题了。</p>
-<h2 id="线程安全问题"><a href="#线程安全问题" class="headerlink" title="线程安全问题"></a>线程安全问题</h2><p>为什么会有线程安全问题呢？<br>一般是对共享变量同时读写造成的问题。比如下面这句话：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnt ++</span><br></pre></td></tr></table></figure>
-<p>实际上这句话进行了三个操作，取值、递增、赋值，那么如果多个线程同时读写进行这三个操作，就有可能会造成最后的结果不是我们想要的。所以我们在对共享变量写操作时，需要注意添加锁/同步。如果只是读操作，那也没什么关系。</p>
-<h2 id="共享变量内存可见性问题"><a href="#共享变量内存可见性问题" class="headerlink" title="共享变量内存可见性问题"></a>共享变量内存可见性问题</h2><p>下面这张图是Java中的双核CPU的一个架构图：</p>
-<p><img src="/images/1554959297493.png" alt></p>
-<p>对照这个图，来讲解一个例子：</p>
-<ul>
-<li>假设线程 A 首先获取共享变量 X 的值，由于两级 Cache 都没有命中，所以到主内存加载了 X=0，然后会把 X=0 的值缓存到两级缓存，假设线程 A 修改 X 的值为1，然后写入到两级 Cache，并且刷新到主内存（注：如果没刷新会主内存也会存在内存不可见问题）。这时候线程 A 所在的 CPU 的两级 Cache 内和主内存里面 X 的值都是1；</li>
-<li>然后假设线程 B 这时候获取 X 的值，首先一级缓存没有命中，然后看二级缓存，二级缓存命中了，所以返回 X=1；然后线程 B 修改 X 的值为2；然后存放到线程2所在的一级 Cache 和共享二级 Cache，最后更新主内存值为2；</li>
-<li>然后假设线程 A 这次又需要修改 X 的值，获取时候一级缓存命中获取 X=1，到这里问题就出现了，明明线程 B 已经把 X 的值修改为了2，为啥线程 A 获取的还是1呢？这就是共享变量的内存不可见问题，也就是线程 B 写入的值对线程 A 不可见。</li>
-</ul>
-<p>所以内存可见性问题总结下来就是：cpu有多级缓存，一般取数据会先从cache中取，而不是去主内存中，这样在多cpu的情况下，就有可能出现多cpu的cache中都有某个共享变量，而某一个线程修改数据，并同时修改自己的cache和主内存，但是没有修改其他cpu的cache，而其他cpu的cache并没有消失，所以读的时候还是会去自己的cache中读，这样就造成了问题！</p>
-<h2 id="Java-中-Synchronized-关键字"><a href="#Java-中-Synchronized-关键字" class="headerlink" title="Java 中 Synchronized 关键字"></a>Java 中 Synchronized 关键字</h2><p>Synchronized 块是 Java 提供的一种原子性内置锁，Java 中每个对象都可以当做一个同步锁的功能来使用，这些 Java 内置的使用者看不到的锁被称为内部锁，也叫做监视器锁。</p>
-<p>上一节讲了多线程并发修改共享变量时候会存在内存不可见的问题，究其原因是因为 Java 内存模型中线程操作共享变量时候会从自己的工作内存中获取而不是从主内存获取或者线程写入到本地内存的变量没有被刷新会主内存。</p>
-<p>线程进入 Synchronized 块的语义是会把在 Synchronized 块内使用到的变量从线程的工作内存中清除，在 Synchronized 块内使用该变量时候就不会从线程的工作内存中获取了，而是直接从主内存中获取；退出 Synchronized 块的内存语义是会把 Synchronized 块内对共享变量的修改刷新到主内存。</p>
-<p>对应上面一节讲解的假如线程在 Synchronized 块内获取变量 X 的值，那么线程首先会清空所在的 CPU 的缓存，然后从主内存获取变量 X 的值；当线程修改了变量的值后会把修改的值刷新回主内存。</p>
-<p>除了可以解决共享变量内存可见性问题外，Synchronized 经常被用来实现原子性操作，另外注意，Synchronized 关键字会引起线程上下文切换和线程调度的开销。</p>
-<h2 id="Java-中-Volatile-关键字"><a href="#Java-中-Volatile-关键字" class="headerlink" title="Java 中 Volatile 关键字"></a>Java 中 Volatile 关键字</h2><p>上面介绍了使用锁的方式可以解决共享变量内存可见性问题，但是使用锁太重，因为它会引起线程上下文的切换开销，对于解决内存可见性问题，Java 还提供了一种弱形式的同步，也就是使用了 volatile 关键字。</p>
-<p>一旦一个变量被 volatile 修饰了，当线程获取这个变量值的时候会首先清空线程工作内存中该变量的值，然后从主内存获取该变量的值；当线程写入被 volatile 修饰的变量的值的时候，首先会把修改后的值写入工作内存，然后会刷新到主内存。这就保证了对一个变量的更新对其它线程马上可见。</p>
-<p>下面看一个使用 volatile 关键字解决内存不可见性的一个例子，如下代码的共享变量 value 是线程不安全的，因为它没有进行适当同步措施。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadNotSafeInteger</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="keyword">return</span> value;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">this</span>.value = value;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>首先看下使用 synchronized 关键字进行同步方式如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeInteger</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">private</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> value;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span>  <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">this</span>.value = value;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>然后看下使用 volatile 进行同步如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadSafeInteger</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">int</span> value;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里使用 synchronized 和使用 volatile 是等价的，都解决了共享变量 value 的内存不可见性问题；但是前者是独占锁，同时只能有一个线程调用 get() 方法，其它调用线程会被阻塞；并且会存在线程上下文切换和线程重新调度的开销；而后者是非阻塞算法，不会造成线程上下文切换的开销。</p>
-<p>这里使用 synchronized 和使用 volatile 是等价的，但是并不是所有情况下都是等价的，这是因为 volatile 虽然提供了可见性保证，但是并没有保证操作的<strong>原子性</strong>。</p>
-<p>那么一般什么时候才使用 volatile 关键字修饰变量呢？</p>
-<ul>
-<li>当写入变量值时候不依赖变量的当前值。因为如果依赖当前值则是获取 -&gt; 计算 -&gt; 写入操作，而这三步操作不是原子性的，而 volatile 不保证原子性。</li>
-<li>读写变量值时候没有进行加锁。因为加锁本身已经保证了内存可见性，这时候不需要把变量声明为 volatile。<br>另外变量被声明为 volatile 还可以避免重排序的发生，这个后面会讲到。</li>
-</ul>
-<h2 id="Java-中原子性操作"><a href="#Java-中原子性操作" class="headerlink" title="Java 中原子性操作"></a>Java 中原子性操作</h2><p>所谓原子性操作是指当执行一系列操作时候，这些操作那么全部被执行，那么全部不被执行，不存在只执行其中一部分的情况。</p>
-<p>在设计计数器时候一般都是先读取当前值，然后+1，然后更新，这个过程是读 -&gt; 改 -&gt; 写的过程，如果不能保证这个过程是原子性，那么就会出现线程安全问题。如下代码是线程不安全的，因为不能保证 ++value 是原子性操作，因为自增操作并不是单一的一个操作，而是三个操作。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadNotSafeCount</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span>  Long value;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> Long <span class="title">getCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inc</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            ++value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>在这里我们怎么实现原子性呢？自然可以用synchronized  独占锁了，修改的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class ThreadSafeCount &#123;</span><br><span class="line"></span><br><span class="line">    private  Long value;</span><br><span class="line"></span><br><span class="line">    public synchronized Long getCount() &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public synchronized void inc() &#123;</span><br><span class="line">        ++value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>使用synchronized  自然是可以实现线程安全了，即实现原子性和内存可见性，但是它是一个独占锁，也就是说，同时只有一个线程可以调用 getCount 方法，其他没有获取内部锁的线程会被阻塞掉；而这里 getCount 方法只是读操作，多个线程同时调用不会存在线程安全问题，但是加了关键字 Synchronized 后同时就只能有一个线程可以调用了，这显然大大降低了并发性。</p>
-<p>但是这里为什么不去掉getCount()的Synchronized 呢？别忘了它还要保证内存可见性！那有没有更好的方法呢？答案是肯定的，下面会讲到的内部使用非阻塞 CAS 算法实现的原子性操作类 AtomicLong 就是不错选择。</p>
-<h2 id="Java中的CAS操作和AtomicLong实现原理"><a href="#Java中的CAS操作和AtomicLong实现原理" class="headerlink" title="Java中的CAS操作和AtomicLong实现原理"></a>Java中的CAS操作和AtomicLong实现原理</h2><h3 id="CAS来源"><a href="#CAS来源" class="headerlink" title="CAS来源"></a>CAS来源</h3><p>在 Java 中锁在并发处理中占据了一席之地，但是使用锁不好的地方是当一个线程没有获取到锁后会被阻塞挂起，这会导致线程上下文的切换和重新调度的开销。</p>
-<p>Java 中提供了非阻塞的 volatile 关键字来解决共享变量的可见性问题，这在一定程度上弥补了锁所在带来的开销，但是 volatile 只能保证共享变量的可见性问题，但是还是不能解决例如读 -&gt; 改 -&gt; 写等的原子性问题。</p>
-<p><code>CAS</code> 即 Compare And Swap，是 JDK 提供的非阻塞原子性操作，它通过硬件保证了比较-更新操作的原子性，JDK 里面的 Unsafe 类提供了一些列的 <code>compareAndSwap*</code> 方法，下面以 <code>compareAndSwapLong</code> 为例进行简单介绍。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">compareAndSwapLong</span><span class="params">(Object obj,<span class="keyword">long</span> valueOffset,<span class="keyword">long</span> expect, <span class="keyword">long</span> update)</span></span></span><br></pre></td></tr></table></figure>
-<p>方法compareAndSwap 的意思也就是比较并交换，CAS 有四个操作数分别为：对象内存位置，对象中的变量的偏移量，变量预期值 expect，新的值 update。</p>
-<p>操作含义是如果对象 obj 中内存偏移量为 valueOffset 位置的变量值为 expect 则使用新的值 update 替换旧的值 expect。这个是处理器提供的一个原子性指令。</p>
-<h3 id="AtomicLong的原理"><a href="#AtomicLong的原理" class="headerlink" title="AtomicLong的原理"></a>AtomicLong的原理</h3><p>并发包中原子性操作类都有 AtomicInteger，AtomicLong，AtomicBoolean，原理类似，本节讲解下 AtomicLong 类。AtomicLong 是原子性递增或者递减类，其内部使用 Unsafe 来实现，下面看下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">public class AtomicLong extends Number implements java.io.Serializable &#123;</span><br><span class="line">    private static final long serialVersionUID = 1927816293512124184L;</span><br><span class="line"></span><br><span class="line">    // （1）获取Unsafe实例</span><br><span class="line">    private static final Unsafe unsafe = Unsafe.getUnsafe();</span><br><span class="line"></span><br><span class="line">    //（2）存放变量value的偏移量</span><br><span class="line">    private static final long valueOffset;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     //（3）判断JVM是否支持Long类型无锁CAS</span><br><span class="line">    static final boolean VM_SUPPORTS_LONG_CAS = VMSupportsCS8();</span><br><span class="line">    private static native boolean VMSupportsCS8();</span><br><span class="line"></span><br><span class="line">    static &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            //（4）获取value在AtomicLong中偏移量</span><br><span class="line">            valueOffset = unsafe.objectFieldOffset</span><br><span class="line">                (AtomicLong.class.getDeclaredField(&quot;value&quot;));</span><br><span class="line">        &#125; catch (Exception ex) &#123; throw new Error(ex); &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //（5）实际变量值</span><br><span class="line">    private volatile long value;</span><br><span class="line"></span><br><span class="line">    public AtomicLong(long initialValue) &#123;</span><br><span class="line">        value = initialValue;</span><br><span class="line">    &#125;</span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>代码（1）创建了通过 Unsafe.getUnsafe（）方式获取到 Unsafe 类实例，这里你可能会疑问为何这里能通过 Unsafe.getUnsafe() 方式获取到 Unsafe 类实例？其实这是因为 AtomicLong 类也是在 rt.jar 包里面，AtomicLong 类的加载就是通过 BootStarp 类加载器进行加载的（关于 Unsafe 后面高级篇会具体讲解，这里先了解）</li>
-<li>代码（5）中 value 声明为 volatile 是为了多线程下保证内存可见性，value 是具体存放计数的变量。</li>
-<li>代码（2）（4）获取 value 变量在 AtomicLong 类中偏移量。</li>
-</ul>
-<p>下面重点看下 AtomicLong 中主要函数：</p>
-<ul>
-<li>递增和递减操作代码。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//（6）调用unsafe方法，原子性设置value值为原始值+1，返回值为递增后的值</span><br><span class="line">public final long incrementAndGet() &#123;</span><br><span class="line">    return unsafe.getAndAddLong(this, valueOffset, 1L) + 1L;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//（7)调用unsafe方法，原子性设置value值为原始值-1，返回值为递减之后的值</span><br><span class="line">public final long decrementAndGet() &#123;</span><br><span class="line">    return unsafe.getAndAddLong(this, valueOffset, -1L) - 1L;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//(8)调用unsafe方法，原子性设置value值为原始值+1,返回值为原始值</span><br><span class="line">public final long getAndIncrement() &#123;</span><br><span class="line">    return unsafe.getAndAddLong(this, valueOffset, 1L);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//(9)调用unsafe方法，原子性设置value值为原始值-1，返回值为原始值</span><br><span class="line">public final long getAndDecrement() &#123;</span><br><span class="line">    return unsafe.getAndAddLong(this, valueOffset, -1L);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上代码内部都是调用 Unsafe 的 getAndAddLong 方法实现，这个函数是个原子性操作，这里第一个参数是 AtomicLong 实例的引用，第二个参数是 value 变量在 AtomicLong 中的偏移值，第三个参数是要设置第二个变量的值。</p>
-<p>下面看一个例子，看啊可能CAS如何解决线程不安全问题：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">  统计0的个数</span><br><span class="line"> */</span><br><span class="line">public class Atomic </span><br><span class="line">&#123;</span><br><span class="line">   //(10)创建Long型原子计数器</span><br><span class="line">   private static  AtomicLong atomicLong = new AtomicLong();</span><br><span class="line">   //(11)创建数据源</span><br><span class="line">   private static Integer[] arrayOne = new Integer[]&#123;0,1,2,3,0,5,6,0,56,0&#125;;</span><br><span class="line">   private static Integer[] arrayTwo = new Integer[]&#123;10,1,2,3,0,5,6,0,56,0&#125;;</span><br><span class="line"></span><br><span class="line">    public static void main( String[] args ) throws InterruptedException</span><br><span class="line">    &#123;</span><br><span class="line">     //（12）线程one统计数组arrayOne中0的个数</span><br><span class="line">        Thread threadOne = new Thread(new Runnable() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line"></span><br><span class="line">             int size = arrayOne.length;</span><br><span class="line">             for(int i=0;i&lt;size;++i)&#123;</span><br><span class="line">                 if(arrayOne[i].intValue() == 0)&#123;</span><br><span class="line"></span><br><span class="line">                     atomicLong.incrementAndGet();</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        //（13）线程two统计数组arrayTwo中0的个数</span><br><span class="line">        Thread threadTwo = new Thread(new Runnable() &#123;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line"></span><br><span class="line">                 int size = arrayTwo.length;</span><br><span class="line">                 for(int i=0;i&lt;size;++i)&#123;</span><br><span class="line">                     if(arrayTwo[i].intValue() == 0)&#123;</span><br><span class="line"></span><br><span class="line">                         atomicLong.incrementAndGet();</span><br><span class="line">                     &#125;</span><br><span class="line">                 &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        //(14)启动子线程</span><br><span class="line">        threadOne.start();</span><br><span class="line">        threadTwo.start();</span><br><span class="line"></span><br><span class="line">        //(15)等待线程执行完毕</span><br><span class="line">        threadOne.join();</span><br><span class="line">        threadTwo.join();</span><br><span class="line"></span><br><span class="line">        System.out.println(&quot;count 0:&quot; + atomicLong.get());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注：在没有原子类的情况下例如最开始一节中自己做计数器的话，需要使用一定的同步措施，比如使用 Synchronized 关键字等，但是这些都是阻塞算法，对性能有一定损耗，而本节介绍的这些原子操作类都是使用 CAS 非阻塞算法，性能会更好。但是在高并发情况下 AtomicLong 还是会存在性能问题，后期高级篇会讲到 JDK 8 中提供了一个在高并发下性能更好的 LongAdder 类。</p>
-<h2 id="伪共享"><a href="#伪共享" class="headerlink" title="伪共享"></a>伪共享</h2><h3 id="什么是伪共享？"><a href="#什么是伪共享？" class="headerlink" title="什么是伪共享？"></a>什么是伪共享？</h3><p>我们都知道CPU的多级缓存机制，但是CPU不是将一个变量值加入缓存，而是将一个内存块，那么会导致内存块中还可能有其他的变量，但是对于缓存部分每次只能有一个线程读取（缓存在CPU里面，一个CPU同一时刻只能被一个线程抢占），这样如果多个线程对于在一个内存快里的多个变量进行修改，就会慢，这就是伪共享。</p>
-<h3 id="为何会出现伪共享？"><a href="#为何会出现伪共享？" class="headerlink" title="为何会出现伪共享？"></a>为何会出现伪共享？</h3><p>伪共享的产生是因为多个变量被放入了一个缓存行，并且多个线程同时去写入缓存行中不同变量。那么为何多个变量会被放入一个缓存行那。其实是因为 Cache 与内存交换数据的单位就是 Cache 行，当 CPU 要访问的变量没有在 Cache 命中时候，根据程序运行的局部性原理会把该变量在内存中大小为 Cache 行的内存放如缓存行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">long a;</span><br><span class="line">long b;</span><br><span class="line">long c;</span><br><span class="line">long d;</span><br></pre></td></tr></table></figure>
-<p>如上代码，声明了四个 long 变量，假设 Cache 行的大小为32个字节，那么当 CPU 访问变量 a 时候发现该变量没有在 Cache 命中，那么就会去主内存把变量 a 以及内存地址附近的 b、c、d 放入缓存行。</p>
-<p>也就是地址连续的多个变量才有可能会被放到一个缓存行中，当创建数组时候，数组里面的多个元素就会被放入到同一个缓存行。那么单线程下多个变量放入缓存行对性能有影响？其实正常情况下单线程访问时候由于数组元素被放入到了一个或者多个 Cache 行对代码执行是有利的，因为数据都在缓存中，代码执行会更快，可以对比下面代码执行：<br>代码（1）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForContent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LINE_NUM = <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COLUM_NUM = <span class="number">1024</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> [][] array = <span class="keyword">new</span> <span class="keyword">long</span>[LINE_NUM][COLUM_NUM];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;LINE_NUM;++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;COLUM_NUM;++j)&#123;</span><br><span class="line">                array[i][j] = i*<span class="number">2</span>+j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">long</span> cacheTime = endTime - startTime;</span><br><span class="line">        System.out.println(<span class="string">"cache time:"</span> + cacheTime);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码（2）：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForContent2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LINE_NUM = <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> COLUM_NUM = <span class="number">1024</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> [][] array = <span class="keyword">new</span> <span class="keyword">long</span>[LINE_NUM][COLUM_NUM];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;COLUM_NUM;++i)&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;LINE_NUM;++j)&#123;</span><br><span class="line">                array[j][i] = i*<span class="number">2</span>+j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">long</span> endTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"no cache time:"</span> + (endTime - startTime));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我 Mac 电脑上执行代码（1）多次耗时均在10ms一下，执行代码（2）多次耗时均在10ms以上。</p>
-<p>总的来说代码（1）比代码（2）执行的快，这是因为数组内数组元素之间内存地址是连续的，当访问数组第一个元素时候，会把第一个元素后续若干元素一块放入到 Cache 行，这样顺序访问数组元素时候会在 Cache 中直接命中，就不会去主内存读取，后续访问也是这样。</p>
-<p>总结下也就是当顺序访问数组里面元素时候，如果当前元素在 Cache 没有命中，那么会从主内存一下子读取后续若干个元素到 Cache，也就是一次访问内存可以让后面多次直接在 Cache 命中。而代码（2）是跳跃式访问数组元素的，而不是顺序的，这破坏了程序访问的局部性原理，并且 Cache是有容量控制的，Cache 满了会根据一定淘汰算法替换 Cache 行，会导致从内存置换过来的 Cache 行的元素还没等到读取就被替换掉了。</p>
-<p>所以单个线程下顺序修改一个 Cache 行中的多个变量，是充分利用了程序运行局部性原理，会加速程序的运行，而多线程下并发修改一个 Cache 行中的多个变量而就会进行竞争 Cache 行，降低程序运行性能。</p>
-<h3 id="如何避免伪共享？"><a href="#如何避免伪共享？" class="headerlink" title="如何避免伪共享？"></a>如何避免伪共享？</h3><p>JDK 8 之前一般都是通过字节填充的方式来避免，也就是创建一个变量的时候使用填充字段填充该变量所在的缓存行，这样就避免了多个变量存在同一个缓存行，如下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">FilledLong</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">long</span> value = <span class="number">0L</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">long</span> p1, p2, p3, p4, p5, p6;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>假如 Cache 行为64个字节，那么我们在 FilledLong 类里面填充了6个 long 类型变量，每个 long 类型占用8个字节，加上 value 变量的8个字节总共56个字节，另外这里 FilledLong 是一个类对象，而类对象的字节码的对象头占用了8个字节，所以当 new 一个 FilledLong 对象时候实际会占用64个字节的内存，这个正好可以放入 Cache 的一个行。</p>
-<p>在 JDK 8 中提供了一个 sun.misc.Contended 注解，用来解决伪共享问题，上面代码可以修改为如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@sun</span>.misc.Contended </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">FilledLong</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">long</span> value = <span class="number">0L</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面是修饰类的，当然也可以修饰变量，比如 Thread 类中的使用：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The current seed for a ThreadLocalRandom */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">long</span> threadLocalRandomSeed;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Probe hash value; nonzero if threadLocalRandomSeed initialized */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomProbe;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Secondary seed isolated from public ThreadLocalRandom sequence */</span></span><br><span class="line"><span class="meta">@sun</span>.misc.Contended(<span class="string">"tlr"</span>)</span><br><span class="line"><span class="keyword">int</span> threadLocalRandomSecondarySeed;</span><br></pre></td></tr></table></figure>
-<p>Thread 类里面这三个变量是在 ThreadLocalRandom（Chat：《Java 并发编程之美：并发编程高级篇之一》中对其进行了讲解）中为了实现高并发下高性能生成随机数时候使用的，这三个变量默认是初始化为0。</p>
-<p>需要注意的是默认情况下 @Contended 注解只用到 Java 核心类，比如 rt 包下的类，如果需要在用户 classpath 下的类使用这个注解需要添加 JVM 参数：-XX:-RestrictContended，另外默认填充的宽度为128，如果你想要自定义宽度可以设置 -XX:ContendedPaddingWidth 参数。</p>
-<p>注：本节讲述了伪共享如何产生，以及如何避免，并证明多线程下访问同一个 Cache 行的多个的变量时候才会出现伪共享，当单个线程访问一个 Cache 行里面的多个变量时候反而对程序运行起到加速作用。这里为后面高级篇讲解 LongAdder 的实现提供了基础。</p>
-<h3 id="Java中指令重排序"><a href="#Java中指令重排序" class="headerlink" title="Java中指令重排序"></a>Java中指令重排序</h3><p>Java 内存模型允许编译器和处理器对指令进行重排序以提高运行性能，并且重排序只会对不存在数据依赖性的指令进行重排序；在单线程下重排序可以保证最终执行的结果是与程序顺序执行的结果一致，但是在多线程下就会存在问题。</p>
-<p>下面看一个例子</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a = <span class="number">1</span>;<span class="comment">//(1)</span></span><br><span class="line"><span class="keyword">int</span> b = <span class="number">2</span>;<span class="comment">//(2)</span></span><br><span class="line"><span class="keyword">int</span> c= a + b;<span class="comment">//(3)</span></span><br></pre></td></tr></table></figure>
-<p>如上代码变量 c 的值依赖 a 和 b 的值，所以重排序后能够保证（3）的操作在（2）（1）之后，但是（1）（2）谁先执行就不一定了，这在单线程下不会存在问题，因为并不影响最终结果。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public static class ReadThread extends Thread &#123;</span><br><span class="line">        public void run() &#123;</span><br><span class="line"></span><br><span class="line">            while(!Thread.currentThread().isInterrupted())&#123;</span><br><span class="line">                if(ready)&#123;//(1)</span><br><span class="line">                    System.out.println(num+num);//(2)</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;read thread....&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">public static class Writethread extends Thread &#123;</span><br><span class="line">   public void run() &#123;</span><br><span class="line">        num = 2;//(3)</span><br><span class="line">        ready = true;//(4)</span><br><span class="line">        System.out.println(&quot;writeThread set over...&quot;);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static int num =0;</span><br><span class="line">private static boolean ready = false;</span><br><span class="line"></span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line"></span><br><span class="line">   ReadThread rt = new ReadThread();</span><br><span class="line">   rt.start();</span><br><span class="line"></span><br><span class="line">   Writethread  wt = new Writethread();</span><br><span class="line">   wt.start();</span><br><span class="line"></span><br><span class="line">   Thread.sleep(10);</span><br><span class="line">   rt.interrupt();</span><br><span class="line">   System.out.println(&quot;main exit&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>首先这段代码里面的变量没有声明为 volatile 也没有使用任何同步措施，所以多线程下存在共享变量内存可见性问题，这里先不谈内存可见性问题，因为通过把变量声明为 volatile 本身就可以避免指令重排序问题。</p>
-<p>这里先看看指令重排序会造成什么影响，如上代码不考虑内存可见性问题的情况下 程序一定会输出4？答案是不一定，由于代码（1）（2）（3）（4）之间不存在依赖，所以写线程的代码（3）（4）可能被重排序为先执行（4）在执行（3），那么执行（4）后，读线程可能已经执行了（1）操作，并且在（3）执行前开始执行（2）操作，这时候打印结果为0而不是4。</p>
-<p>这就是重排序在多线程下导致程序执行结果不是我们想要的了，<strong>这里使用 volatile 修饰 ready 可以避免重排序和内存可见性问题</strong>。</p>
-<p>当写 volatile 变量时候，可以确保 volatile 写之前的操作不会被编译器重排序到 volatile 写之后。 当读 volatile 读变量时候，可以确保 volatile 读之后的操作不会被编译器重排序到 volatile 读之前。</p>
-<h2 id="锁的概述"><a href="#锁的概述" class="headerlink" title="锁的概述"></a>锁的概述</h2><p>乐观锁与悲观锁<br>乐观锁和悲观锁是在数据库中使用的名词，本节这里也提下。</p>
-<h3 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h3><p>悲观锁指对数据被外界修改持保守态度，在整个数据处理过程中，将数据处于锁定状态。悲观锁的实现，往往依靠数据库提供的锁机制，数据库中实现是对数据记录操作前给记录加排它锁。如果获取锁失败，则说明数据正在被其它线程修改，则等待或者抛出异常。如果加锁成功，则获取记录，对其修改，然后事务提交后释放排它锁。</p>
-<p>使用悲观锁的一个常用的例子：<code>select * from table where .. for update</code>;。</p>
-<h3 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h3><p>乐观锁是相对悲观锁来说的，它认为数据一般情况下不会造成冲突，所以在访问记录前不会加排它锁，而是在数据进行提交更新的时候，才会正式对数据的冲突与否进行检测。具体说是根据 update 返回的行数让用户决定如何去做。</p>
-<p>例如： <code>update table set comment=&#39;***&#39;,status=&#39;operator&#39;,version=version+1 where version = 1 and id = 1</code>;</p>
-<p>乐观锁并不会使用数据库提供的锁机制，一般在表添加 version 字段或者使用业务状态来做。乐观锁直到提交的时候才去锁定，所以不会产生任何锁和死锁。</p>
-<h3 id="公平锁与非公平锁"><a href="#公平锁与非公平锁" class="headerlink" title="公平锁与非公平锁"></a>公平锁与非公平锁</h3><p>根据线程获取锁的抢占机制锁可以分为公平锁和非公平锁，公平锁表示线程获取锁的顺序是<strong>按照线程请求锁的时间早晚来分决定的的</strong>，也就是最早获取锁的线程将最早获取到锁，也就是先来先得的 FIFO 顺序。而<strong>非公平锁则运行时候闯入，也就是先来不一定先得</strong>。</p>
-<p>ReentrantLock 提供了公平和非公平锁的实现：</p>
-<p>公平锁：<code>ReentrantLock pairLock = new ReentrantLock(true);</code><br>非公平锁：<code>ReentrantLock pairLock = new ReentrantLock(false);</code></p>
-<p>如果构造函数不传递参数，则默认是非公平锁。</p>
-<p>具体来说假设线程 A 已经持有了锁，这时候线程 B 请求该锁将会被挂起，当线程 A 释放锁后，假如当前有线程 C 也需要获取该锁，如果采用非公平锁方式，则根据线程调度策略线程 B 和 C 两者之一可能获取锁，这时候不需要任何其它干涉，如果使用公平锁则需要把 C 挂起，让 B 获取当前锁。</p>
-<p>在没有公平性需求的前提下尽量使用非公平锁，因为公平锁会带来性能开销。</p>
-<h3 id="独占锁与共享锁"><a href="#独占锁与共享锁" class="headerlink" title="独占锁与共享锁"></a>独占锁与共享锁</h3><p>根据锁只能被单个线程持有还是能被多个线程共同持有，锁分为独占锁和共享锁。</p>
-<p>独占锁保证任何时候都只有一个线程能得到锁，ReentrantLock 就是以独占方式实现的。共享锁则同时有多个线程可以持有，例如 ReadWriteLock 读写锁，它允许一个资源可以被多线程同时进行读操作。</p>
-<p>独占锁是一种悲观锁，每次访问资源都先加上互斥锁，这限制了并发性，因为读操作并不会影响数据一致性，而独占锁只允许同时一个线程读取数据，其它线程必须等待当前线程释放锁才能进行读取。</p>
-<p>共享锁则是一种乐观锁，它放宽了加锁的条件，允许多个线程同时进行读操作。</p>
-<h3 id="什么是可重入锁"><a href="#什么是可重入锁" class="headerlink" title="什么是可重入锁"></a>什么是可重入锁</h3><p>当一个线程要获取一个被其它线程持有的独占锁时候，该线程会被阻塞，那么当一个线程再次获取它自己已经获取的锁时候是否会被阻塞那?如果不被阻塞，那么我们说该锁是可重入的，也就是只要该线程获取了该锁，那么可以无限制次数（严格来说是有限次数）进入被该锁锁住的代码。</p>
-<p>下面看一个例子看看什么情况下会用可重入锁。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LockTest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">helloA</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">helloB</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello B"</span>);</span><br><span class="line">        helloA();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        LockTest lockTest = <span class="keyword">new</span> LockTest();</span><br><span class="line">        lockTest.helloB();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上面代码当调用 helloB 函数前会先获取内置锁，然后打印输出，然后调用 helloA 方法，调用前会先去获取内置锁，如果内置锁不是可重入的那么该调用就会导致死锁了，因为线程持有并等待了锁导致调用 helloA 时候永远不会获取到锁。</p>
-<p>实际上 synchronized 内部锁是可重入锁，可重入锁的原理是在锁内部维护了一个线程标示，用来标示该锁目前被那个线程占用，然后关联一个计数器。一开始计数器值为0，说明该锁没有被任何线程占用，当一个线程获取了该锁，计数器会变成1，其它线程在获取该锁时候发现锁的所有者不是自己就会被阻塞挂起。</p>
-<p>但是当获取该锁的线程再次获取锁时候发现锁拥有者是自己，就会把计数器值+1， 当释放锁后计数器会-1，当计数器为0时候，锁里面的线程标示重置为 null，这时候阻塞的线程会获取被唤醒来竞争获取该锁。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/设计模式笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jaster">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静心听雨，无问西东">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/11/设计模式笔记/" class="post-title-link" itemprop="url">设计模式笔记</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
+              <span class="post-meta-divider">|</span>
             
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">发表于</span>
+                <span class="post-meta-item-text">分类于</span>
               
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
 
-              
+                
                 
               
-
-              <time title="创建时间：2019-04-11 10:41:32" itemprop="dateCreated datePublished" datetime="2019-04-11T10:41:32+08:00">2019-04-11</time>
-            
-
-            
-          </span>
-
+            </span>
           
 
           
@@ -828,157 +437,27 @@
       
         
           
-            <h3 id="1-策略模式"><a href="#1-策略模式" class="headerlink" title="1. 策略模式"></a>1. 策略模式</h3><hr>
-<p>比如对于规则引擎中的语法函数，应当写一个function接口类，然后所有的类都去实现这个接口。这样做的好处是如果规则引擎发出去给别人用，别人想在基础上扩展一些语法函数，不用动jar里面的代码，直接实现接口即可。</p>
+            <p>
+              本文逻辑串联
+首先介绍了并发和并行的概念，这是最最基础的一个概念
+然后介绍了为什么会有线程安全问题，并在之后知道了是由于以下的一些问题导致的：
+内存可见性问题：概念
+原子性问题：概念
+指令重排序问题：概念
 
+
+接着讲了Synchronized 怎么解决内存可见性问题，但是它太重了，因为它获取的是内置
+              ...
+            </p>
+          <!--noindex-->
           
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/11/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jaster">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="静心听雨，无问西东">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/04/11/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-04-11 09:16:04" itemprop="dateCreated datePublished" datetime="2019-04-11T09:16:04+08:00">2019-04-11</time>
-            
-
-            
-          </span>
-
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/11/Java并发编程笔记2-基础晋级/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
           
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          <!--/noindex-->
         
       
     </div>
@@ -1060,14 +539,44 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">1</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
 
               
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
             </nav>
           
