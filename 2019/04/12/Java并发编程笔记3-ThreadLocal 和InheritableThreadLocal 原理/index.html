@@ -96,21 +96,21 @@
 
 
 
-  <meta name="description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候编程线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。 实现这个">
+  <meta name="description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候访问的是当前线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。">
 <meta name="keywords" content="并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理">
 <meta property="og:url" content="http://yoursite.com/2019/04/12/Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
-<meta property="og:description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候编程线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。 实现这个">
+<meta property="og:description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候访问的是当前线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/1555030861964.png">
 <meta property="og:image" content="http://yoursite.com/images/1555031016422.png">
 <meta property="og:image" content="http://yoursite.com/images/1555033553206.png">
-<meta property="og:updated_time" content="2019-04-12T03:25:45.245Z">
+<meta property="og:updated_time" content="2019-04-12T04:56:50.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理">
-<meta name="twitter:description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候编程线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。 实现这个">
+<meta name="twitter:description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候访问的是当前线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。">
 <meta name="twitter:image" content="http://yoursite.com/images/1555030861964.png">
 
 
@@ -388,7 +388,7 @@
                 
               
 
-              <time title="创建时间：2019-04-12 11:25:45" itemprop="dateCreated datePublished" datetime="2019-04-12T11:25:45+08:00">2019-04-12</time>
+              <time title="创建时间：2019-04-12 12:56:50" itemprop="dateCreated datePublished" datetime="2019-04-12T12:56:50+08:00">2019-04-12</time>
             
 
             
@@ -443,7 +443,7 @@
       
         <h2 id="预览（本文逻辑）"><a href="#预览（本文逻辑）" class="headerlink" title="预览（本文逻辑）"></a>预览（本文逻辑）</h2><p>这篇文章的逻辑很简单：</p>
 <ul>
-<li>首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是<strong>让共享变量在每个线程访问的时候编程线程内部的一个变量</strong>（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。</li>
+<li>首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是<strong>让共享变量在每个线程访问的时候访问的是当前线程内部的一个变量</strong>（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。</li>
 <li>然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。</li>
 <li>实现这个功能以后，<strong>又有一个需求出来了</strong>，就是如果<strong>子线程想访问父线程的ThreadLocal中的变量怎么办</strong>，正常这个是不能访问的，也是不应该访问的，但就是有这样奇奇怪怪的需求，那这个需求能实现吗？所以就有了InheritableThreadLocal 类。</li>
 <li>最后我们再分析了 InheritableThreadLocal 怎么让子线程访问父线程的ThreadLocal变量</li>
@@ -635,7 +635,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

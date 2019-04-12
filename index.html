@@ -385,7 +385,7 @@
                 
               
 
-              <time title="创建时间：2019-04-12 11:25:45" itemprop="dateCreated datePublished" datetime="2019-04-12T11:25:45+08:00">2019-04-12</time>
+              <time title="创建时间：2019-04-12 12:56:50" itemprop="dateCreated datePublished" datetime="2019-04-12T12:56:50+08:00">2019-04-12</time>
             
 
             
@@ -443,8 +443,8 @@
             <p>
               预览（本文逻辑）这篇文章的逻辑很简单：
 
-首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候编程线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。
-然后我们深入
+首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候访问的是当前线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。
+然后
               ...
             </p>
           <!--noindex-->
@@ -838,6 +838,190 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/10/Java并发编程笔记1-线程基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaster">
+      <meta itemprop="description" content="冲击大厂，加油！">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静坐听雨，无问西东">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/10/Java并发编程笔记1-线程基础/" class="post-title-link" itemprop="url">Java并发编程笔记1-线程基础</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-10 16:46:36" itemprop="dateCreated datePublished" datetime="2019-04-10T16:46:36+08:00">2019-04-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-12 13:04:12" itemprop="dateModified" datetime="2019-04-12T13:04:12+08:00">2019-04-12</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>
+              什么是线程？谈到线程首先要说的就是进程，因为线程是进程中的一个实体，而且线程是不能独立存在的。进程是系统进行资源分配和调度的基本单位。
+这里还想到了一个更加生动的例子，比如对于一个Javaweb项目来说，它一般占用一个进程，所以有的时候非正常关闭我们是去CMD下查询进程号，然后kill掉它。对于这样
+              ...
+            </p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/04/10/Java并发编程笔记1-线程基础/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -880,7 +1064,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

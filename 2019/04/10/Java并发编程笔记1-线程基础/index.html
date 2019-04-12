@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="什么是线程？谈到线程首先要说的就是进程，因为线程是进程中的一个实体，而且线程是不能独立存在的。进程是系统进行资源分配和调度的基本单位。 这里还想到了一个更加生动的例子，比如对于一个Javaweb项目来说，它一般占用一个进程，所以有的时候非正常关闭我们是去CMD下查询进程号，然后kill掉它。对于这样一个项目来说，里面有很多的线程，比如main函数启动的JVM主线程，再比如自己启动的若干线程进行工作">
+<meta name="keywords" content="并发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java并发编程笔记1-线程基础">
+<meta property="og:url" content="http://yoursite.com/2019/04/10/Java并发编程笔记1-线程基础/index.html">
+<meta property="og:site_name" content="静坐听雨，无问西东">
+<meta property="og:description" content="什么是线程？谈到线程首先要说的就是进程，因为线程是进程中的一个实体，而且线程是不能独立存在的。进程是系统进行资源分配和调度的基本单位。 这里还想到了一个更加生动的例子，比如对于一个Javaweb项目来说，它一般占用一个进程，所以有的时候非正常关闭我们是去CMD下查询进程号，然后kill掉它。对于这样一个项目来说，里面有很多的线程，比如main函数启动的JVM主线程，再比如自己启动的若干线程进行工作">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/10/Java并发编程笔记1-线程基础/1554866604817.png">
+<meta property="og:image" content="http://yoursite.com/images/1554875613429.png">
+<meta property="og:updated_time" content="2019-04-12T05:04:12.671Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java并发编程笔记1-线程基础">
+<meta name="twitter:description" content="什么是线程？谈到线程首先要说的就是进程，因为线程是进程中的一个实体，而且线程是不能独立存在的。进程是系统进行资源分配和调度的基本单位。 这里还想到了一个更加生动的例子，比如对于一个Javaweb项目来说，它一般占用一个进程，所以有的时候非正常关闭我们是去CMD下查询进程号，然后kill掉它。对于这样一个项目来说，里面有很多的线程，比如main函数启动的JVM主线程，再比如自己启动的若干线程进行工作">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/10/Java并发编程笔记1-线程基础/1554866604817.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/04/10/Java并发编程笔记1-线程基础/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Java并发编程笔记1-线程基础 | 静坐听雨，无问西东</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静坐听雨，无问西东</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/10/Java并发编程笔记1-线程基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaster">
+      <meta itemprop="description" content="冲击大厂，加油！">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静坐听雨，无问西东">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java并发编程笔记1-线程基础
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-10 16:46:36" itemprop="dateCreated datePublished" datetime="2019-04-10T16:46:36+08:00">2019-04-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-12 13:04:12" itemprop="dateModified" datetime="2019-04-12T13:04:12+08:00">2019-04-12</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是线程？"><a href="#什么是线程？" class="headerlink" title="什么是线程？"></a>什么是线程？</h2><p>谈到线程首先要说的就是进程，因为线程是进程中的一个实体，而且线程是不能独立存在的。进程是系统进行资源分配和调度的基本单位。</p>
+<p>这里还想到了一个更加生动的例子，比如对于一个Javaweb项目来说，它一般占用一个进程，所以有的时候非正常关闭我们是去CMD下查询进程号，然后kill掉它。对于这样一个项目来说，里面有很多的线程，比如main函数启动的JVM主线程，再比如自己启动的若干线程进行工作。</p>
+<p>看下面的一张进程图，可以很好的理解进程内部的东西。</p>
+<p><img src="./1554866604817.png" alt="进程图"></p>
+<p>可以看到所有的线程都共享同一个堆和方法区，堆不就是我们申请的对象的存储位置嘛，方法区里放的是进程中的代码片段，这两个东西都是所有线程共享的。</p>
+<p>每一个线程里又包含了一个<strong>程序计数器</strong>和<strong>栈</strong>。</p>
+<p>为什么<strong>程序计数器</strong>是线程独有呢？<br>因为线程才是占用CPU执行的基本单位。CPU一般是使用时间片轮转的方式，让线程轮循占用的（写到这里，好熟悉的感觉，想起当年考研的时候的操作系统了），那么当前线程还没执行完，但是CPU轮到别的线程了咋办，等再轮到我的时候我程序还要跑啊，<strong>所以当前跑到哪了，就用程序计数器来记一下。</strong></p>
+<p>另外每个线程有自己的栈资源，用于存储该线程的局部变量，这些局部变量是该线程私有的，其它线程是访问不了的，另外栈还用来存放线程的调用栈帧。</p>
+<h2 id="Java中线程的创建和运行"><a href="#Java中线程的创建和运行" class="headerlink" title="Java中线程的创建和运行"></a>Java中线程的创建和运行</h2><p>Java目前创建一个多线程程序最基础的方式有三种：</p>
+<ol>
+<li>继承 Thread 类并重写 run 方法</li>
+<li>实现 Runnable 接口的run方法</li>
+<li>使用 FutureTask 方式</li>
+</ol>
+<p>2和1比较，由于Java不支持多继承，所以如果继承了一个类，那么就不能继承别的类了，所以使用的是一种接口方式来实现。</p>
+<p>1、2都没有返回值，3是可以有返回值的。</p>
+<p>1、2写法都比较常见，看一下3是怎么实现的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创任务类，类似Runable</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">CallerTask</span> <span class="keyword">implements</span> <span class="title">Callable</span>&lt;<span class="title">String</span>&gt;</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="string">"hello"</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">// 创建异步任务</span></span><br><span class="line">        FutureTask&lt;String&gt; futureTask  = <span class="keyword">new</span> FutureTask&lt;&gt;(<span class="keyword">new</span> CallerTask());</span><br><span class="line">        <span class="comment">//启动线程</span></span><br><span class="line">        <span class="keyword">new</span> Thread(futureTask).start();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">           <span class="comment">//等待任务执行完毕，并返回结果</span></span><br><span class="line">            String result = futureTask.get();</span><br><span class="line">            System.out.println(result);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="线程的通知和等待"><a href="#线程的通知和等待" class="headerlink" title="线程的通知和等待"></a>线程的通知和等待</h2><p>Java再Object中放了一些函数，因为Java中Object是所有类的父类，所以，这些函数所有类都可以调用。</p>
+<h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><p>我们先来看一下线程的几个状态：<br><img src="/images/1554875613429.png" alt="Alt text"><br>线程共包括以下5种状态。</p>
+<ol>
+<li><strong>新建状态(New)</strong>  : 线程对象被创建后，就进入了新建状态。例如，Thread thread = new Thread()。</li>
+<li><strong>就绪状态(Runnable)</strong>: 也被称为“可执行状态”。线程对象被创建后，其它线程调用了该对象的start()方法，从而来启动该线程。例如，thread.start()。处于就绪状态的线程，随时可能被CPU调度执行。</li>
+<li><strong>运行状态(Running)</strong> : 线程获取CPU权限进行执行。需要注意的是，线程只能从就绪状态进入到运行状态。</li>
+<li><strong>阻塞状态(Blocked)</strong>  : 阻塞状态是线程因为某种原因放弃CPU使用权，暂时停止运行。直到线程进入就绪状态，才有机会转到运行状态。阻塞的情况分三种：<ul>
+<li>等待阻塞 – 通过调用线程的wait()方法，让线程等待某工作的完成。</li>
+<li>同步阻塞 – 线程在获取synchronized同步锁失败(因为锁被其它线程所占用)，它会进入同步阻塞状态。</li>
+<li>其他阻塞 – 通过调用线程的sleep()或join()或发出了I/O请求时，线程会进入到阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入就绪状态。</li>
+</ul>
+</li>
+<li><strong>死亡状态(Dead)</strong>    : 线程执行完了或者因异常退出了run()方法，该线程结束生命周期。</li>
+</ol>
+<h3 id="Object中提供的几个方法："><a href="#Object中提供的几个方法：" class="headerlink" title="Object中提供的几个方法："></a>Object中提供的几个方法：</h3><p>Object中定义了wait(), notify()和notifyAll()等方法。</p>
+<ul>
+<li>wait()的作用是让当前线程进入等待（阻塞）状态，同时，wait()也会让<strong>当前线程释放它所持有的锁</strong>。</li>
+<li>notify()和notifyAll()的作用，则是唤醒当前对象上的等待线程；notify()是唤醒单个线程，而notifyAll()是唤醒所有的线程。</li>
+</ul>
+<p>Object类中关于等待/唤醒的API详细信息如下：</p>
+<ul>
+<li>notify()： 唤醒在此对象监视器上等待的单个线程。</li>
+<li>notifyAll()：唤醒在此对象监视器上等待的所有线程。</li>
+<li>wait()：让当前线程处于“等待(阻塞)状态”，“直到其他线程调用此对象的 notify() 方法或notifyAll() 方法”，当前线程被唤醒(进入“就绪状态”)。</li>
+<li>wait(long timeout)：让当前线程处于“等待(阻塞)状态”，“直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者超过指定的时间量”，当前线程被唤醒(进入“就绪状态”)。</li>
+<li>wait(long timeout, int nanos)：让当前线程处于“等待(阻塞)状态”，“直到其他线程调用此对象的 notify() 方法或 notifyAll() 方法，或者其他某个线程中断当前线程，或者已超过某个实际时间量”，当前线程被唤醒(进入“就绪状态”)。</li>
+</ul>
+<h3 id="虚假唤醒和循环检查"><a href="#虚假唤醒和循环检查" class="headerlink" title="虚假唤醒和循环检查"></a>虚假唤醒和循环检查</h3><p>另外需要注意的是一个线程可以从挂起状态变为可以运行状态（也就是被唤醒）即使该线程没有被其它线程调用 notify()，notifyAll() 进行通知，或者被中断，或者等待超时，这就是所谓的虚假唤醒。</p>
+<p>虽然虚假唤醒在应用实践中很少发生，但是还是需要防范于未然的，做法就是不停的去测试该线程被唤醒的条件是否满足，不满足则继续等待，也就是说在一个循环中去调用 wait() 方法进行防范，退出循环的条件是条件满足了唤醒该线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (obj) &#123;</span><br><span class="line">         <span class="keyword">while</span> (条件不满足)&#123;</span><br><span class="line">           obj.wait();  </span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="等待线程执行终止的join方法"><a href="#等待线程执行终止的join方法" class="headerlink" title="等待线程执行终止的join方法"></a>等待线程执行终止的join方法</h3><p>在项目实践时候经常会遇到一个场景，就是需要等待某几件事情完成后才能继续往下执行，比如多个线程去加载资源，当多个线程全部加载完毕后在汇总处理，Thread 类中有个 join 方法就可以做这个事情，前面介绍的等待通知方法是属于 Object 类的，而 join 方法则是直接在 Thread 类里面提供的，join 是无参，返回值为 void 的方法。</p>
+<h3 id="让线程睡眠的sleep方法"><a href="#让线程睡眠的sleep方法" class="headerlink" title="让线程睡眠的sleep方法"></a>让线程睡眠的sleep方法</h3><p>Thread 类中有一个静态的 sleep 方法，当一个执行中的线程调用了 Thread 的 sleep 方法后，调用线程会暂时让出指定时间的执行权，也就是这期间不参与 CPU 的调度，但是该线程所拥有的监视器资源，比如锁还是持有不让出的。当指定的睡眠时间到了该函数会正常返回，线程就处于就绪状态，然后参与 CPU 的调度，当获取到了 CPU 资源就可以继续运行了。如果在睡眠期间其它线程调用了该线程的 interrupt() 方法中断了该线程,该线程会在调用 sleep 的地方抛出 InterruptedException 异常返回。</p>
+<h3 id="线程中断"><a href="#线程中断" class="headerlink" title="线程中断"></a>线程中断</h3><p>Java 中线程中断是一种线程间协作模式，通过设置线程的中断标志并不能直接终止该线程的执行，而是需要被中断的线程根据中断状态自行处理。</p>
+<ul>
+<li>void interrupt() 方法<br>中断线程，例如当线程 A 运行时，线程 B 可以调用线程 A 的 interrupt() 方法来设置线程 A 的中断标志为 true 并立即返回。设置标志仅仅是设置标志，线程 A 并没有实际被中断，会继续往下执行的。如果线程 A 因为调用了 wait 系列函数或者 join 方法或者 sleep 函数而被阻塞挂起，这时候线程 B 调用了线程 A 的 interrupt() 方法，线程 A 会在调用这些方法的地方抛出 InterruptedException 异常而返回。</li>
+<li>boolean isInterrupted()<br>检测当前线程是否被中断，如果是返回 true，否者返回 false。</li>
+<li>boolean interrupted()<br>检测当前线程是否被中断，如果是返回 true，否者返回 false，与 isInterrupted 不同的是该方法如果发现当前线程被中断后会清除中断标志，并且该函数是 static 方法，可以通过 Thread 类直接调用。另外从下面代码可以知道 interrupted() 内部是获取当前调用线程的中断标志而不是调用 interrupted() 方法的实例对象的中断标志。</li>
+</ul>
+<p>注：中断一个线程仅仅是设置了该线程的中断标志，也就是设置了线程里面的一个变量的值，本身是不能终止当前线程运行的，一般程序里面是检查这个标志的状态来判断是否需要终止当前线程。</p>
+<h3 id="理解线程上下文切换"><a href="#理解线程上下文切换" class="headerlink" title="理解线程上下文切换"></a>理解线程上下文切换</h3><p>在多线程编程中，线程个数一般都大于 CPU 个数，而每个 CPU 同一时刻只能被一个线程使用，为了让用户感觉多个线程是在同时执行，CPU 资源的分配采用了时间片轮转的策略，也就是给每个线程分配一个时间片，在时间片内占用 CPU 执行任务。当前线程的时间片使用完毕后当前就会处于就绪状态并让出 CPU 让其它线程占用，这就是上下文切换，从当前线程的上下文切换到了其它线程。</p>
+<p>那么就有一个问题让出 CPU 的线程等下次轮到自己占有 CPU 时候如何知道之前运行到哪里了？所以在切换线程上下文时候需要保存当前线程的执行现场，当再次执行时候根据保存的执行现场信息恢复执行现场。</p>
+<p>线程上下文切换时机：</p>
+<ul>
+<li>当前线程的 CPU 时间片使用完毕处于就绪状态时候；</li>
+<li>当前线程被其它线程中断时候。</li>
+</ul>
+<p>注：由于线程切换是有开销的，所以并不是开的线程越多越好，比如如果机器是4核心的，你开启了100个线程，那么同时执行的只有4个线程，这100个线程会来回切换线程上下文来共享这四个 CPU。</p>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><ul>
+<li>互斥条件：指线程对已经获取到的资源进行排它性使用，即该资源同时只由一个线程占用。如果此时还有其它进行请求获取该资源，则请求者只能等待，直至占有资源的线程用毕释放。</li>
+<li>请求并持有条件：指一个线程已经持有了至少一个资源，但又提出了新的资源请求，而新资源已被其其它线程占有，所以当前线程会被阻塞，但阻塞的同时并不释放自己已经获取的资源。</li>
+<li>不可剥夺条件：指线程获取到的资源在自己使用完之前不能被其它线程抢占，只有在自己使用完毕后由自己释放。</li>
+<li>环路等待条件：指在发生死锁时，必然存在一个线程——资源的环形链，即线程集合{T0，T1，T2，···，Tn}中的 T0 正在等待一个 T1 占用的资源；T1 正在等待 T2 占用的资源，……Tn正在等待已被 T0 占用的资源。</li>
+</ul>
+<p>看一个死锁的例子，来理解四个条件：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeadLockTest2</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建资源</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object resourceA = <span class="keyword">new</span> Object();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Object resourceB = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建线程A</span></span><br><span class="line">        Thread threadA = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (resourceA) &#123;</span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">" get ResourceA"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">"waiting get ResourceB"</span>);</span><br><span class="line">                    <span class="keyword">synchronized</span> (resourceB) &#123;</span><br><span class="line">                        System.out.println(Thread.currentThread() + <span class="string">"get ResourceB"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建线程B</span></span><br><span class="line">        Thread threadB = <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (resourceB) &#123;</span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">" get ResourceB"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    System.out.println(Thread.currentThread() + <span class="string">"waiting get ResourceA"</span>);</span><br><span class="line">                    <span class="keyword">synchronized</span> (resourceA) &#123;</span><br><span class="line">                        System.out.println(Thread.currentThread() + <span class="string">"get ResourceA"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动线程</span></span><br><span class="line">        threadA.start();</span><br><span class="line">        threadB.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先资源 resourceA 和 resourceB 都是互斥资源，当线程 A 调用 synchronized(resourceA) 获取到 resourceA 上的监视器锁后释放前，线程 B 在调用 synchronized(resourceA) 尝试获取该资源会被阻塞，只有线程 A 主动释放该锁，线程 B 才能获得，这满足了资源互斥条件。</p>
+<p>线程 A 首先通过 synchronized(resourceA) 获取到 resourceA 上的监视器锁资源，然后通过synchronized(resourceB) 等待获取到 resourceB 上的监视器锁资源，这就构造了持有并等待。</p>
+<p>线程 A 在获取 resourceA 上的监视器锁资源后，不会被线程 B 掠夺走，只有线程 A 自己主动释放 resourceA 的资源时候，才会放弃对该资源的持有权，这构造了资源的不可剥夺条件。</p>
+<p>线程 A 持有 objectA 资源并等待获取 objectB 资源，而线程 B 持有 objectB 资源并等待 objectA 资源，这构成了循环等待条件。</p>
+<p>所以线程 A 和 B 就形成了死锁状态。</p>
+<h3 id="如何避免线程死锁"><a href="#如何避免线程死锁" class="headerlink" title="如何避免线程死锁"></a>如何避免线程死锁</h3><p>要想避免死锁，需要破坏构造死锁必要条件的至少一个即可，但是学过操作系统童鞋应该都知道目前只有持有并等待和循环等待是可以被破坏的。</p>
+<p>造成死锁的原因其实和申请资源的顺序有很大关系，使用资源申请的有序性原则就可以避免死锁，那么什么是资源的有序性呢，对于上面的代码，修改一下线程B获取资源的顺序，先获取A再获取B，即可打破死锁。</p>
+<p>注：编写并发程序，多个线程进行共享多个资源时候要注意采用资源有序分配法避免死锁的产生。</p>
+<h3 id="守护线程与用户线程"><a href="#守护线程与用户线程" class="headerlink" title="守护线程与用户线程"></a>守护线程与用户线程</h3><p>Java 中线程分为两类，分别为 Daemon 线程（守护线程）和 User 线程（用户线程），在 JVM 启动时候会调用 main 函数，main 函数所在的线程是一个用户线程，这个是我们可以看到的线程，其实 JVM 内部同时还启动了好多守护线程，比如垃圾回收线程（严格说属于 JVM 线程）。</p>
+<p>那么守护线程和用户线程有什么区别那？区别之一是当最后一个非守护线程结束时候，JVM 会正常退出，而不管当前是否有守护线程；也就是说守护线程是否结束并不影响 JVM 的退出。言外之意是只要有一个用户线程还没结束正常情况下 JVM 就不会退出。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.cnblogs.com/gongxr/p/9680995.html" target="_blank" rel="noopener">Java多线程之线程状态转换图</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/并发/" rel="tag"># 并发</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/11/Java并发编程笔记2-基础晋级/" rel="prev" title="Java并发编程笔记2-基础晋级">
+                Java并发编程笔记2-基础晋级 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaster</p>
+              <div class="site-description motion-element" itemprop="description">冲击大厂，加油！</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jawhiow" title="GitHub &rarr; https://github.com/jawhiow" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是线程？"><span class="nav-number">1.</span> <span class="nav-text">什么是线程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中线程的创建和运行"><span class="nav-number">2.</span> <span class="nav-text">Java中线程的创建和运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程的通知和等待"><span class="nav-number">3.</span> <span class="nav-text">线程的通知和等待</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的状态"><span class="nav-number">3.1.</span> <span class="nav-text">线程的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object中提供的几个方法："><span class="nav-number">3.2.</span> <span class="nav-text">Object中提供的几个方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#虚假唤醒和循环检查"><span class="nav-number">3.3.</span> <span class="nav-text">虚假唤醒和循环检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等待线程执行终止的join方法"><span class="nav-number">3.4.</span> <span class="nav-text">等待线程执行终止的join方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让线程睡眠的sleep方法"><span class="nav-number">3.5.</span> <span class="nav-text">让线程睡眠的sleep方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程中断"><span class="nav-number">3.6.</span> <span class="nav-text">线程中断</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解线程上下文切换"><span class="nav-number">3.7.</span> <span class="nav-text">理解线程上下文切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁"><span class="nav-number">3.8.</span> <span class="nav-text">死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何避免线程死锁"><span class="nav-number">3.9.</span> <span class="nav-text">如何避免线程死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#守护线程与用户线程"><span class="nav-number">3.10.</span> <span class="nav-text">守护线程与用户线程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaster</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
