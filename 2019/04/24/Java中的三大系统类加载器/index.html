@@ -96,19 +96,19 @@
 
 
 
-  <meta name="description" content="在Java中存在三种原生的类加载器：  AppClassloader：它负责在 JVM 启动时，加载来自在命令java中的-classpath或者java.class.path系统属性或者 CLASSPATH 操作系统属性所指定的 JAR 类包和类路径。 ExtClassloader：主要负责加载 Java 的扩展类库 BootstrapClassloader  本文逻辑 首先我们简单的分析了一下">
+  <meta name="description" content="在Java中存在三种原生的类加载器：  AppClassloader：它负责在 JVM 启动时，加载来自在命令java中的-classpath或者java.class.path系统属性或者 CLASSPATH 操作系统属性所指定的 JAR 类包和类路径。 ExtClassloader：主要负责加载 Java 的扩展类库 BootstrapClassloader：主要加载JVM自身工作需要的类：将%">
 <meta name="keywords" content="类加载器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中的三大系统类加载器">
-<meta property="og:url" content="http://yoursite.com/2019/04/19/Java中的三大系统类加载器/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/04/24/Java中的三大系统类加载器/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
-<meta property="og:description" content="在Java中存在三种原生的类加载器：  AppClassloader：它负责在 JVM 启动时，加载来自在命令java中的-classpath或者java.class.path系统属性或者 CLASSPATH 操作系统属性所指定的 JAR 类包和类路径。 ExtClassloader：主要负责加载 Java 的扩展类库 BootstrapClassloader  本文逻辑 首先我们简单的分析了一下">
+<meta property="og:description" content="在Java中存在三种原生的类加载器：  AppClassloader：它负责在 JVM 启动时，加载来自在命令java中的-classpath或者java.class.path系统属性或者 CLASSPATH 操作系统属性所指定的 JAR 类包和类路径。 ExtClassloader：主要负责加载 Java 的扩展类库 BootstrapClassloader：主要加载JVM自身工作需要的类：将%">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/1555587049485.png">
-<meta property="og:updated_time" content="2019-04-19T03:47:35.792Z">
+<meta property="og:updated_time" content="2019-04-23T22:46:01.584Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的三大系统类加载器">
-<meta name="twitter:description" content="在Java中存在三种原生的类加载器：  AppClassloader：它负责在 JVM 启动时，加载来自在命令java中的-classpath或者java.class.path系统属性或者 CLASSPATH 操作系统属性所指定的 JAR 类包和类路径。 ExtClassloader：主要负责加载 Java 的扩展类库 BootstrapClassloader  本文逻辑 首先我们简单的分析了一下">
+<meta name="twitter:description" content="在Java中存在三种原生的类加载器：  AppClassloader：它负责在 JVM 启动时，加载来自在命令java中的-classpath或者java.class.path系统属性或者 CLASSPATH 操作系统属性所指定的 JAR 类包和类路径。 ExtClassloader：主要负责加载 Java 的扩展类库 BootstrapClassloader：主要加载JVM自身工作需要的类：将%">
 <meta name="twitter:image" content="http://yoursite.com/images/1555587049485.png">
 
 
@@ -117,7 +117,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/04/19/Java中的三大系统类加载器/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/24/Java中的三大系统类加载器/">
 
 
 
@@ -343,7 +343,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/19/Java中的三大系统类加载器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/24/Java中的三大系统类加载器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jaster">
@@ -386,7 +386,7 @@
                 
               
 
-              <time title="创建时间：2019-04-19 11:47:35" itemprop="dateCreated datePublished" datetime="2019-04-19T11:47:35+08:00">2019-04-19</time>
+              <time title="创建时间：2019-04-24 06:46:01" itemprop="dateCreated datePublished" datetime="2019-04-24T06:46:01+08:00">2019-04-24</time>
             
 
             
@@ -443,7 +443,7 @@
 <ul>
 <li>AppClassloader：它负责在 JVM 启动时，加载来自在命令java中的-classpath或者java.class.path系统属性或者 CLASSPATH 操作系统属性所指定的 JAR 类包和类路径。</li>
 <li>ExtClassloader：主要负责加载 Java 的扩展类库</li>
-<li>BootstrapClassloader</li>
+<li>BootstrapClassloader：主要加载JVM自身工作需要的类：将%JAVA_HOME%\lib路径下或-Xbootclasspath参数指定路径下的、能被虚拟机识别的类库（仅按照文件名识别，如：rt.jar，名字不符合的类库不会被加载）加载至虚拟机内存中。</li>
 </ul>
 <h2 id="本文逻辑"><a href="#本文逻辑" class="headerlink" title="本文逻辑"></a>本文逻辑</h2><ol>
 <li>首先我们简单的分析了一下三个类加载器的<strong>简单使用</strong>，看看他们都是加载什么地方的资源，它的父类都是谁。</li>
@@ -574,6 +574,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/04/24/详解常用类加载器：ContextClassLoader/" rel="prev" title="详解常用类加载器：ContextClassLoader">
+                详解常用类加载器：ContextClassLoader <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -641,7 +645,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
