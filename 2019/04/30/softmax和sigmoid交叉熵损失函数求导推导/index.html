@@ -96,20 +96,18 @@
 
 
 
-  <meta name="description" content="关于投资 不是依靠短期获利，而是长期的收益，所以不要倾家荡产进行投资，利用手上的闲钱去投资。 等待黑天鹅时间 坚决不追涨杀跌，坚决不加杠杆，离场坚决不回头  书籍时间的玫瑰  但斌黑天鹅  塔布勒 最后的一些人生的分享 关于好运：只有你接触外部的信息越多，才会有更多的好运，所以虽然好运是偶然的，但越善于发现周边世界闪光点的人，好运越多。 关于成长：努力不一定会成功，但人们更愿意拉一把努力的人！其次">
-<meta name="keywords" content="读后感">
+  <meta name="description" content="模型函数$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$ $$a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}} $$ softmax为输出层函数的交叉熵损失函数交叉熵损失函数$$J=-\sum y_{i} \log a_{i} $$ 交叉熵损失函数求导首先根据链式求导，我们可以写成这样：$$\frac{\p">
+<meta name="keywords" content="机器学习,公式推导">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一篇不错的投资文章读后感">
-<meta property="og:url" content="http://yoursite.com/2019/04/27/一篇不错的投资文章读后感/index.html">
+<meta property="og:title" content="softmax和sigmoid交叉熵损失函数求导推导">
+<meta property="og:url" content="http://yoursite.com/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
-<meta property="og:description" content="关于投资 不是依靠短期获利，而是长期的收益，所以不要倾家荡产进行投资，利用手上的闲钱去投资。 等待黑天鹅时间 坚决不追涨杀跌，坚决不加杠杆，离场坚决不回头  书籍时间的玫瑰  但斌黑天鹅  塔布勒 最后的一些人生的分享 关于好运：只有你接触外部的信息越多，才会有更多的好运，所以虽然好运是偶然的，但越善于发现周边世界闪光点的人，好运越多。 关于成长：努力不一定会成功，但人们更愿意拉一把努力的人！其次">
+<meta property="og:description" content="模型函数$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$ $$a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}} $$ softmax为输出层函数的交叉熵损失函数交叉熵损失函数$$J=-\sum y_{i} \log a_{i} $$ 交叉熵损失函数求导首先根据链式求导，我们可以写成这样：$$\frac{\p">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/FnKpa2KHFkjn3PpfbsRd4CG1324_.jpg">
-<meta property="og:updated_time" content="2019-04-27T01:37:53.529Z">
+<meta property="og:updated_time" content="2019-04-30T10:50:59.169Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一篇不错的投资文章读后感">
-<meta name="twitter:description" content="关于投资 不是依靠短期获利，而是长期的收益，所以不要倾家荡产进行投资，利用手上的闲钱去投资。 等待黑天鹅时间 坚决不追涨杀跌，坚决不加杠杆，离场坚决不回头  书籍时间的玫瑰  但斌黑天鹅  塔布勒 最后的一些人生的分享 关于好运：只有你接触外部的信息越多，才会有更多的好运，所以虽然好运是偶然的，但越善于发现周边世界闪光点的人，好运越多。 关于成长：努力不一定会成功，但人们更愿意拉一把努力的人！其次">
-<meta name="twitter:image" content="http://yoursite.com/images/FnKpa2KHFkjn3PpfbsRd4CG1324_.jpg">
+<meta name="twitter:title" content="softmax和sigmoid交叉熵损失函数求导推导">
+<meta name="twitter:description" content="模型函数$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$ $$a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}} $$ softmax为输出层函数的交叉熵损失函数交叉熵损失函数$$J=-\sum y_{i} \log a_{i} $$ 交叉熵损失函数求导首先根据链式求导，我们可以写成这样：$$\frac{\p">
 
 
 
@@ -117,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/04/27/一篇不错的投资文章读后感/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/">
 
 
 
@@ -127,7 +125,7 @@
   };
 </script>
 
-  <title>一篇不错的投资文章读后感 | 静坐听雨，无问西东</title>
+  <title>softmax和sigmoid交叉熵损失函数求导推导 | 静坐听雨，无问西东</title>
   
 
 
@@ -343,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/27/一篇不错的投资文章读后感/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jaster">
@@ -360,7 +358,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">一篇不错的投资文章读后感
+          <h1 class="post-title" itemprop="name headline">softmax和sigmoid交叉熵损失函数求导推导
 
               
             
@@ -386,7 +384,7 @@
                 
               
 
-              <time title="创建时间：2019-04-27 09:37:53" itemprop="dateCreated datePublished" datetime="2019-04-27T09:37:53+08:00">2019-04-27</time>
+              <time title="创建时间：2019-04-30 18:50:59" itemprop="dateCreated datePublished" datetime="2019-04-30T18:50:59+08:00">2019-04-30</time>
             
 
             
@@ -404,7 +402,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/投资/" itemprop="url" rel="index"><span itemprop="name">投资</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习算法/" itemprop="url" rel="index"><span itemprop="name">机器学习算法</span></a></span>
 
                 
                 
@@ -439,19 +437,23 @@
       
 
       
-        <h2 id="关于投资"><a href="#关于投资" class="headerlink" title="关于投资"></a>关于投资</h2><ol>
-<li>不是依靠短期获利，而是长期的收益，所以不要倾家荡产进行投资，利用手上的闲钱去投资。</li>
-<li>等待黑天鹅时间</li>
-<li>坚决不追涨杀跌，坚决不加杠杆，离场坚决不回头</li>
-</ol>
-<h2 id="书籍"><a href="#书籍" class="headerlink" title="书籍"></a>书籍</h2><p>时间的玫瑰  但斌<br>黑天鹅  塔布勒</p>
-<h2 id="最后的一些人生的分享"><a href="#最后的一些人生的分享" class="headerlink" title="最后的一些人生的分享"></a>最后的一些人生的分享</h2><ol>
-<li>关于好运：只有你接触外部的信息越多，才会有更多的好运，所以虽然好运是偶然的，但越善于发现周边世界闪光点的人，好运越多。</li>
-<li>关于成长：努力不一定会成功，但人们更愿意拉一把努力的人！其次是尽早打造属于自己的成功的案例，给人一个相信你能成事的理由。</li>
-<li>关于投资：投资是一个一生的命题，越早接触越好。</li>
-<li>关于职场：注重知识结构在企业内部的差异性！也就是打造自己的独特性。</li>
-</ol>
-<p><img src="/images/FnKpa2KHFkjn3PpfbsRd4CG1324_.jpg" alt="Alt text"></p>
+        <h2 id="模型函数"><a href="#模型函数" class="headerlink" title="模型函数"></a>模型函数</h2><p>$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$</p>
+<p>$$<br>a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}}<br> $$</p>
+<h2 id="softmax为输出层函数的交叉熵损失函数"><a href="#softmax为输出层函数的交叉熵损失函数" class="headerlink" title="softmax为输出层函数的交叉熵损失函数"></a>softmax为输出层函数的交叉熵损失函数</h2><h3 id="交叉熵损失函数"><a href="#交叉熵损失函数" class="headerlink" title="交叉熵损失函数"></a>交叉熵损失函数</h3><p>$$<br>J=-\sum y_{i} \log a_{i}<br> $$</p>
+<h3 id="交叉熵损失函数求导"><a href="#交叉熵损失函数求导" class="headerlink" title="交叉熵损失函数求导"></a>交叉熵损失函数求导</h3><p>首先根据链式求导，我们可以写成这样：<br>$$\frac{\partial J}{\partial  z_i}=\frac{\partial J}{\partial a_i} \cdot \frac{\partial a_i}{\partial z_i}$$</p>
+<p>我们先求<br>$$\frac{\partial J}{\partial a_i}=\frac{\partial (-\sum y_iloga_i)}{\partial a_i}=-\sum y_i\frac{1}{a_i}$$</p>
+<p>我们再求$\frac{\partial a_i}{\partial z_i}$，其中这个式子我们需要分解为两种情况。</p>
+<blockquote>
+<p>问题： 这里需要分成$i=j$，和$i\neq j$的情况，为什么？<br>假设一个输出层分别是z1，z2，z3，那么softmax输出层的情况如下：<br>$a_1=\frac{e^{z_1}}{e^{z_1}+e^{z_2}+e^{z_3}}$，$a_2=\frac{e^{z_2}}{e^{z_1}+e^{z_2}+e^{z_3}}$，$a_3=\frac{e^{z_3}}{e^{z_1}+e^{z_2}+e^{z_3}}$<br>当我们进行反向求导的时候，想求损失函数对$z_1$的导数，肯定要求$\frac{\partial J}{\partial z_1}$<br>按照链式求导我们很熟悉了，$\frac{\partial J}{\partial z_1}=\frac{\partial J}{\partial a_1}\frac{\partial a_1}{\partial z_1}$，但是这样真的对吗？你看看$a_2$的分母上也有$z_1$啊，所以这里要考虑$i=j$和$i \neq j$的情况。换而言之，$\frac{\partial J}{\partial a_1}\frac{\partial a_1}{\partial z_1}$就是$i=j$，其余的时$i \neq j$</p>
+</blockquote>
+<p>当$i=j$时：<br>$$\frac{\partial a_i}{\partial z_i}=\frac{\partial (\frac{e^{z_i}}{\sum_k e^{z_k}})}{\partial z_i}=\frac{e^{z_i}\cdot (\sum_k e^{z_k} - e^{z_i})}{(\sum e^{z_k})^2}=\frac{e^{z_i}}{\sum_k e^{z_k}} \cdot (1 - \frac{e^{z_i}}{e^{\sum_k e^{z_k}}})=a_i(1-a_i)$$<br>当$i\neq j$时<br>$$\frac{\partial a_j}{\partial z_i}=\frac{\partial (\frac{e^{z_j}}{\sum_k e^{z_k}})}{\partial z_i}=\frac{0-e^{z_j}e^{z_i}}{(\sum e^{z_k})^2}=-a_ja_i$$</p>
+<p>所以整体的式子就是：<br>$$\frac{\partial J}{\partial z_i}=y_ia_i-y_i+\sum_{i\neq j}y_ja_i)=a_i\sum y_j-y_i$$<br>由于$\sum y_j$在分类问题中一般只有一个类，其余都是0，比如在0-9的mnist手写数字分类中，如果y=4的话，实际向量是(0,0,0,0,1,0,0,0,0,0)，所以$\sum y_j=1$，所以有：<br>$$\frac{\partial J}{\partial z_i}=a_i-y_i$$</p>
+<h2 id="sigmoid为输出层函数的交叉熵损失函数"><a href="#sigmoid为输出层函数的交叉熵损失函数" class="headerlink" title="sigmoid为输出层函数的交叉熵损失函数"></a>sigmoid为输出层函数的交叉熵损失函数</h2><h3 id="交叉熵损失函数-1"><a href="#交叉熵损失函数-1" class="headerlink" title="交叉熵损失函数"></a>交叉熵损失函数</h3><p>二分类问题我们没必要写成sum符号的形式，直接写出来即可：<br>$$<br>J=-[y_ilog(a_i)+(1-y_i)log(1-a_i)]<br> $$</p>
+<h3 id="交叉熵损失函数求导-1"><a href="#交叉熵损失函数求导-1" class="headerlink" title="交叉熵损失函数求导"></a>交叉熵损失函数求导</h3><p>首先根据链式求导，我们可以写成这样：<br>$$\frac{\partial J}{\partial  z_i}=\frac{\partial J}{\partial a_i} \cdot \frac{\partial a_i}{\partial z_i}$$</p>
+<p>我们先求<br>$$\frac{\partial J}{\partial a_i}=(1-y_i)\frac{1}{1-a_i}-y_i\frac{1}{a_i}$$</p>
+<p>同样的，我们也是求$\frac{\partial a_i}{\partial z_i}$，sigmoid没有那么复杂，直接求解即可：</p>
+<p>$$\frac{\partial a_i}{\partial z_i}=\frac{\partial(\frac{1}{1+e^{-z_i}})}{\partial z_i}=\frac{e^{-z_i}}{(1+e^{-z_i})^2}=a_i(1-a_i)$$</p>
+<p>我们将两者乘到一起，可以得到：<br>$$\frac{\partial J}{\partial z_i}=[(1-y_i)\frac{1}{1-a_i}-y_i\frac{1}{a_i}]a_i(1-a_i)=(1-y_i)a_i-y_i(1-a_i)=a_i-y_i$$</p>
 
       
     </div>
@@ -475,7 +477,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/读后感/" rel="tag"># 读后感</a>
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/公式推导/" rel="tag"># 公式推导</a>
           
         </div>
       
@@ -488,8 +492,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/25/neo4j cypher/" rel="next" title="neo4j cypher语法详细记录">
-                <i class="fa fa-chevron-left"></i> neo4j cypher语法详细记录
+              <a href="/2019/04/27/一篇不错的投资文章读后感/" rel="next" title="一篇不错的投资文章读后感">
+                <i class="fa fa-chevron-left"></i> 一篇不错的投资文章读后感
               </a>
             
           </div>
@@ -497,10 +501,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/" rel="prev" title="softmax和sigmoid交叉熵损失函数求导推导">
-                softmax和sigmoid交叉熵损失函数求导推导 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -682,7 +682,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于投资"><span class="nav-number">1.</span> <span class="nav-text">关于投资</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#书籍"><span class="nav-number">2.</span> <span class="nav-text">书籍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后的一些人生的分享"><span class="nav-number">3.</span> <span class="nav-text">最后的一些人生的分享</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型函数"><span class="nav-number">1.</span> <span class="nav-text">模型函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax为输出层函数的交叉熵损失函数"><span class="nav-number">2.</span> <span class="nav-text">softmax为输出层函数的交叉熵损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数"><span class="nav-number">2.1.</span> <span class="nav-text">交叉熵损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数求导"><span class="nav-number">2.2.</span> <span class="nav-text">交叉熵损失函数求导</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sigmoid为输出层函数的交叉熵损失函数"><span class="nav-number">3.</span> <span class="nav-text">sigmoid为输出层函数的交叉熵损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数-1"><span class="nav-number">3.1.</span> <span class="nav-text">交叉熵损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数求导-1"><span class="nav-number">3.2.</span> <span class="nav-text">交叉熵损失函数求导</span></a></li></ol></li></ol></div>
             
 
           </div>
