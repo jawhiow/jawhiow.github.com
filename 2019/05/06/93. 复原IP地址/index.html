@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="模型函数$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$ $$a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}} $$ softmax为输出层函数的交叉熵损失函数交叉熵损失函数$$J=-\sum y_{i} \log a_{i} $$ 交叉熵损失函数求导首先根据链式求导，我们可以写成这样：$$\frac{\p">
-<meta name="keywords" content="机器学习,公式推导">
+  <meta name="description" content="链接：https://leetcode-cn.com/problems/restore-ip-addresses/  题目描述给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。 示例:输入: “25525511135”输出: [“255.255.11.135”, “255.255.111.35”] 题目分析本题同样也是回溯法的应用，只是本题要比之前的题目要稍微的多一些东西。本题">
+<meta name="keywords" content="算法,递归,回溯法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="softmax和sigmoid交叉熵损失函数求导推导">
-<meta property="og:url" content="http://yoursite.com/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/index.html">
+<meta property="og:title" content="93. 复原IP地址">
+<meta property="og:url" content="http://yoursite.com/2019/05/06/93. 复原IP地址/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
-<meta property="og:description" content="模型函数$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$ $$a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}} $$ softmax为输出层函数的交叉熵损失函数交叉熵损失函数$$J=-\sum y_{i} \log a_{i} $$ 交叉熵损失函数求导首先根据链式求导，我们可以写成这样：$$\frac{\p">
+<meta property="og:description" content="链接：https://leetcode-cn.com/problems/restore-ip-addresses/  题目描述给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。 示例:输入: “25525511135”输出: [“255.255.11.135”, “255.255.111.35”] 题目分析本题同样也是回溯法的应用，只是本题要比之前的题目要稍微的多一些东西。本题">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-30T10:50:59.169Z">
+<meta property="og:updated_time" content="2019-05-06T01:45:04.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="softmax和sigmoid交叉熵损失函数求导推导">
-<meta name="twitter:description" content="模型函数$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$ $$a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}} $$ softmax为输出层函数的交叉熵损失函数交叉熵损失函数$$J=-\sum y_{i} \log a_{i} $$ 交叉熵损失函数求导首先根据链式求导，我们可以写成这样：$$\frac{\p">
+<meta name="twitter:title" content="93. 复原IP地址">
+<meta name="twitter:description" content="链接：https://leetcode-cn.com/problems/restore-ip-addresses/  题目描述给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。 示例:输入: “25525511135”输出: [“255.255.11.135”, “255.255.111.35”] 题目分析本题同样也是回溯法的应用，只是本题要比之前的题目要稍微的多一些东西。本题">
 
 
 
@@ -115,7 +115,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/06/93. 复原IP地址/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>softmax和sigmoid交叉熵损失函数求导推导 | 静坐听雨，无问西东</title>
+  <title>93. 复原IP地址 | 静坐听雨，无问西东</title>
   
 
 
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/06/93. 复原IP地址/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jaster">
@@ -358,7 +358,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">softmax和sigmoid交叉熵损失函数求导推导
+          <h1 class="post-title" itemprop="name headline">93. 复原IP地址
 
               
             
@@ -384,7 +384,7 @@
                 
               
 
-              <time title="创建时间：2019-04-30 18:50:59" itemprop="dateCreated datePublished" datetime="2019-04-30T18:50:59+08:00">2019-04-30</time>
+              <time title="创建时间：2019-05-06 09:45:04" itemprop="dateCreated datePublished" datetime="2019-05-06T09:45:04+08:00">2019-05-06</time>
             
 
             
@@ -402,7 +402,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习算法/" itemprop="url" rel="index"><span itemprop="name">机器学习算法</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/leetcode解题报告/" itemprop="url" rel="index"><span itemprop="name">leetcode解题报告</span></a></span>
 
                 
                 
@@ -437,23 +437,50 @@
       
 
       
-        <h2 id="模型函数"><a href="#模型函数" class="headerlink" title="模型函数"></a>模型函数</h2><p>$$a_i=softmax(z_i)=\frac{e^{z_{i}}}{\sum_{k} e^{z_{k}}}$$</p>
-<p>$$<br>a_i=sigmoid(z_i)=\frac{1}{1+e^{-z_i}}<br> $$</p>
-<h2 id="softmax为输出层函数的交叉熵损失函数"><a href="#softmax为输出层函数的交叉熵损失函数" class="headerlink" title="softmax为输出层函数的交叉熵损失函数"></a>softmax为输出层函数的交叉熵损失函数</h2><h3 id="交叉熵损失函数"><a href="#交叉熵损失函数" class="headerlink" title="交叉熵损失函数"></a>交叉熵损失函数</h3><p>$$<br>J=-\sum y_{i} \log a_{i}<br> $$</p>
-<h3 id="交叉熵损失函数求导"><a href="#交叉熵损失函数求导" class="headerlink" title="交叉熵损失函数求导"></a>交叉熵损失函数求导</h3><p>首先根据链式求导，我们可以写成这样：<br>$$\frac{\partial J}{\partial  z_i}=\frac{\partial J}{\partial a_i} \cdot \frac{\partial a_i}{\partial z_i}$$</p>
-<p>我们先求<br>$$\frac{\partial J}{\partial a_i}=\frac{\partial (-\sum y_iloga_i)}{\partial a_i}=-\sum y_i\frac{1}{a_i}$$</p>
-<p>我们再求$\frac{\partial a_i}{\partial z_i}$，其中这个式子我们需要分解为两种情况。</p>
-<blockquote>
-<p>问题： 这里需要分成$i=j$，和$i\neq j$的情况，为什么？<br>假设一个输出层分别是z1，z2，z3，那么softmax输出层的情况如下：<br>$a_1=\frac{e^{z_1}}{e^{z_1}+e^{z_2}+e^{z_3}}$，$a_2=\frac{e^{z_2}}{e^{z_1}+e^{z_2}+e^{z_3}}$，$a_3=\frac{e^{z_3}}{e^{z_1}+e^{z_2}+e^{z_3}}$<br>当我们进行反向求导的时候，想求损失函数对$z_1$的导数，肯定要求$\frac{\partial J}{\partial z_1}$<br>按照链式求导我们很熟悉了，$\frac{\partial J}{\partial z_1}=\frac{\partial J}{\partial a_1}\frac{\partial a_1}{\partial z_1}$，但是这样真的对吗？你看看$a_2$的分母上也有$z_1$啊，所以这里要考虑$i=j$和$i \neq j$的情况。换而言之，$\frac{\partial J}{\partial a_1}\frac{\partial a_1}{\partial z_1}$就是$i=j$，其余的时$i \neq j$</p>
+        <blockquote>
+<p>链接：<a href="https://leetcode-cn.com/problems/restore-ip-addresses/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/restore-ip-addresses/</a></p>
 </blockquote>
-<p>当$i=j$时：<br>$$\frac{\partial a_i}{\partial z_i}=\frac{\partial (\frac{e^{z_i}}{\sum_k e^{z_k}})}{\partial z_i}=\frac{e^{z_i}\cdot (\sum_k e^{z_k} - e^{z_i})}{(\sum e^{z_k})^2}=\frac{e^{z_i}}{\sum_k e^{z_k}} \cdot (1 - \frac{e^{z_i}}{e^{\sum_k e^{z_k}}})=a_i(1-a_i)$$<br>当$i\neq j$时<br>$$\frac{\partial a_j}{\partial z_i}=\frac{\partial (\frac{e^{z_j}}{\sum_k e^{z_k}})}{\partial z_i}=\frac{0-e^{z_j}e^{z_i}}{(\sum e^{z_k})^2}=-a_ja_i$$</p>
-<p>所以整体的式子就是：<br>$$\frac{\partial J}{\partial z_i}=y_ia_i-y_i+\sum_{i\neq j}y_ja_i)=a_i\sum y_j-y_i$$<br>由于$\sum y_j$在分类问题中一般只有一个类，其余都是0，比如在0-9的mnist手写数字分类中，如果y=4的话，实际向量是(0,0,0,0,1,0,0,0,0,0)，所以$\sum y_j=1$，所以有：<br>$$\frac{\partial J}{\partial z_i}=a_i-y_i$$</p>
-<h2 id="sigmoid为输出层函数的交叉熵损失函数"><a href="#sigmoid为输出层函数的交叉熵损失函数" class="headerlink" title="sigmoid为输出层函数的交叉熵损失函数"></a>sigmoid为输出层函数的交叉熵损失函数</h2><h3 id="交叉熵损失函数-1"><a href="#交叉熵损失函数-1" class="headerlink" title="交叉熵损失函数"></a>交叉熵损失函数</h3><p>二分类问题我们没必要写成sum符号的形式，直接写出来即可：<br>$$<br>J=-[y_ilog(a_i)+(1-y_i)log(1-a_i)]<br> $$</p>
-<h3 id="交叉熵损失函数求导-1"><a href="#交叉熵损失函数求导-1" class="headerlink" title="交叉熵损失函数求导"></a>交叉熵损失函数求导</h3><p>首先根据链式求导，我们可以写成这样：<br>$$\frac{\partial J}{\partial  z_i}=\frac{\partial J}{\partial a_i} \cdot \frac{\partial a_i}{\partial z_i}$$</p>
-<p>我们先求<br>$$\frac{\partial J}{\partial a_i}=(1-y_i)\frac{1}{1-a_i}-y_i\frac{1}{a_i}$$</p>
-<p>同样的，我们也是求$\frac{\partial a_i}{\partial z_i}$，sigmoid没有那么复杂，直接求解即可：</p>
-<p>$$\frac{\partial a_i}{\partial z_i}=\frac{\partial(\frac{1}{1+e^{-z_i}})}{\partial z_i}=\frac{e^{-z_i}}{(1+e^{-z_i})^2}=a_i(1-a_i)$$</p>
-<p>我们将两者乘到一起，可以得到：<br>$$\frac{\partial J}{\partial z_i}=[(1-y_i)\frac{1}{1-a_i}-y_i\frac{1}{a_i}]a_i(1-a_i)=(1-y_i)a_i-y_i(1-a_i)=a_i-y_i$$</p>
+<h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。</p>
+<p>示例:<br>输入: “25525511135”<br>输出: [“255.255.11.135”, “255.255.111.35”]</p>
+<h2 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h2><p>本题同样也是回溯法的应用，只是本题要比之前的题目要稍微的多一些东西。<br>本题中需要多考虑的有几个点：</p>
+<ol>
+<li>什么样的数字满足ip地址的格式</li>
+</ol>
+<ul>
+<li>0-255之间，并且不是以0开头的，比如010，强转是能转成int型的10的，但这是不符合ip数字格式的。<br>所以在此处我们可以写一个函数，来判断当前的字符串是否满足ip地址的格式：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ip_validate</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> s:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">if</span> len(s) &gt; <span class="number">1</span> <span class="keyword">and</span> s[<span class="number">0</span>] == <span class="string">'0'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">if</span> int(s) &lt; <span class="number">0</span> <span class="keyword">or</span> int(s) &gt; <span class="number">255</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="2">
+<li>树的深度一定是4</li>
+</ol>
+<ul>
+<li>ip地址树的深度一定是4，也就是说一定是<code>xxx.xxx.xxx.xxx</code>构成的</li>
+</ul>
+<ol start="3">
+<li>子串的选取：</li>
+</ol>
+<ul>
+<li>同样为了满足ip地址的格式，子串长度一定是1-3之间的。<strong>这同样也是一种剪枝。</strong></li>
+</ul>
+<p>然后我们按照正常递归的逻辑来考虑：</p>
+<ol>
+<li>递归结构</li>
+<li>递归边界</li>
+<li>递归参数</li>
+</ol>
+<h3 id="递归结构"><a href="#递归结构" class="headerlink" title="递归结构"></a>递归结构</h3><p>本题的递归结构是：<br>$$r[n]=r[n-1]+ w$$</p>
+<p>和一般的递归结构没有太大的区别，需要注意的是<code>w</code>的选取要进行一定的剪枝，满足一定的限定条件。</p>
+<h3 id="递归边界"><a href="#递归边界" class="headerlink" title="递归边界"></a>递归边界</h3><p>由于需要满足ip地址的格式，所以本题的递归边界是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if n == 4:</span><br></pre></td></tr></table></figure>
+<h3 id="递归参数"><a href="#递归参数" class="headerlink" title="递归参数"></a>递归参数</h3><p>然后确定递归参数。<br>我们需要：</p>
+<ul>
+<li>n：表示递归树的深度，也就是每次往前走一步的步数。</li>
+<li>s：表示原字符串。</li>
+<li>pos：表示字符串当前选取字串的开始位置，比如2252，第一步选取了2，那么pos=1，也就是下一次从位置1开始选取字串。</li>
+<li>result：到达一次递归树叶子节点，也就是到达一次递归边界的一个解。</li>
+<li>result_all：最终解。</li>
+</ul>
+<h2 id="答案"><a href="#答案" class="headerlink" title="答案"></a>答案</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.result_all = <span class="literal">None</span></span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">restoreIpAddresses</span><span class="params">(self, s: str)</span> -&gt; List[str]:</span></span><br><span class="line">        self.result_all = []</span><br><span class="line">        self.dfs(<span class="number">1</span>, s, <span class="number">0</span>, [])</span><br><span class="line">        <span class="keyword">return</span> self.result_all</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(self, n, s, pos, result)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> n == <span class="number">4</span>:</span><br><span class="line">            <span class="keyword">if</span> self.ip_validate(s[pos:]):</span><br><span class="line">                result.append(s[pos:])</span><br><span class="line">                self.result_all.append(<span class="string">"."</span>.join(result))</span><br><span class="line">                result.pop()    </span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(pos + <span class="number">1</span>, pos + <span class="number">4</span>):</span><br><span class="line">            sub_s = s[pos: i]</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> self.ip_validate(sub_s):</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            result.append(sub_s)</span><br><span class="line">            self.dfs(n+<span class="number">1</span>, s, i, result)</span><br><span class="line">            result.pop()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">ip_validate</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> s:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> len(s) &gt; <span class="number">1</span> <span class="keyword">and</span> s[<span class="number">0</span>] == <span class="string">'0'</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">if</span> int(s) &lt; <span class="number">0</span> <span class="keyword">or</span> int(s) &gt; <span class="number">255</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -477,9 +504,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+            <a href="/tags/算法/" rel="tag"># 算法</a>
           
-            <a href="/tags/公式推导/" rel="tag"># 公式推导</a>
+            <a href="/tags/递归/" rel="tag"># 递归</a>
+          
+            <a href="/tags/回溯法/" rel="tag"># 回溯法</a>
           
         </div>
       
@@ -492,8 +521,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/27/一篇不错的投资文章读后感/" rel="next" title="一篇不错的投资文章读后感">
-                <i class="fa fa-chevron-left"></i> 一篇不错的投资文章读后感
+              <a href="/2019/04/30/softmax和sigmoid交叉熵损失函数求导推导/" rel="next" title="softmax和sigmoid交叉熵损失函数求导推导">
+                <i class="fa fa-chevron-left"></i> softmax和sigmoid交叉熵损失函数求导推导
               </a>
             
           </div>
@@ -502,8 +531,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/06/93. 复原IP地址/" rel="prev" title="93. 复原IP地址">
-                93. 复原IP地址 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/06/17. 电话号码的字母组合/" rel="prev" title="17. 电话号码的字母组合">
+                17. 电话号码的字母组合 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -694,7 +723,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型函数"><span class="nav-number">1.</span> <span class="nav-text">模型函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#softmax为输出层函数的交叉熵损失函数"><span class="nav-number">2.</span> <span class="nav-text">softmax为输出层函数的交叉熵损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数"><span class="nav-number">2.1.</span> <span class="nav-text">交叉熵损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数求导"><span class="nav-number">2.2.</span> <span class="nav-text">交叉熵损失函数求导</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sigmoid为输出层函数的交叉熵损失函数"><span class="nav-number">3.</span> <span class="nav-text">sigmoid为输出层函数的交叉熵损失函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数-1"><span class="nav-number">3.1.</span> <span class="nav-text">交叉熵损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉熵损失函数求导-1"><span class="nav-number">3.2.</span> <span class="nav-text">交叉熵损失函数求导</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目描述"><span class="nav-number">1.</span> <span class="nav-text">题目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目分析"><span class="nav-number">2.</span> <span class="nav-text">题目分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#递归结构"><span class="nav-number">2.1.</span> <span class="nav-text">递归结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归边界"><span class="nav-number">2.2.</span> <span class="nav-text">递归边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#递归参数"><span class="nav-number">2.3.</span> <span class="nav-text">递归参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#答案"><span class="nav-number">3.</span> <span class="nav-text">答案</span></a></li></ol></div>
             
 
           </div>
