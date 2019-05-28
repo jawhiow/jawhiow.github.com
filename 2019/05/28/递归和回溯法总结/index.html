@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在实现递归与回溯算法的时候总结了以下的几大类。 排列排列这类问题一般需要考虑顺序，也就是说如果是寻找数字类的题目，那么对于排列来说，112和211是两个序列。而回溯法天然就有一层顺序在，所以使用回溯法来解决排列问题是很自然的。  当序列没有重复数字的时候，可以直接使用递归回溯。 当序列有重复数字的时候，需要注意对于递归树来说，同一层不能开两个数字一样的分支，否则会重复，解决这个问题一般是先对数列进">
+<meta name="keywords" content="算法,递归,[object Object],归纳总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="递归和回溯法总结">
+<meta property="og:url" content="http://yoursite.com/2019/05/28/递归和回溯法总结/index.html">
+<meta property="og:site_name" content="静坐听雨，无问西东">
+<meta property="og:description" content="在实现递归与回溯算法的时候总结了以下的几大类。 排列排列这类问题一般需要考虑顺序，也就是说如果是寻找数字类的题目，那么对于排列来说，112和211是两个序列。而回溯法天然就有一层顺序在，所以使用回溯法来解决排列问题是很自然的。  当序列没有重复数字的时候，可以直接使用递归回溯。 当序列有重复数字的时候，需要注意对于递归树来说，同一层不能开两个数字一样的分支，否则会重复，解决这个问题一般是先对数列进">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/2019-05-28_093231.jpg">
+<meta property="og:image" content="http://yoursite.com/images/1559007802710.png">
+<meta property="og:updated_time" content="2019-05-28T01:50:51.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="递归和回溯法总结">
+<meta name="twitter:description" content="在实现递归与回溯算法的时候总结了以下的几大类。 排列排列这类问题一般需要考虑顺序，也就是说如果是寻找数字类的题目，那么对于排列来说，112和211是两个序列。而回溯法天然就有一层顺序在，所以使用回溯法来解决排列问题是很自然的。  当序列没有重复数字的时候，可以直接使用递归回溯。 当序列有重复数字的时候，需要注意对于递归树来说，同一层不能开两个数字一样的分支，否则会重复，解决这个问题一般是先对数列进">
+<meta name="twitter:image" content="http://yoursite.com/images/2019-05-28_093231.jpg">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/05/28/递归和回溯法总结/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>递归和回溯法总结 | 静坐听雨，无问西东</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静坐听雨，无问西东</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/28/递归和回溯法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaster">
+      <meta itemprop="description" content="冲击大厂，加油！">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静坐听雨，无问西东">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">递归和回溯法总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-05-28 09:50:51" itemprop="dateCreated datePublished" datetime="2019-05-28T09:50:51+08:00">2019-05-28</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在实现递归与回溯算法的时候总结了以下的几大类。</p>
+<h2 id="排列"><a href="#排列" class="headerlink" title="排列"></a>排列</h2><p>排列这类问题一般需要考虑顺序，也就是说如果是寻找数字类的题目，那么对于排列来说，112和211是两个序列。而回溯法天然就有一层顺序在，所以使用回溯法来解决排列问题是很自然的。</p>
+<ul>
+<li>当序列没有重复数字的时候，可以直接使用递归回溯。</li>
+<li>当序列有重复数字的时候，需要注意对于递归树来说，同一层不能开两个数字一样的分支，否则会重复，解决这个问题一般是先对数列进行排序，使得相同数字在一块，然后用一个变量记一下上一步的数字，如果和当前数字相同那么就<code>continue</code>出去，否则继续向下走。</li>
+</ul>
+<p>即可解决排列问题。</p>
+<p>排列里主要包含题目有：<br><a href="https://jawhiow.github.io/2019/05/12/46.%20%E5%85%A8%E6%8E%92%E5%88%97/" target="_blank" rel="noopener">46. 全排列</a><br><a href="https://jawhiow.github.io/2019/05/12/47.%20%E5%85%A8%E6%8E%92%E5%88%97II/" target="_blank" rel="noopener">47. 全排列II</a></p>
+<h2 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h2><p>相对于排列类问题，组合类问题不考虑顺序，也就是说112和211对于组合问题来说是一样的。<br>所以组合问题主要解决的就是一个去重的问题。这个问题一般使用一个<code>start</code>参数来控制每次递归的开始的位置。<br>假设输入是1、2、3、4，递归的过程是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">start=0，所以从1开始</span><br><span class="line">1</span><br><span class="line">1 2</span><br><span class="line">1 2 3</span><br><span class="line">1 2 4</span><br><span class="line">1 3</span><br><span class="line">1 3 4</span><br><span class="line">1 4</span><br><span class="line">start=1 从2开始</span><br><span class="line">2</span><br><span class="line">2 3</span><br><span class="line">2 3 4</span><br><span class="line">2 4</span><br><span class="line">start=2 从3开始</span><br><span class="line">3</span><br><span class="line">3 4</span><br><span class="line">start=3 从4开始</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+<p>这样控制的作用就是，第一层递归树上出现了1、2、3、4，那么在第一层选了2的第二层递归树上就不能出现1了，否则就不符合组合的定义了。</p>
+<p>上面的情况是针对组合中<strong>没有重复的数字</strong>，如果组合中存在重复的数字，比如<code>112</code>这个序列，按照上面的说法它的递归过程如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">start=0</span><br><span class="line">1</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">112</span><br><span class="line">start=1</span><br><span class="line">1</span><br><span class="line">12</span><br><span class="line">start=2</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<p>很明显存在重复，重复的问题和上面排列的问题是一样的，就是同一层不允许分相同的支出来，所以实际的过程应该是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">start=0</span><br><span class="line">1</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">112</span><br><span class="line">start=1 删除</span><br><span class="line">start=2</span><br><span class="line">2</span><br></pre></td></tr></table></figure></p>
+<p>做到这个步骤也很容易，和上面排列的做法一致，先对数列进行排序，使得相同数字在一块，然后用一个变量记一下上一步的数字，如果和当前数字相同那么就<code>continue</code>出去，否则继续向下走。</p>
+<p><strong>所以组合问题总结起来就是：start+排序</strong></p>
+<p>和组合相关的题目有：<br><a href="https://jawhiow.github.io/2019/05/20/77.%20%E7%BB%84%E5%90%88/" target="_blank" rel="noopener">77. 组合</a><br><a href="https://jawhiow.github.io/2019/05/20/39.%20%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" target="_blank" rel="noopener">39. 组合总和</a><br><a href="https://jawhiow.github.io/2019/05/20/40.%20%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C%20II/" target="_blank" rel="noopener">40. 组合总和 II</a><br><a href="https://jawhiow.github.io/2019/05/20/216.%20%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C%20III/" target="_blank" rel="noopener">216. 组合总和 III</a><br><a href="https://jawhiow.github.io/2019/05/28/78.%20%E5%AD%90%E9%9B%86/" target="_blank" rel="noopener">78. 子集</a><br><a href="https://jawhiow.github.io/2019/05/28/90.%20%E5%AD%90%E9%9B%86%20II/" target="_blank" rel="noopener">90. 子集 II</a><br><a href="https://jawhiow.github.io/2019/05/28/401.%20%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%89%8B%E8%A1%A8/" target="_blank" rel="noopener">401. 二进制手表</a></p>
+<h2 id="二维平面"><a href="#二维平面" class="headerlink" title="二维平面"></a>二维平面</h2><p>二维平面问题是回溯法的一种扩展，通常和深度优先搜索关系更大。<br>针对一个二维平面的问题，首先有几点是很明确的：</p>
+<ul>
+<li><p>需要设定一个移动的顺序，来确定当前位置如何移动。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 小技巧分别表示左下右上</span><br><span class="line">self.directs = [(-1, 0), (0, 1), (1, 0), (0, -1)]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一个判断位置是否越界的函数：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def in_boundary(self, x, y):</span><br><span class="line">	return x == 0 or x == self.m - 1 or y == 0 or y == self.n - 1</span><br></pre></td></tr></table></figure>
+<p>然后对于二维平面问题的解法并不统一，有的需要每次回溯，有的类似染色问题，只要访问过即可不需要每次都回溯。<br>这类问题包含：<br><a href="https://jawhiow.github.io/2019/05/28/130.%20%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F%EF%BC%88%E5%BE%85%E4%BC%98%E5%8C%96%EF%BC%89/" target="_blank" rel="noopener">130. 被围绕的区域</a><br><a href="https://jawhiow.github.io/2019/05/20/200.%20%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" target="_blank" rel="noopener">200. 岛屿数量</a><br><a href="https://jawhiow.github.io/2019/05/20/79.%20%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener">79. 单词搜索</a><br>417题思路非常的巧妙，它是利用了一种反向的思维，多次深度搜索来解决问题的。<br><a href="https://jawhiow.github.io/2019/05/28/417.%20%E5%A4%AA%E5%B9%B3%E6%B4%8B%E5%A4%A7%E8%A5%BF%E6%B4%8B%E6%B0%B4%E6%B5%81%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener">417. 太平洋大西洋水流问题</a></p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="N皇后"><a href="#N皇后" class="headerlink" title="N皇后"></a>N皇后</h3><p>比如N皇后问题也可以使用回溯法来解决：<br><a href="https://jawhiow.github.io/2019/05/28/51.%20N%E7%9A%87%E5%90%8E/" target="_blank" rel="noopener">51.N皇后</a></p>
+<h3 id="数独问题"><a href="#数独问题" class="headerlink" title="数独问题"></a>数独问题</h3><h2 id="单独拎出来总结的"><a href="#单独拎出来总结的" class="headerlink" title="单独拎出来总结的"></a>单独拎出来总结的</h2><h3 id="返回布尔值的问题"><a href="#返回布尔值的问题" class="headerlink" title="返回布尔值的问题"></a>返回布尔值的问题</h3><p>大部分回溯算法题目返回的都是空，也有一些是返回一个布尔值的，比如第79题：<br><a href="https://jawhiow.github.io/2019/05/20/79.%20%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener">79. 单词搜索</a><br>这道题返回的就是一个布尔值，递归树我们可以画成这样：<br><img src="/images/2019-05-28_093231.jpg" alt="Alt text"></p>
+<p>类似于这类题目，如果有返回值它只能判断是否存在，而不能判断有几个的问题。主要思路是，第一层节点是否存在依赖于第二层是否存在，同样的一层层传递，如果发现存在了整个节点返回<code>True</code>，如果不存在只能等达到递归边界，返回<code>False</code>。<br>而实现这样的功能主要在：<br><img src="/images/1559007802710.png" alt="Alt text"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+            <a href="/tags/递归/" rel="tag"># 递归</a>
+          
+            <a href="/tags/object-Object/" rel="tag"># [object Object]</a>
+          
+            <a href="/tags/归纳总结/" rel="tag"># 归纳总结</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/28/401. 二进制手表/" rel="next" title="401. 二进制手表">
+                <i class="fa fa-chevron-left"></i> 401. 二进制手表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaster</p>
+              <div class="site-description motion-element" itemprop="description">冲击大厂，加油！</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jawhiow" title="GitHub &rarr; https://github.com/jawhiow" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#排列"><span class="nav-number">1.</span> <span class="nav-text">排列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组合"><span class="nav-number">2.</span> <span class="nav-text">组合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二维平面"><span class="nav-number">3.</span> <span class="nav-text">二维平面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#N皇后"><span class="nav-number">4.1.</span> <span class="nav-text">N皇后</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数独问题"><span class="nav-number">4.2.</span> <span class="nav-text">数独问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单独拎出来总结的"><span class="nav-number">5.</span> <span class="nav-text">单独拎出来总结的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#返回布尔值的问题"><span class="nav-number">5.1.</span> <span class="nav-text">返回布尔值的问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaster</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
