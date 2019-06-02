@@ -100,13 +100,13 @@
 <meta name="keywords" content="算法,递归,归纳总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="递归和回溯法总结">
-<meta property="og:url" content="http://yoursite.com/2019/05/28/递归和回溯法总结/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/06/02/递归和回溯法总结/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
 <meta property="og:description" content="在实现递归与回溯算法的时候总结了以下的几大类。 排列排列这类问题一般需要考虑顺序，也就是说如果是寻找数字类的题目，那么对于排列来说，112和211是两个序列。而回溯法天然就有一层顺序在，所以使用回溯法来解决排列问题是很自然的。  当序列没有重复数字的时候，可以直接使用递归回溯。 当序列有重复数字的时候，需要注意对于递归树来说，同一层不能开两个数字一样的分支，否则会重复，解决这个问题一般是先对数列进">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/2019-05-28_093231.jpg">
 <meta property="og:image" content="http://yoursite.com/images/1559007802710.png">
-<meta property="og:updated_time" content="2019-05-28T02:01:25.512Z">
+<meta property="og:updated_time" content="2019-06-02T00:58:04.412Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="递归和回溯法总结">
 <meta name="twitter:description" content="在实现递归与回溯算法的时候总结了以下的几大类。 排列排列这类问题一般需要考虑顺序，也就是说如果是寻找数字类的题目，那么对于排列来说，112和211是两个序列。而回溯法天然就有一层顺序在，所以使用回溯法来解决排列问题是很自然的。  当序列没有重复数字的时候，可以直接使用递归回溯。 当序列有重复数字的时候，需要注意对于递归树来说，同一层不能开两个数字一样的分支，否则会重复，解决这个问题一般是先对数列进">
@@ -118,7 +118,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/05/28/递归和回溯法总结/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/02/递归和回溯法总结/">
 
 
 
@@ -344,7 +344,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/28/递归和回溯法总结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/02/递归和回溯法总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jaster">
@@ -387,7 +387,7 @@
                 
               
 
-              <time title="创建时间：2019-05-28 10:01:25" itemprop="dateCreated datePublished" datetime="2019-05-28T10:01:25+08:00">2019-05-28</time>
+              <time title="创建时间：2019-06-02 08:58:04" itemprop="dateCreated datePublished" datetime="2019-06-02T08:58:04+08:00">2019-06-02</time>
             
 
             
@@ -468,7 +468,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def in_boundary(self, x, y):</span><br><span class="line">	return x == 0 or x == self.m - 1 or y == 0 or y == self.n - 1</span><br></pre></td></tr></table></figure>
 <p>然后对于二维平面问题的解法并不统一，有的需要每次回溯，有的类似染色问题，只要访问过即可不需要每次都回溯。<br>这类问题包含：<br><a href="https://jawhiow.github.io/2019/05/28/130.%20%E8%A2%AB%E5%9B%B4%E7%BB%95%E7%9A%84%E5%8C%BA%E5%9F%9F%EF%BC%88%E5%BE%85%E4%BC%98%E5%8C%96%EF%BC%89/" target="_blank" rel="noopener">130. 被围绕的区域</a><br><a href="https://jawhiow.github.io/2019/05/20/200.%20%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/" target="_blank" rel="noopener">200. 岛屿数量</a><br><a href="https://jawhiow.github.io/2019/05/20/79.%20%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener">79. 单词搜索</a><br>417题思路非常的巧妙，它是利用了一种反向的思维，多次深度搜索来解决问题的。<br><a href="https://jawhiow.github.io/2019/05/28/417.%20%E5%A4%AA%E5%B9%B3%E6%B4%8B%E5%A4%A7%E8%A5%BF%E6%B4%8B%E6%B0%B4%E6%B5%81%E9%97%AE%E9%A2%98/" target="_blank" rel="noopener">417. 太平洋大西洋水流问题</a></p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="N皇后"><a href="#N皇后" class="headerlink" title="N皇后"></a>N皇后</h3><p>比如N皇后问题也可以使用回溯法来解决：<br><a href="https://jawhiow.github.io/2019/05/28/51.%20N%E7%9A%87%E5%90%8E/" target="_blank" rel="noopener">51.N皇后</a></p>
-<h3 id="数独问题"><a href="#数独问题" class="headerlink" title="数独问题"></a>数独问题</h3><h2 id="单独拎出来总结的"><a href="#单独拎出来总结的" class="headerlink" title="单独拎出来总结的"></a>单独拎出来总结的</h2><h3 id="返回布尔值的问题"><a href="#返回布尔值的问题" class="headerlink" title="返回布尔值的问题"></a>返回布尔值的问题</h3><p>大部分回溯算法题目返回的都是空，也有一些是返回一个布尔值的，比如第79题：<br><a href="https://jawhiow.github.io/2019/05/20/79.%20%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener">79. 单词搜索</a><br>这道题返回的就是一个布尔值，递归树我们可以画成这样：<br><img src="/images/2019-05-28_093231.jpg" alt="Alt text"></p>
+<h3 id="数独问题"><a href="#数独问题" class="headerlink" title="数独问题"></a>数独问题</h3><p><a href="https://jawhiow.github.io/2019/05/30/37.%20%E8%A7%A3%E6%95%B0%E7%8B%AC/" target="_blank" rel="noopener">51.N皇后</a></p>
+<h2 id="单独拎出来总结的"><a href="#单独拎出来总结的" class="headerlink" title="单独拎出来总结的"></a>单独拎出来总结的</h2><h3 id="返回布尔值的问题"><a href="#返回布尔值的问题" class="headerlink" title="返回布尔值的问题"></a>返回布尔值的问题</h3><p>大部分回溯算法题目返回的都是空，也有一些是返回一个布尔值的，比如第79题：<br><a href="https://jawhiow.github.io/2019/05/20/79.%20%E5%8D%95%E8%AF%8D%E6%90%9C%E7%B4%A2/" target="_blank" rel="noopener">79. 单词搜索</a><br>这道题返回的就是一个布尔值，递归树我们可以画成这样：<br><img src="/images/2019-05-28_093231.jpg" alt="Alt text"></p>
 <p>类似于这类题目，如果有返回值它只能判断是否存在，而不能判断有几个的问题。主要思路是，第一层节点是否存在依赖于第二层是否存在，同样的一层层传递，如果发现存在了整个节点返回<code>True</code>，如果不存在只能等达到递归边界，返回<code>False</code>。<br>而实现这样的功能主要在：<br><img src="/images/1559007802710.png" alt="Alt text"></p>
 
       
@@ -510,8 +511,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/28/401. 二进制手表/" rel="next" title="401. 二进制手表">
-                <i class="fa fa-chevron-left"></i> 401. 二进制手表
+              <a href="/2019/05/30/70. 爬楼梯/" rel="next" title="70. 爬楼梯">
+                <i class="fa fa-chevron-left"></i> 70. 爬楼梯
               </a>
             
           </div>
@@ -520,8 +521,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/30/37. 解数独/" rel="prev" title="37. 解数独">
-                37. 解数独 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/02/343. 整数拆分/" rel="prev" title="343. 整数拆分">
+                343. 整数拆分 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -591,7 +592,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
