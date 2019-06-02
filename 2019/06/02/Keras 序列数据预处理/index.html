@@ -96,17 +96,18 @@
 
 
 
-  <meta name="description" content="Keras 序列数据预处理 title: Keras 序列数据预处理tags:  框架 深度学习categories: Keras   一个原本的序列化数据为： 1I want to learning NLP Tokenize化首先将原本我们可以认识的句子，进行向量化。由于这里只有一句话，所以向量化起来非常的简单，即： 1[1, 2, 3, 4, 5] 1代表当前单词的位置。 具体使用模板： 12">
+  <meta name="description" content="一个原本的序列化数据为： 1I want to learning NLP Tokenize化首先将原本我们可以认识的句子，进行向量化。由于这里只有一句话，所以向量化起来非常的简单，即： 1[1, 2, 3, 4, 5] 1代表当前单词的位置。 具体使用模板： 123tokenizer = Tokenizer()tokenizer.fit_on_texts(text)tokenizer.texts_">
+<meta name="keywords" content="框架,深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="静坐听雨，无问西东">
+<meta property="og:title" content="Keras 序列数据预处理">
 <meta property="og:url" content="http://yoursite.com/2019/06/02/Keras 序列数据预处理/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
-<meta property="og:description" content="Keras 序列数据预处理 title: Keras 序列数据预处理tags:  框架 深度学习categories: Keras   一个原本的序列化数据为： 1I want to learning NLP Tokenize化首先将原本我们可以认识的句子，进行向量化。由于这里只有一句话，所以向量化起来非常的简单，即： 1[1, 2, 3, 4, 5] 1代表当前单词的位置。 具体使用模板： 12">
+<meta property="og:description" content="一个原本的序列化数据为： 1I want to learning NLP Tokenize化首先将原本我们可以认识的句子，进行向量化。由于这里只有一句话，所以向量化起来非常的简单，即： 1[1, 2, 3, 4, 5] 1代表当前单词的位置。 具体使用模板： 123tokenizer = Tokenizer()tokenizer.fit_on_texts(text)tokenizer.texts_">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-02T01:03:01.356Z">
+<meta property="og:updated_time" content="2019-06-02T01:05:56.075Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="静坐听雨，无问西东">
-<meta name="twitter:description" content="Keras 序列数据预处理 title: Keras 序列数据预处理tags:  框架 深度学习categories: Keras   一个原本的序列化数据为： 1I want to learning NLP Tokenize化首先将原本我们可以认识的句子，进行向量化。由于这里只有一句话，所以向量化起来非常的简单，即： 1[1, 2, 3, 4, 5] 1代表当前单词的位置。 具体使用模板： 12">
+<meta name="twitter:title" content="Keras 序列数据预处理">
+<meta name="twitter:description" content="一个原本的序列化数据为： 1I want to learning NLP Tokenize化首先将原本我们可以认识的句子，进行向量化。由于这里只有一句话，所以向量化起来非常的简单，即： 1[1, 2, 3, 4, 5] 1代表当前单词的位置。 具体使用模板： 123tokenizer = Tokenizer()tokenizer.fit_on_texts(text)tokenizer.texts_">
 
 
 
@@ -124,7 +125,7 @@
   };
 </script>
 
-  <title> | 静坐听雨，无问西东</title>
+  <title>Keras 序列数据预处理 | 静坐听雨，无问西东</title>
   
 
 
@@ -357,7 +358,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">Keras 序列数据预处理
 
               
             
@@ -383,12 +384,30 @@
                 
               
 
-              <time title="创建时间：2019-06-02 09:03:01" itemprop="dateCreated datePublished" datetime="2019-06-02T09:03:01+08:00">2019-06-02</time>
+              <time title="创建时间：2019-06-02 09:05:56" itemprop="dateCreated datePublished" datetime="2019-06-02T09:05:56+08:00">2019-06-02</time>
             
 
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Keras/" itemprop="url" rel="index"><span itemprop="name">Keras</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -418,14 +437,7 @@
       
 
       
-        <h1 id="Keras-序列数据预处理"><a href="#Keras-序列数据预处理" class="headerlink" title="Keras 序列数据预处理"></a>Keras 序列数据预处理</h1><hr>
-<p>title: Keras 序列数据预处理<br>tags:</p>
-<ul>
-<li>框架</li>
-<li>深度学习<br>categories: Keras</li>
-</ul>
-<hr>
-<p>一个原本的序列化数据为：</p>
+        <p>一个原本的序列化数据为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I want to learning NLP</span><br></pre></td></tr></table></figure>
 <h2 id="Tokenize化"><a href="#Tokenize化" class="headerlink" title="Tokenize化"></a>Tokenize化</h2><p>首先将原本我们可以认识的句子，进行向量化。由于这里只有一句话，所以向量化起来非常的简单，即：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1, 2, 3, 4, 5]</span><br></pre></td></tr></table></figure>
@@ -474,6 +486,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/框架/" rel="tag"># 框架</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
       
 
       
@@ -588,7 +608,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">5</span>
+                      
+                    
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -643,7 +665,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -696,7 +722,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Keras-序列数据预处理"><span class="nav-number">1.</span> <span class="nav-text">Keras 序列数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokenize化"><span class="nav-number">1.1.</span> <span class="nav-text">Tokenize化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pad-sequences"><span class="nav-number">1.2.</span> <span class="nav-text">pad_sequences</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理成one-hot"><span class="nav-number">1.3.</span> <span class="nav-text">处理成one-hot</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokenize化"><span class="nav-number">1.</span> <span class="nav-text">Tokenize化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pad-sequences"><span class="nav-number">2.</span> <span class="nav-text">pad_sequences</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理成one-hot"><span class="nav-number">3.</span> <span class="nav-text">处理成one-hot</span></a></li></ol></div>
             
 
           </div>
