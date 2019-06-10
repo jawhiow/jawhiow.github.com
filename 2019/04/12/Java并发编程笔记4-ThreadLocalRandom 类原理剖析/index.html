@@ -100,18 +100,18 @@
 <meta name="keywords" content="并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发编程笔记4-ThreadLocalRandom 类原理剖析">
-<meta property="og:url" content="http://yoursite.com/2019/04/12/Java并发编程笔记4-ThreadLocalRandom 类原理剖析/index.html">
+<meta property="og:url" content="https://jawhiow.github.io/2019/04/12/Java并发编程笔记4-ThreadLocalRandom 类原理剖析/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
 <meta property="og:description" content="概览（本文逻辑） 首先本文先介绍了Random的类的使用，以及Random类在多线程中遇到的问题：多线程中如何不生成大量重复的数据。 然后我们知道了Random类的解决方式，也就是使用了原子变量作为种子的类型，这样就解决了问题，但是这样解决又遇到了一个新的问题，就是多线程种子的恶意竞争导致效率低下。 为了解决这个问题，借用了ThreadLocal的思想产生了ThreadLocalRandom ，它">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/1555049037569.png">
-<meta property="og:image" content="http://yoursite.com/images/1555049142055.png">
-<meta property="og:image" content="http://yoursite.com/images/1555049816787.png">
+<meta property="og:image" content="https://jawhiow.github.io/images/1555049037569.png">
+<meta property="og:image" content="https://jawhiow.github.io/images/1555049142055.png">
+<meta property="og:image" content="https://jawhiow.github.io/images/1555049816787.png">
 <meta property="og:updated_time" content="2019-04-12T07:27:04.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程笔记4-ThreadLocalRandom 类原理剖析">
 <meta name="twitter:description" content="概览（本文逻辑） 首先本文先介绍了Random的类的使用，以及Random类在多线程中遇到的问题：多线程中如何不生成大量重复的数据。 然后我们知道了Random类的解决方式，也就是使用了原子变量作为种子的类型，这样就解决了问题，但是这样解决又遇到了一个新的问题，就是多线程种子的恶意竞争导致效率低下。 为了解决这个问题，借用了ThreadLocal的思想产生了ThreadLocalRandom ，它">
-<meta name="twitter:image" content="http://yoursite.com/images/1555049037569.png">
+<meta name="twitter:image" content="https://jawhiow.github.io/images/1555049037569.png">
 
 
 
@@ -119,7 +119,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/04/12/Java并发编程笔记4-ThreadLocalRandom 类原理剖析/">
+  <link rel="canonical" href="https://jawhiow.github.io/2019/04/12/Java并发编程笔记4-ThreadLocalRandom 类原理剖析/">
 
 
 
@@ -390,7 +390,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/12/Java并发编程笔记4-ThreadLocalRandom 类原理剖析/">
+    <link itemprop="mainEntityOfPage" href="https://jawhiow.github.io/2019/04/12/Java并发编程笔记4-ThreadLocalRandom 类原理剖析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jaster">

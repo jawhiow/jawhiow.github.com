@@ -100,18 +100,18 @@
 <meta name="keywords" content="并发">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理">
-<meta property="og:url" content="http://yoursite.com/2019/04/12/Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理/index.html">
+<meta property="og:url" content="https://jawhiow.github.io/2019/04/12/Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
 <meta property="og:description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候访问的是当前线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://yoursite.com/images/1555030861964.png">
-<meta property="og:image" content="http://yoursite.com/images/1555031016422.png">
-<meta property="og:image" content="http://yoursite.com/images/1555033553206.png">
+<meta property="og:image" content="https://jawhiow.github.io/images/1555030861964.png">
+<meta property="og:image" content="https://jawhiow.github.io/images/1555031016422.png">
+<meta property="og:image" content="https://jawhiow.github.io/images/1555033553206.png">
 <meta property="og:updated_time" content="2019-04-12T04:56:50.658Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理">
 <meta name="twitter:description" content="预览（本文逻辑）这篇文章的逻辑很简单：  首先是通过之前文章我们知道锁不仅很重而且使用门槛也高，所以能不用锁我们就想不用，所以我们想实现一个功能，就是让共享变量在每个线程访问的时候访问的是当前线程内部的一个变量（这样说可能不太准确，但意思是这个），有了这个需求，就有了ThreadLocal类。 然后我们深入的分析了一下ThreadLocal的原理，知道ThreadLocal是怎样实现这样的功能。">
-<meta name="twitter:image" content="http://yoursite.com/images/1555030861964.png">
+<meta name="twitter:image" content="https://jawhiow.github.io/images/1555030861964.png">
 
 
 
@@ -119,7 +119,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/04/12/Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理/">
+  <link rel="canonical" href="https://jawhiow.github.io/2019/04/12/Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理/">
 
 
 
@@ -390,7 +390,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/12/Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理/">
+    <link itemprop="mainEntityOfPage" href="https://jawhiow.github.io/2019/04/12/Java并发编程笔记3-ThreadLocal 和InheritableThreadLocal 原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jaster">
