@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'P51PT1T34J',
+      apiKey: '24e9847b43e6e97bb253dc554f040eee',
+      indexName: 'Blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们没有找到任何搜索结果: ${query}","hits_stats":"找到约${hits}条结果（用时${time}ms）"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="参考文献一：Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification参考文献二：FEED-FORWARD NETWORKS WITH ATTENTION CAN SOLVE SOME LONG-TERM MEMORY PROBLEMS  本文中主要使用的是Bi-LSTM结合A">
+<meta name="keywords" content="NLP,Attention,文本分类,QIQC,比赛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+<meta property="og:url" content="https://jawhiow.github.io/2019/06/18/NLP/使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/index.html">
+<meta property="og:site_name" content="静坐听雨，无问西东">
+<meta property="og:description" content="参考文献一：Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification参考文献二：FEED-FORWARD NETWORKS WITH ATTENTION CAN SOLVE SOME LONG-TERM MEMORY PROBLEMS  本文中主要使用的是Bi-LSTM结合A">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jawhiow.github.io/images/1560692141928.png">
+<meta property="og:updated_time" content="2019-06-17T16:19:40.959Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+<meta name="twitter:description" content="参考文献一：Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification参考文献二：FEED-FORWARD NETWORKS WITH ATTENTION CAN SOLVE SOME LONG-TERM MEMORY PROBLEMS  本文中主要使用的是Bi-LSTM结合A">
+<meta name="twitter:image" content="https://jawhiow.github.io/images/1560692141928.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jawhiow.github.io/2019/06/18/NLP/使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification） | 静坐听雨，无问西东</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f75a7ae01762c16070bd74fe01b13787";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静坐听雨，无问西东</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jawhiow.github.io/2019/06/18/NLP/使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaster">
+      <meta itemprop="description" content="冲击大厂，加油！">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静坐听雨，无问西东">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-18 00:19:40" itemprop="dateCreated datePublished" datetime="2019-06-18T00:19:40+08:00">2019-06-18</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/自然语言处理/" itemprop="url" rel="index"><span itemprop="name">自然语言处理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/06/18/NLP/使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/" class="leancloud_visitors" data-flag-title="使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>参考文献一：<a href="https://www.aclweb.org/anthology/P16-2034" target="_blank" rel="noopener">Attention-Based Bidirectional Long Short-Term Memory Networks for Relation Classification</a><br>参考文献二：<a href="https://arxiv.org/pdf/1512.08756.pdf" target="_blank" rel="noopener">FEED-FORWARD NETWORKS WITH ATTENTION CAN SOLVE SOME LONG-TERM MEMORY PROBLEMS</a></p>
+</blockquote>
+<p>本文中主要使用的是Bi-LSTM结合Attention进行文本分类。对于Bi-LSTM已经比较熟悉了，模型图可以参考下图，并不是本文的重点，本文的重点是<code>Attention</code>机制。</p>
+<p><img src="/images/1560692141928.png" alt="Alt text"></p>
+<p>关于Attention机制的原理在之前的<a href="https://jawhiow.github.io/2019/06/10/NLP/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">博客</a>中已经有提及了，我们再表达一遍：<br>$$<br>e_{t}=a\left(h_{t}\right), \alpha_{t}=\frac{\exp \left(e_{t}\right)}{\sum_{k=1}^{T} \exp \left(e_{k}\right)}, c=\sum_{t=1}^{T} \alpha_{t} h_{t}<br> $$</p>
+<p>对应上述公式，实现的代码主要是下面的函数，每个部分都加入了shape进行推导，应当是比较简单的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">call</span><span class="params">(self, x, mask=None)</span>:</span></span><br><span class="line">      <span class="comment"># x.shape = (batch_size,timesteps,units)</span></span><br><span class="line">      <span class="comment"># W.shape=(units,)</span></span><br><span class="line">      <span class="comment"># eij.shape=(batch_size,timesteps)</span></span><br><span class="line">      eij = dot_product(x, self.W)</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> self.bias:</span><br><span class="line">          eij += self.b</span><br><span class="line"></span><br><span class="line">      eij = K.tanh(eij)</span><br><span class="line"></span><br><span class="line">      a = K.exp(eij)</span><br><span class="line">      <span class="comment"># in some cases especially in the early stages of training the sum may be almost zero</span></span><br><span class="line">      <span class="comment"># and this results in NaN's. A workaround is to add a very small positive number ε to the sum.</span></span><br><span class="line">      <span class="comment"># a.shape=(batch_size,timesteps)</span></span><br><span class="line">      a /= K.cast(K.sum(a, axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>) + K.epsilon(), K.floatx())  <span class="comment"># shape=(batch_size,timesteps,units)</span></span><br><span class="line"></span><br><span class="line">      <span class="comment"># x.shape = (batch_size,timesteps,units)</span></span><br><span class="line">      <span class="comment"># K.expand_dims(a).shape=(batch_size,timesteps,1)</span></span><br><span class="line">      <span class="comment"># weighted_input.shape=(batch_size,timesteps,units)</span></span><br><span class="line">      <span class="comment"># ```python</span></span><br><span class="line">      <span class="comment"># a = np.asarray([[1, 2, 3],[4, 5, 6]])</span></span><br><span class="line">      <span class="comment"># b = np.asarray([[2],[4]])</span></span><br><span class="line">      <span class="comment"># a * b = [[ 2,  4,  6],</span></span><br><span class="line">      <span class="comment">#          [16, 20, 24]]</span></span><br><span class="line">      <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<pre><code>weighted_input = x * K.expand_dims(a)
+
+# result.shape=(batch_size,units)
+result = K.sum(weighted_input, axis=1)
+return result
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">对于整体的实现，首先可以参考[编写你自己的 Keras 层](https://keras.io/zh/layers/writing-your-own-keras-layers/)，然后对照着这个文档，我们进行实现一个`Attention`类：</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">from keras import backend as K, initializers, regularizers, constraints</span><br><span class="line">from keras.engine.topology import Layer</span><br><span class="line">from keras.layers import Embedding, Dense</span><br><span class="line">from keras.models import Sequential</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def dot_product(x, kernel):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Wrapper for dot product operation, in order to be compatible with both</span><br><span class="line">    Theano and Tensorflow</span><br><span class="line">    Args:</span><br><span class="line">        x (): input</span><br><span class="line">        kernel (): weights</span><br><span class="line">    Returns:</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    if K.backend() == &apos;tensorflow&apos;:</span><br><span class="line">        # todo: check that this is correct</span><br><span class="line">        return K.squeeze(K.dot(x, K.expand_dims(kernel)), axis=-1)</span><br><span class="line">    else:</span><br><span class="line">        return K.dot(x, kernel)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Attention(Layer):</span><br><span class="line">    def __init__(self,</span><br><span class="line">                 W_regularizer=None, b_regularizer=None,</span><br><span class="line">                 W_constraint=None, b_constraint=None,</span><br><span class="line">                 bias=True,</span><br><span class="line">                 return_attention=False,</span><br><span class="line">                 **kwargs):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Keras Layer that implements an Attention mechanism for temporal data.</span><br><span class="line">        Supports Masking.</span><br><span class="line">        Follows the work of Raffel et al. [https://arxiv.org/abs/1512.08756]</span><br><span class="line">        # Input shape</span><br><span class="line">            3D tensor with shape: `(samples, steps, features)`.</span><br><span class="line">        # Output shape</span><br><span class="line">            2D tensor with shape: `(samples, features)`.</span><br><span class="line">        :param kwargs:</span><br><span class="line">        Just put it on top of an RNN Layer (GRU/LSTM/SimpleRNN) with return_sequences=True.</span><br><span class="line">        The dimensions are inferred based on the output shape of the RNN.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        Note: The layer has been tested with Keras 1.x</span><br><span class="line"></span><br><span class="line">        Example:</span><br><span class="line">        </span><br><span class="line">            # 1</span><br><span class="line">            model.add(LSTM(64, return_sequences=True))</span><br><span class="line">            model.add(Attention())</span><br><span class="line">            # next add a Dense layer (for classification/regression) or whatever...</span><br><span class="line"></span><br><span class="line">            # 2 - Get the attention scores</span><br><span class="line">            hidden = LSTM(64, return_sequences=True)(words)</span><br><span class="line">            sentence, word_scores = Attention(return_attention=True)(hidden)</span><br><span class="line"></span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        self.supports_masking = True</span><br><span class="line">        self.return_attention = return_attention</span><br><span class="line">        self.init = initializers.get(&apos;glorot_uniform&apos;)</span><br><span class="line"></span><br><span class="line">        self.W_regularizer = regularizers.get(W_regularizer)</span><br><span class="line">        self.b_regularizer = regularizers.get(b_regularizer)</span><br><span class="line"></span><br><span class="line">        self.W_constraint = constraints.get(W_constraint)</span><br><span class="line">        self.b_constraint = constraints.get(b_constraint)</span><br><span class="line"></span><br><span class="line">        self.bias = bias</span><br><span class="line">        super(Attention, self).__init__(**kwargs)</span><br><span class="line"></span><br><span class="line">    def build(self, input_shape):</span><br><span class="line">        assert len(input_shape) == 3</span><br><span class="line"></span><br><span class="line">        self.W = self.add_weight((input_shape[-1],),</span><br><span class="line">                                 initializer=self.init,</span><br><span class="line">                                 name=&apos;&#123;&#125;_W&apos;.format(self.name),</span><br><span class="line">                                 regularizer=self.W_regularizer,</span><br><span class="line">                                 constraint=self.W_constraint)</span><br><span class="line">        if self.bias:</span><br><span class="line">            self.b = self.add_weight((input_shape[1],),</span><br><span class="line">                                     initializer=&apos;zero&apos;,</span><br><span class="line">                                     name=&apos;&#123;&#125;_b&apos;.format(self.name),</span><br><span class="line">                                     regularizer=self.b_regularizer,</span><br><span class="line">                                     constraint=self.b_constraint)</span><br><span class="line">        else:</span><br><span class="line">            self.b = None</span><br><span class="line"></span><br><span class="line">        self.built = True</span><br><span class="line"></span><br><span class="line">    def compute_mask(self, input, input_mask=None):</span><br><span class="line">        # do not pass the mask to the next layers</span><br><span class="line">        return None</span><br><span class="line"></span><br><span class="line">    def call(self, x, mask=None):</span><br><span class="line">        # x.shape = (batch_size,timesteps,units)</span><br><span class="line">        # W.shape=(units,)</span><br><span class="line">        # eij.shape=(batch_size,timesteps)</span><br><span class="line">        eij = dot_product(x, self.W)</span><br><span class="line"></span><br><span class="line">        if self.bias:</span><br><span class="line">            eij += self.b</span><br><span class="line"></span><br><span class="line">        eij = K.tanh(eij)</span><br><span class="line"></span><br><span class="line">        a = K.exp(eij)</span><br><span class="line"></span><br><span class="line">        # apply mask after the exp. will be re-normalized next</span><br><span class="line">        if mask is not None:</span><br><span class="line">            # Cast the mask to floatX to avoid float64 upcasting in theano</span><br><span class="line">            a *= K.cast(mask, K.floatx())</span><br><span class="line"></span><br><span class="line">        # in some cases especially in the early stages of training the sum may be almost zero</span><br><span class="line">        # and this results in NaN&apos;s. A workaround is to add a very small positive number ε to the sum.</span><br><span class="line">        # a /= K.cast(K.sum(a, axis=1, keepdims=True), K.floatx())</span><br><span class="line">        # a.shape=(batch_size,timesteps)</span><br><span class="line">        a /= K.cast(K.sum(a, axis=1, keepdims=True) + K.epsilon(), K.floatx())  # shape=(batch_size,timesteps,units)</span><br><span class="line"></span><br><span class="line">        # x.shape = (batch_size,timesteps,units)</span><br><span class="line">        # K.expand_dims(a).shape=(batch_size,timesteps,1)</span><br><span class="line">        # weighted_input.shape=(batch_size,timesteps,units)</span><br><span class="line">        # ```python</span><br><span class="line">        # a = np.asarray([[1, 2, 3],[4, 5, 6]])</span><br><span class="line">        # b = np.asarray([[2],[4]])</span><br><span class="line">        # a * b = [[ 2,  4,  6],</span><br><span class="line">        #          [16, 20, 24]]</span><br><span class="line">        #</span><br></pre></td></tr></table></figure>
+<pre><code>    weighted_input = x * K.expand_dims(a)
+
+    # result.shape=(batch_size,units)
+    result = K.sum(weighted_input, axis=1)
+    if self.return_attention:
+        return [result, a]
+    return result
+
+def compute_output_shape(self, input_shape):
+    if self.return_attention:
+        return [(input_shape[0], input_shape[-1]),
+                (input_shape[0], input_shape[1])]
+    else:
+        return input_shape[0], input_shape[-1]
+</code></pre><p><code>`</code></p>
+<p>最终这个代码我们就可以用在我们的文本分类模型上了。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/Attention/" rel="tag"># Attention</a>
+          
+            <a href="/tags/文本分类/" rel="tag"># 文本分类</a>
+          
+            <a href="/tags/QIQC/" rel="tag"># QIQC</a>
+          
+            <a href="/tags/比赛/" rel="tag"># 比赛</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/18/NLP/使用CNN进行文本分类/" rel="next" title="使用CNN进行文本分类">
+                <i class="fa fa-chevron-left"></i> 使用CNN进行文本分类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/18/leetcode/63. 不同路径 II/" rel="prev" title="63. 不同路径 II">
+                63. 不同路径 II <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaster</p>
+              <div class="site-description motion-element" itemprop="description">冲击大厂，加油！</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jawhiow" title="GitHub &rarr; https://github.com/jawhiow" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaster</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'kvskSC3FCb6zRmn6STrb7t6f-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'kvskSC3FCb6zRmn6STrb7t6f-gzGzoHsz',
+                'X-LC-Key': '88jJ5lIipbsH1JiPYAoBUlC4',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

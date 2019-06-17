@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'P51PT1T34J',
+      apiKey: '24e9847b43e6e97bb253dc554f040eee',
+      indexName: 'Blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们没有找到任何搜索结果: ${query}","hits_stats":"找到约${hits}条结果（用时${time}ms）"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="参考文献1：《Recurrent Convolutional Neural Networks for Text Classification》  首先，直接看模型图：  根据模型图，可以明显看出，是要用了Bi-RNN + Max-Pooling + 全连接。 根据图的公式为：假设有一个句话D，由$w_{1}, w_{2}, \ldots, w_{n}$个单词组成，使用$p(k | D, \the">
+<meta name="keywords" content="NLP,文本分类,QIQC,比赛,CNN,RNN,RCNN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+<meta property="og:url" content="https://jawhiow.github.io/2019/06/18/NLP/使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/index.html">
+<meta property="og:site_name" content="静坐听雨，无问西东">
+<meta property="og:description" content="参考文献1：《Recurrent Convolutional Neural Networks for Text Classification》  首先，直接看模型图：  根据模型图，可以明显看出，是要用了Bi-RNN + Max-Pooling + 全连接。 根据图的公式为：假设有一个句话D，由$w_{1}, w_{2}, \ldots, w_{n}$个单词组成，使用$p(k | D, \the">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jawhiow.github.io/images/1560582419420.png">
+<meta property="og:updated_time" content="2019-06-17T16:19:40.723Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+<meta name="twitter:description" content="参考文献1：《Recurrent Convolutional Neural Networks for Text Classification》  首先，直接看模型图：  根据模型图，可以明显看出，是要用了Bi-RNN + Max-Pooling + 全连接。 根据图的公式为：假设有一个句话D，由$w_{1}, w_{2}, \ldots, w_{n}$个单词组成，使用$p(k | D, \the">
+<meta name="twitter:image" content="https://jawhiow.github.io/images/1560582419420.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jawhiow.github.io/2019/06/18/NLP/使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification） | 静坐听雨，无问西东</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f75a7ae01762c16070bd74fe01b13787";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静坐听雨，无问西东</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jawhiow.github.io/2019/06/18/NLP/使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaster">
+      <meta itemprop="description" content="冲击大厂，加油！">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静坐听雨，无问西东">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-18 00:19:40" itemprop="dateCreated datePublished" datetime="2019-06-18T00:19:40+08:00">2019-06-18</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/自然语言处理/" itemprop="url" rel="index"><span itemprop="name">自然语言处理</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/06/18/NLP/使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/" class="leancloud_visitors" data-flag-title="使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>参考文献1：<a href="https://www.aaai.org/ocs/index.php/AAAI/AAAI15/paper/view/9745/9552" target="_blank" rel="noopener">《Recurrent Convolutional Neural Networks for Text Classification》</a></p>
+</blockquote>
+<p>首先，直接看模型图：</p>
+<p><img src="/images/1560582419420.png" alt="Alt text"></p>
+<p>根据模型图，可以明显看出，是要用了Bi-RNN + Max-Pooling + 全连接。</p>
+<p>根据图的公式为：<br>假设有一个句话D，由$w_{1}, w_{2}, \ldots, w_{n}$个单词组成，使用$p(k | D, \theta)$表示句子为类K，其中$\theta$为超参数。分别使用$\boldsymbol{c}<em>{l}\left(\boldsymbol{w}</em>{i}\right)$、$\boldsymbol{c}<em>{r}\left(\boldsymbol{w}</em>{i}\right)$分别表示单词$w_i$的左右上下文，$e\left(w_{i-1}\right)$表示词的$w_{i-1}$词向量。<br>最终我们有这样两个式子，来表示Bi-RNN的正反两层：<br>$$<br>\begin{aligned} \boldsymbol{c}<em>{l}\left(w</em>{i}\right) &amp;=f\left(W^{(l)} \boldsymbol{c}<em>{l}\left(w</em>{i-1}\right)+W^{(s l)} \boldsymbol{e}\left(w_{i-1}\right)\right) \ \boldsymbol{c}<em>{r}\left(w</em>{i}\right) &amp;=f\left(W^{(r)} \boldsymbol{c}<em>{r}\left(w</em>{i+1}\right)+W^{(s r)} \boldsymbol{e}\left(w_{i+1}\right)\right) \end{aligned}<br> $$<br>然后进行连接操作：<br>$$<br>\boldsymbol{x}<em>{i}=\left[\boldsymbol{c}</em>{l}\left(w_{i}\right) ; \boldsymbol{e}\left(w_{i}\right) ; \boldsymbol{c}<em>{r}\left(w</em>{i}\right)\right]<br> $$<br>经过一个非线性变化：<br>$$<br>\boldsymbol{y}<em>{i}^{(2)}=\tanh \left(W^{(2)} \boldsymbol{x}</em>{i}+\boldsymbol{b}^{(2)}\right)<br> $$<br>然后对所有元素进行max-pooling：<br>$$<br>\boldsymbol{y}^{(3)}=\max <em>{i=1}^{n} \boldsymbol{y}</em>{i}^{(2)}<br> $$<br> 最后接一个softmax完成分类：<br> $$\hat y = softmax(W^{(4)} \boldsymbol{y}^{(3)}+\boldsymbol{b}^{(4)})$$</p>
+<p>这样子就将RNN和CNN结合到一起去了。</p>
+<blockquote>
+<p>这篇论文中有一个需要注意的点，比如下面这句话：<br>[I like NLP]<br>[w1 w2 w3]<br>然后将这个序列输入到left RNN中，首先是w1输入进行，根据上面的公式，我们可以知道得到的结果是$c_l(w_2)$，而在最后连接层的时候，我们就不太方便将[$c_l(w_2)$;$w_2$;$c_r(w_2)$]连接起来，所以这里我们进行一个处理，将left context处理成[UNK w1 w2]。同理在right context中我们也需要处理成[w2 w3 UNK]</p>
+</blockquote>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>对于上述的论文，我们使用keras进行模型复现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadRCNNModel</span><span class="params">(max_features, embed_size, embedding_matrix=None)</span>:</span></span><br><span class="line">    hidden_size1 = <span class="number">100</span></span><br><span class="line">    hidden_size2 = <span class="number">200</span></span><br><span class="line">    doc = Input(shape=(max_len,), dtype=<span class="string">"int32"</span>)</span><br><span class="line">    left_context = Input(shape=(max_len,), dtype=<span class="string">"int32"</span>)</span><br><span class="line">    right_context = Input(shape=(max_len,), dtype=<span class="string">"int32"</span>)</span><br><span class="line">    <span class="keyword">if</span> embedding_matrix <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        embedding = Embedding(max_features, embed_size)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        embedding = Embedding(max_features, embed_size, weights=[embedding_matrix], trainable=<span class="literal">False</span>)</span><br><span class="line">    doc_embedding = embedding(doc)</span><br><span class="line">    left_embedding = embedding(left_context)</span><br><span class="line">    right_embedding = embedding(right_context)</span><br><span class="line"></span><br><span class="line">    forward = LSTM(hidden_size1, return_sequences=<span class="literal">True</span>)(left_embedding)</span><br><span class="line">    backward = LSTM(hidden_size1, return_sequences=<span class="literal">True</span>, go_backwards=<span class="literal">True</span>)(right_embedding)</span><br><span class="line"></span><br><span class="line">    backward = Lambda(<span class="keyword">lambda</span> x: backend.reverse(x, axes=<span class="number">1</span>))(backward)</span><br><span class="line">    together = concatenate([forward, doc_embedding, backward], axis=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    semantic = Conv1D(hidden_size2, kernel_size=<span class="number">1</span>, activation=<span class="string">"tanh"</span>)(together)</span><br><span class="line">    pool_rnn = Lambda(<span class="keyword">lambda</span> x: backend.max(x, axis=<span class="number">1</span>), output_shape=(hidden_size2,))(semantic)</span><br><span class="line"></span><br><span class="line">    output = Dense(<span class="number">1</span>, input_dim=hidden_size2, activation=<span class="string">"sigmoid"</span>)(pool_rnn)</span><br><span class="line">    model = Model(inputs=[doc, left_context, right_context], outputs=output)</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
+<p>这个模型可以对应着上面的那张图看。</p>
+<p>同时我们还需要对数据进行适当的预处理，具体可以参考上面注意的点，我们用下面这个方法进行实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_context</span><span class="params">(doc)</span>:</span></span><br><span class="line">    left_context = np.concatenate((np.zeros((len(doc), <span class="number">1</span>), dtype=np.int32), doc[:, <span class="number">0</span>:<span class="number">-1</span>]), axis=<span class="number">1</span>)</span><br><span class="line">    right_context = np.concatenate((doc[:, <span class="number">1</span>:], np.zeros((len(doc), <span class="number">1</span>))), axis=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> [doc, left_context, right_context]</span><br></pre></td></tr></table></figure>
+<h3 id="最终整体代码为"><a href="#最终整体代码为" class="headerlink" title="最终整体代码为"></a>最终整体代码为</h3><p>（数据可以去<a href="https://www.kaggle.com/c/quora-insincere-questions-classification" target="_blank" rel="noopener">kaggle QIQC比赛</a>获取）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np  <span class="comment"># linear algebra</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd  <span class="comment"># data processing, CSV file I/O (e.g. pd.read_csv)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Input data files are available in the "../input/" directory.</span></span><br><span class="line"><span class="comment"># For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">print(os.listdir(<span class="string">"../input"</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> backend</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing.text <span class="keyword">import</span> Tokenizer</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing.sequence <span class="keyword">import</span> pad_sequences</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Embedding</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense, Input, Dropout, Conv1D</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> LSTM, CuDNNLSTM, Lambda</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Bidirectional</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> GlobalMaxPooling1D</span><br><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">from</span> keras.layers.merge <span class="keyword">import</span> concatenate</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> metrics</span><br><span class="line"></span><br><span class="line">max_len = <span class="number">100</span></span><br><span class="line">max_feature = <span class="number">50000</span></span><br><span class="line">embed_size = <span class="number">300</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_and_prec</span><span class="params">(val_size=<span class="number">0.1</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    读取数据集和词表</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    df_train = pd.read_csv(<span class="string">"../input/train.csv"</span>) <span class="comment"># .iloc[0:100, :]</span></span><br><span class="line">    df_train, df_val = train_test_split(df_train, test_size=val_size, random_state=<span class="number">666</span>)</span><br><span class="line">    df_test = pd.read_csv(<span class="string">"../input/test.csv"</span>)</span><br><span class="line">    <span class="comment"># fill up the missing values</span></span><br><span class="line">    x_train = df_train[<span class="string">"question_text"</span>].fillna(<span class="string">"_##_"</span>).values</span><br><span class="line">    x_val = df_val[<span class="string">"question_text"</span>].fillna(<span class="string">"_##_"</span>).values</span><br><span class="line">    x_test = df_test[<span class="string">"question_text"</span>].fillna(<span class="string">"_##_"</span>).values</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Tokenize the sequences</span></span><br><span class="line">    tokenizer = Tokenizer(num_words=max_feature)</span><br><span class="line">    tokenizer.fit_on_texts(list(x_train))</span><br><span class="line">    x_train = tokenizer.texts_to_sequences(x_train)</span><br><span class="line">    x_val = tokenizer.texts_to_sequences(x_val)</span><br><span class="line">    x_test = tokenizer.texts_to_sequences(x_test)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># pad the sequence</span></span><br><span class="line">    x_train = pad_sequences(x_train, maxlen=max_len)</span><br><span class="line">    x_val = pad_sequences(x_val, maxlen=max_len)</span><br><span class="line">    x_test = pad_sequences(x_test, maxlen=max_len)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># get the target value</span></span><br><span class="line">    y_train = df_train[<span class="string">'target'</span>].values</span><br><span class="line">    y_val = df_val[<span class="string">'target'</span>].values</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> x_train, y_train, x_val, y_val, x_test, tokenizer.word_index</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_best_prob</span><span class="params">(model, x_val, y_val, batch_size=<span class="number">512</span>)</span>:</span></span><br><span class="line">    y_pred = model.predict(x_val, batch_size=batch_size, verbose=<span class="number">1</span>)</span><br><span class="line">    best_f = <span class="number">0</span></span><br><span class="line">    best_p = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> thresh <span class="keyword">in</span> np.arange(<span class="number">0.1</span>, <span class="number">0.501</span>, <span class="number">0.01</span>):</span><br><span class="line">        thresh = np.round(thresh, <span class="number">2</span>)</span><br><span class="line">        f1 = metrics.f1_score(y_val, (y_pred &gt; thresh).astype(int))</span><br><span class="line">        <span class="keyword">if</span> f1 &gt; best_f:</span><br><span class="line">            best_f = f1</span><br><span class="line">            best_p = thresh</span><br><span class="line">        print(<span class="string">"F1 score at threshold &#123;0&#125; is &#123;1&#125;"</span>.format(thresh, f1))</span><br><span class="line">    print(<span class="string">"best param:"</span>, best_p, <span class="string">"F1:"</span>, best_f)</span><br><span class="line">    <span class="keyword">return</span> best_p</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_glove</span><span class="params">(word_index, max_feature)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    加载词向量</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    EMBEDDING_FILE = <span class="string">'../input/embeddings/glove.840B.300d/glove.840B.300d.txt'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_coefs</span><span class="params">(word, *arr)</span>:</span></span><br><span class="line">        <span class="comment"># 定义参数传入为元组，如果是两个**，则传入为字典</span></span><br><span class="line">        <span class="keyword">return</span> word, np.asarray(arr, dtype=<span class="string">'float32'</span>)</span><br><span class="line"></span><br><span class="line">    embedding_index = dict(get_coefs(*o.split(<span class="string">" "</span>)) <span class="keyword">for</span> o <span class="keyword">in</span> open(EMBEDDING_FILE, <span class="string">"r"</span>, encoding=<span class="string">"utf-8"</span>))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取均值和标准差</span></span><br><span class="line">    all_embs = np.stack(embedding_index.values())</span><br><span class="line">    emb_mean, emb_std = all_embs.mean(), all_embs.std()</span><br><span class="line">    embed_size = all_embs.shape[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 获取嵌入矩阵</span></span><br><span class="line">    embedding_matrix = np.random.normal(emb_mean, emb_std, (max_feature, embed_size))</span><br><span class="line">    <span class="keyword">for</span> word, i <span class="keyword">in</span> word_index.items():</span><br><span class="line">        <span class="keyword">if</span> i &gt;= max_feature:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        embedding_vector = embedding_index.get(word)</span><br><span class="line">        <span class="keyword">if</span> embedding_vector <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            embedding_matrix[i] = embedding_vector</span><br><span class="line">    <span class="keyword">return</span> embedding_matrix</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loadRCNNModel</span><span class="params">(max_features, embed_size, embedding_matrix=None)</span>:</span></span><br><span class="line">    hidden_size1 = <span class="number">100</span></span><br><span class="line">    hidden_size2 = <span class="number">200</span></span><br><span class="line">    doc = Input(shape=(max_len,), dtype=<span class="string">"int32"</span>)</span><br><span class="line">    left_context = Input(shape=(max_len,), dtype=<span class="string">"int32"</span>)</span><br><span class="line">    right_context = Input(shape=(max_len,), dtype=<span class="string">"int32"</span>)</span><br><span class="line">    <span class="keyword">if</span> embedding_matrix <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        embedding = Embedding(max_features, embed_size)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        embedding = Embedding(max_features, embed_size, weights=[embedding_matrix], trainable=<span class="literal">False</span>)</span><br><span class="line">    doc_embedding = embedding(doc)</span><br><span class="line">    left_embedding = embedding(left_context)</span><br><span class="line">    right_embedding = embedding(right_context)</span><br><span class="line"></span><br><span class="line">    forward = LSTM(hidden_size1, return_sequences=<span class="literal">True</span>)(left_embedding)</span><br><span class="line">    backward = LSTM(hidden_size1, return_sequences=<span class="literal">True</span>, go_backwards=<span class="literal">True</span>)(right_embedding)</span><br><span class="line"></span><br><span class="line">    backward = Lambda(<span class="keyword">lambda</span> x: backend.reverse(x, axes=<span class="number">1</span>))(backward)</span><br><span class="line">    together = concatenate([forward, doc_embedding, backward], axis=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    semantic = Conv1D(hidden_size2, kernel_size=<span class="number">1</span>, activation=<span class="string">"tanh"</span>)(together)</span><br><span class="line">    pool_rnn = Lambda(<span class="keyword">lambda</span> x: backend.max(x, axis=<span class="number">1</span>), output_shape=(hidden_size2,))(semantic)</span><br><span class="line"></span><br><span class="line">    output = Dense(<span class="number">1</span>, input_dim=hidden_size2, activation=<span class="string">"sigmoid"</span>)(pool_rnn)</span><br><span class="line">    model = Model(inputs=[doc, left_context, right_context], outputs=output)</span><br><span class="line">    <span class="keyword">return</span> model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_context</span><span class="params">(doc)</span>:</span></span><br><span class="line">    left_context = np.concatenate((np.zeros((len(doc), <span class="number">1</span>), dtype=np.int32), doc[:, <span class="number">0</span>:<span class="number">-1</span>]), axis=<span class="number">1</span>)</span><br><span class="line">    right_context = np.concatenate((doc[:, <span class="number">1</span>:], np.zeros((len(doc), <span class="number">1</span>))), axis=<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> [doc, left_context, right_context]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    print(<span class="string">"load data..."</span>)</span><br><span class="line">    x_train, y_train, x_val, y_val, x_test, word_index = load_and_prec()</span><br><span class="line">    <span class="comment"># embedding_matrix = load_glove(word_index, max_feature)</span></span><br><span class="line">    print(<span class="string">"train..."</span>)</span><br><span class="line">    x_train = handle_context(x_train)</span><br><span class="line">    x_val = handle_context(x_val)</span><br><span class="line">    model = loadRCNNModel1(max_feature, embed_size)</span><br><span class="line">    model.compile(</span><br><span class="line">        loss=<span class="string">'binary_crossentropy'</span>,</span><br><span class="line">        optimizer=<span class="string">'adam'</span>,</span><br><span class="line">        metrics=[<span class="string">'accuracy'</span>]</span><br><span class="line">    )</span><br><span class="line">    model.fit(x_train, y_train,</span><br><span class="line">              validation_data=(x_val, y_val), batch_size=<span class="number">512</span>, epochs=<span class="number">4</span>,</span><br><span class="line">              verbose=<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"find best prop..."</span>)</span><br><span class="line">    best_prob = find_best_prob(model, x_val, y_val, batch_size=<span class="number">512</span>)</span><br><span class="line">    x_test = handle_context(x_test)</span><br><span class="line">    print(<span class="string">"predict..."</span>)</span><br><span class="line">    y_pred = model.predict(x_test)</span><br><span class="line">    sub = pd.read_csv(<span class="string">"../input/sample_submission.csv"</span>)</span><br><span class="line">    sub.prediction = y_pred &gt; best_prob</span><br><span class="line">    sub.to_csv(<span class="string">"submission.csv"</span>, index=<span class="literal">False</span>)</span><br><span class="line">    print(<span class="string">"end..."</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+            <a href="/tags/文本分类/" rel="tag"># 文本分类</a>
+          
+            <a href="/tags/QIQC/" rel="tag"># QIQC</a>
+          
+            <a href="/tags/比赛/" rel="tag"># 比赛</a>
+          
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
+            <a href="/tags/RNN/" rel="tag"># RNN</a>
+          
+            <a href="/tags/RCNN/" rel="tag"># RCNN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/18/leetcode/279. 完全平方数/" rel="next" title="279. 完全平方数">
+                <i class="fa fa-chevron-left"></i> 279. 完全平方数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/18/java/JVM内存模型/" rel="prev" title="JVM内存模型">
+                JVM内存模型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaster</p>
+              <div class="site-description motion-element" itemprop="description">冲击大厂，加油！</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jawhiow" title="GitHub &rarr; https://github.com/jawhiow" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-number">1.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最终整体代码为"><span class="nav-number">1.1.</span> <span class="nav-text">最终整体代码为</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaster</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'kvskSC3FCb6zRmn6STrb7t6f-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'kvskSC3FCb6zRmn6STrb7t6f-gzGzoHsz',
+                'X-LC-Key': '88jJ5lIipbsH1JiPYAoBUlC4',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
