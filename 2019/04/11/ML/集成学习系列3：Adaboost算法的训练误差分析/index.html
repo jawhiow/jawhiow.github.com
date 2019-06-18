@@ -96,19 +96,19 @@
 
 
 
-  <meta name="description" content="Adaboost最基本的性质是它能再学习过程中不断减少训练误差。 定理1 Adaboost的训练误差界定理：Adaboost算法最终分类器的训练误差界为：$$\frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i}">
+  <meta name="description" content="Adaboost最基本的性质是它能再学习过程中不断减少训练误差。 定理1 Adaboost的训练误差界定理：Adaboost算法最终分类器的训练误差界为：  \frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i}">
 <meta name="keywords" content="机器学习,集成学习,boosting">
 <meta property="og:type" content="article">
 <meta property="og:title" content="集成学习系列3：Adaboost算法的训练误差分析">
 <meta property="og:url" content="https://jawhiow.github.io/2019/04/11/ML/集成学习系列3：Adaboost算法的训练误差分析/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
-<meta property="og:description" content="Adaboost最基本的性质是它能再学习过程中不断减少训练误差。 定理1 Adaboost的训练误差界定理：Adaboost算法最终分类器的训练误差界为：$$\frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i}">
+<meta property="og:description" content="Adaboost最基本的性质是它能再学习过程中不断减少训练误差。 定理1 Adaboost的训练误差界定理：Adaboost算法最终分类器的训练误差界为：  \frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i}">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://jawhiow.github.io/images/20190411201441.png">
 <meta property="og:updated_time" content="2019-04-11T12:15:47.020Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="集成学习系列3：Adaboost算法的训练误差分析">
-<meta name="twitter:description" content="Adaboost最基本的性质是它能再学习过程中不断减少训练误差。 定理1 Adaboost的训练误差界定理：Adaboost算法最终分类器的训练误差界为：$$\frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i}">
+<meta name="twitter:description" content="Adaboost最基本的性质是它能再学习过程中不断减少训练误差。 定理1 Adaboost的训练误差界定理：Adaboost算法最终分类器的训练误差界为：  \frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i}">
 <meta name="twitter:image" content="https://jawhiow.github.io/images/20190411201441.png">
 
 
@@ -496,21 +496,25 @@
 
       
         <p>Adaboost最基本的性质是它能再学习过程中不断减少训练误差。</p>
-<h3 id="定理1-Adaboost的训练误差界"><a href="#定理1-Adaboost的训练误差界" class="headerlink" title="定理1 Adaboost的训练误差界"></a>定理1 Adaboost的训练误差界</h3><p><strong>定理</strong>：Adaboost算法最终分类器的训练误差界为：<br>$$<br>\frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i} f\left(x_{i}\right)\right)=\prod_{m} Z_{m}<br> $$</p>
-<p>这里$G(x)=sign(f(x))\;\;;f(x)=\sum_{m=1}^{M} \alpha_{m} G_{m}(x)\;\;;Z_{m}=\sum_{i=1}^{N} w_{m i} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right)$</p>
+<h3 id="定理1-Adaboost的训练误差界"><a href="#定理1-Adaboost的训练误差界" class="headerlink" title="定理1 Adaboost的训练误差界"></a>定理1 Adaboost的训练误差界</h3><p><strong>定理</strong>：Adaboost算法最终分类器的训练误差界为：</p>
+<script type="math/tex; mode=display">
+\frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \frac{1}{N} \sum_{i} \exp \left(-y_{i} f\left(x_{i}\right)\right)=\prod_{m} Z_{m}</script><p>这里$G(x)=sign(f(x))\;\;;f(x)=\sum_{m=1}^{M} \alpha_{m} G_{m}(x)\;\;;Z_{m}=\sum_{i=1}^{N} w_{m i} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right)$</p>
 <p><strong>证明</strong>：<br>对于左边，当$G\left(x_{i}\right) \neq y_{i}$时，$y_{i} f\left(x_{i}\right)&lt;0$，故而$\exp \left(-y_{i} f\left(x_{i}\right)\right) \geqslant 1$，</p>
 <p>这边的I实际上是下面这个函数：<br><img src="/images/20190411201441.png" alt><br>所以前半部分很显然。</p>
-<p>关于后半部分：<br>首先我们知道：$$w_{m+1, i}=\frac{w_{m i}}{Z_{m}} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right), \quad i=1,2, \cdots, N$$</p>
-<p>自然有：<br>$$w_{m i} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right)=Z_{m} w_{m+1, i}$$</p>
-<p>那么我们把$f(x_i)$带进去：<br>$$<br>\begin{aligned} \frac{1}{N} &amp; \sum_{i} \exp \left(-y_{i} f\left(x_{i}\right)\right) =\frac{1}{N} \sum_{i} \exp \left(-\sum_{m=1}^{M} \alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \end{aligned}<br> $$</p>
-<p>由于$\frac1N$是$w_{1i}$，所以根据递推式能够一步步往下推：<br>\begin{aligned} &amp;=\frac{1}{N} \sum_{i} \exp \left(-\sum_{m=1}^{M} \alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\ &amp;=\sum_{i} w_{1 i} \prod_{m=1}^{M} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\ &amp;=Z_{1} \sum_{i} w_{2 i} \prod_{m=2}^{M} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\ &amp;=Z_{1} Z_{2} \sum_{i} w_{3 i} \prod_{m=3}^{M} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\&amp;=\cdots \\ &amp;=Z_{1} Z_{2} \cdots Z_{M-1} \sum_{i} w_{M G} \exp \left(-\alpha_{M} y_{i} G_{M}\left(x_{i}\right)\right) \\ &amp;=\prod_{m=1}^{M} Z_{m}  \end{aligned}</p>
+<p>关于后半部分：<br>首先我们知道：<script type="math/tex">w_{m+1, i}=\frac{w_{m i}}{Z_{m}} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right), \quad i=1,2, \cdots, N</script></p>
+<p>自然有：</p>
+<script type="math/tex; mode=display">w_{m i} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right)=Z_{m} w_{m+1, i}</script><p>那么我们把$f(x_i)$带进去：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \frac{1}{N} & \sum_{i} \exp \left(-y_{i} f\left(x_{i}\right)\right) =\frac{1}{N} \sum_{i} \exp \left(-\sum_{m=1}^{M} \alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \end{aligned}</script><p>由于$\frac1N$是$w_{1i}$，所以根据递推式能够一步步往下推：<br>\begin{aligned} &amp;=\frac{1}{N} \sum_{i} \exp \left(-\sum_{m=1}^{M} \alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\ &amp;=\sum_{i} w_{1 i} \prod_{m=1}^{M} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\ &amp;=Z_{1} \sum_{i} w_{2 i} \prod_{m=2}^{M} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\ &amp;=Z_{1} Z_{2} \sum_{i} w_{3 i} \prod_{m=3}^{M} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\&amp;=\cdots \\ &amp;=Z_{1} Z_{2} \cdots Z_{M-1} \sum_{i} w_{M G} \exp \left(-\alpha_{M} y_{i} G_{M}\left(x_{i}\right)\right) \\ &amp;=\prod_{m=1}^{M} Z_{m}  \end{aligned}</p>
 <p>这个定理告诉了我们一件事：在每一轮选取适当的$G_m$可使得$Z_m$取到最小，从而使得训练误差下降最快。</p>
-<h3 id="定理2-二分类问题Adaboost的训练误差界"><a href="#定理2-二分类问题Adaboost的训练误差界" class="headerlink" title="定理2 二分类问题Adaboost的训练误差界"></a>定理2 二分类问题Adaboost的训练误差界</h3><p>$$<br>\prod_{m=1}^{M} Z_{m}=\prod_{m=1}^{M}\left[2 \sqrt{e_{m}\left(1-e_{m}\right)}\right]=\prod_{m=1}^{M} \sqrt{\left(1-4 \gamma_{m}^{2}\right)} \leqslant \exp \left(-2 \sum_{m=1}^{M} \gamma_{m}^{2}\right)<br> $$</p>
-<p>这里$\gamma_{m}=\frac{1}{2}-e_{m}$。</p>
+<h3 id="定理2-二分类问题Adaboost的训练误差界"><a href="#定理2-二分类问题Adaboost的训练误差界" class="headerlink" title="定理2 二分类问题Adaboost的训练误差界"></a>定理2 二分类问题Adaboost的训练误差界</h3><script type="math/tex; mode=display">
+\prod_{m=1}^{M} Z_{m}=\prod_{m=1}^{M}\left[2 \sqrt{e_{m}\left(1-e_{m}\right)}\right]=\prod_{m=1}^{M} \sqrt{\left(1-4 \gamma_{m}^{2}\right)} \leqslant \exp \left(-2 \sum_{m=1}^{M} \gamma_{m}^{2}\right)</script><p>这里$\gamma_{m}=\frac{1}{2}-e_{m}$。</p>
 <p><strong>证明</strong>：<br>首先将$Z_m$改写一下。<br>\begin{aligned} Z_{m} &amp;=\sum_{i=1}^{N} w_{m i} \exp \left(-\alpha_{m} y_{i} G_{m}\left(x_{i}\right)\right) \\ &amp;=\sum_{y_{i}=G_{m}\left(x_{i}\right)} w_{m i} \mathrm{e}^{-\alpha_{m}}+\sum_{y_{i} \neq G_{m}\left(x_{i}\right)} w_{m i} \mathrm{e}^{\alpha_{m}} \\ &amp;=\left(1-e_{m}\right) \mathrm{e}^{-\alpha_{m}}+e_{m} \mathrm{e}^{\alpha_{m}} \\ &amp;=2 \sqrt{e_{m}\left(\mathrm{1}-e_{m}\right)}=\sqrt{1-4 \gamma_{m}^{2}} \end{aligned}</p>
-<p>至于不等式<br>$$<br>\prod_{m=1}^{M} \sqrt{\left(1-4 \gamma_{m}^{2}\right)} \leqslant \exp \left(-2 \sum_{m=1}^{M} \gamma_{m}^{2}\right)<br> $$<br>则可先由$e^x$和$\sqrt{1-x}$在点$x=0$的泰勒展开式推出不等式$\sqrt{\left(1-4 \gamma_{m}^{2}\right)} \leqslant \exp \left(-2 \gamma_{m}^{2}\right)$</p>
-<p>进而可以得到一个推论：<br>如果存在$\gamma&gt;0$，对所有的m有$\gamma_{m} \geqslant \gamma$，则：<br>$$\frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \exp \left(-2 M \gamma^{2}\right)$$</p>
-<p>这个推论可以说明在此条件下，Adaboost的训练误差是以指数速率下降的，这当然是一个非常好的性质。</p>
+<p>至于不等式</p>
+<script type="math/tex; mode=display">
+\prod_{m=1}^{M} \sqrt{\left(1-4 \gamma_{m}^{2}\right)} \leqslant \exp \left(-2 \sum_{m=1}^{M} \gamma_{m}^{2}\right)</script><p>则可先由$e^x$和$\sqrt{1-x}$在点$x=0$的泰勒展开式推出不等式$\sqrt{\left(1-4 \gamma_{m}^{2}\right)} \leqslant \exp \left(-2 \gamma_{m}^{2}\right)$</p>
+<p>进而可以得到一个推论：<br>如果存在$\gamma&gt;0$，对所有的m有$\gamma_{m} \geqslant \gamma$，则：</p>
+<script type="math/tex; mode=display">\frac{1}{N} \sum_{i=1}^{N} I\left(G\left(x_{i}\right) \neq y_{i}\right) \leqslant \exp \left(-2 M \gamma^{2}\right)</script><p>这个推论可以说明在此条件下，Adaboost的训练误差是以指数速率下降的，这当然是一个非常好的性质。</p>
 
       
     </div>
@@ -1045,6 +1049,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

@@ -506,13 +506,13 @@
 <li>0-255之间，并且不是以0开头的，比如010，强转是能转成int型的10的，但这是不符合ip数字格式的。<br>所以在此处我们可以写一个函数，来判断当前的字符串是否满足ip地址的格式：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ip_validate</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> s:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">if</span> len(s) &gt; <span class="number">1</span> <span class="keyword">and</span> s[<span class="number">0</span>] == <span class="string">'0'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">if</span> int(s) &lt; <span class="number">0</span> <span class="keyword">or</span> int(s) &gt; <span class="number">255</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<ol start="2">
+<ol>
 <li>树的深度一定是4</li>
 </ol>
 <ul>
 <li>ip地址树的深度一定是4，也就是说一定是<code>xxx.xxx.xxx.xxx</code>构成的</li>
 </ul>
-<ol start="3">
+<ol>
 <li>子串的选取：</li>
 </ol>
 <ul>
@@ -524,8 +524,8 @@
 <li>递归边界</li>
 <li>递归参数</li>
 </ol>
-<h3 id="递归结构"><a href="#递归结构" class="headerlink" title="递归结构"></a>递归结构</h3><p>本题的递归结构是：<br>$$r[n]=r[n-1]+ w$$</p>
-<p>和一般的递归结构没有太大的区别，需要注意的是<code>w</code>的选取要进行一定的剪枝，满足一定的限定条件。</p>
+<h3 id="递归结构"><a href="#递归结构" class="headerlink" title="递归结构"></a>递归结构</h3><p>本题的递归结构是：</p>
+<script type="math/tex; mode=display">r[n]=r[n-1]+ w</script><p>和一般的递归结构没有太大的区别，需要注意的是<code>w</code>的选取要进行一定的剪枝，满足一定的限定条件。</p>
 <h3 id="递归边界"><a href="#递归边界" class="headerlink" title="递归边界"></a>递归边界</h3><p>由于需要满足ip地址的格式，所以本题的递归边界是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if n == 4:</span><br></pre></td></tr></table></figure>
 <h3 id="递归参数"><a href="#递归参数" class="headerlink" title="递归参数"></a>递归参数</h3><p>然后确定递归参数。<br>我们需要：</p>
@@ -1071,6 +1071,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

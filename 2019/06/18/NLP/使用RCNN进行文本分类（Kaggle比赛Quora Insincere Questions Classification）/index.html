@@ -97,7 +97,7 @@
 
 
   <meta name="description" content="参考文献1：《Recurrent Convolutional Neural Networks for Text Classification》  首先，直接看模型图：  根据模型图，可以明显看出，是要用了Bi-RNN + Max-Pooling + 全连接。 根据图的公式为：假设有一个句话D，由$w_{1}, w_{2}, \ldots, w_{n}$个单词组成，使用$p(k | D, \the">
-<meta name="keywords" content="NLP,文本分类,QIQC,比赛,CNN,RNN,RCNN">
+<meta name="keywords" content="NLP,CNN,文本分类,QIQC,比赛,RNN,RCNN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
 <meta property="og:url" content="https://jawhiow.github.io/2019/06/18/NLP/使用RCNN进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/index.html">
@@ -501,8 +501,16 @@
 <p>首先，直接看模型图：</p>
 <p><img src="/images/1560582419420.png" alt="Alt text"></p>
 <p>根据模型图，可以明显看出，是要用了Bi-RNN + Max-Pooling + 全连接。</p>
-<p>根据图的公式为：<br>假设有一个句话D，由$w_{1}, w_{2}, \ldots, w_{n}$个单词组成，使用$p(k | D, \theta)$表示句子为类K，其中$\theta$为超参数。分别使用$\boldsymbol{c}<em>{l}\left(\boldsymbol{w}</em>{i}\right)$、$\boldsymbol{c}<em>{r}\left(\boldsymbol{w}</em>{i}\right)$分别表示单词$w_i$的左右上下文，$e\left(w_{i-1}\right)$表示词的$w_{i-1}$词向量。<br>最终我们有这样两个式子，来表示Bi-RNN的正反两层：<br>$$<br>\begin{aligned} \boldsymbol{c}<em>{l}\left(w</em>{i}\right) &amp;=f\left(W^{(l)} \boldsymbol{c}<em>{l}\left(w</em>{i-1}\right)+W^{(s l)} \boldsymbol{e}\left(w_{i-1}\right)\right) \ \boldsymbol{c}<em>{r}\left(w</em>{i}\right) &amp;=f\left(W^{(r)} \boldsymbol{c}<em>{r}\left(w</em>{i+1}\right)+W^{(s r)} \boldsymbol{e}\left(w_{i+1}\right)\right) \end{aligned}<br> $$<br>然后进行连接操作：<br>$$<br>\boldsymbol{x}<em>{i}=\left[\boldsymbol{c}</em>{l}\left(w_{i}\right) ; \boldsymbol{e}\left(w_{i}\right) ; \boldsymbol{c}<em>{r}\left(w</em>{i}\right)\right]<br> $$<br>经过一个非线性变化：<br>$$<br>\boldsymbol{y}<em>{i}^{(2)}=\tanh \left(W^{(2)} \boldsymbol{x}</em>{i}+\boldsymbol{b}^{(2)}\right)<br> $$<br>然后对所有元素进行max-pooling：<br>$$<br>\boldsymbol{y}^{(3)}=\max <em>{i=1}^{n} \boldsymbol{y}</em>{i}^{(2)}<br> $$<br> 最后接一个softmax完成分类：<br> $$\hat y = softmax(W^{(4)} \boldsymbol{y}^{(3)}+\boldsymbol{b}^{(4)})$$</p>
-<p>这样子就将RNN和CNN结合到一起去了。</p>
+<p>根据图的公式为：<br>假设有一个句话D，由$w_{1}, w_{2}, \ldots, w_{n}$个单词组成，使用$p(k | D, \theta)$表示句子为类K，其中$\theta$为超参数。分别使用$\boldsymbol{c}_{l}\left(\boldsymbol{w}_{i}\right)$、$\boldsymbol{c}_{r}\left(\boldsymbol{w}_{i}\right)$分别表示单词$w_i$的左右上下文，$e\left(w_{i-1}\right)$表示词的$w_{i-1}$词向量。<br>最终我们有这样两个式子，来表示Bi-RNN的正反两层：</p>
+<script type="math/tex; mode=display">
+\begin{aligned} \boldsymbol{c}_{l}\left(w_{i}\right) &=f\left(W^{(l)} \boldsymbol{c}_{l}\left(w_{i-1}\right)+W^{(s l)} \boldsymbol{e}\left(w_{i-1}\right)\right) \\ \boldsymbol{c}_{r}\left(w_{i}\right) &=f\left(W^{(r)} \boldsymbol{c}_{r}\left(w_{i+1}\right)+W^{(s r)} \boldsymbol{e}\left(w_{i+1}\right)\right) \end{aligned}</script><p>然后进行连接操作：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{x}_{i}=\left[\boldsymbol{c}_{l}\left(w_{i}\right) ; \boldsymbol{e}\left(w_{i}\right) ; \boldsymbol{c}_{r}\left(w_{i}\right)\right]</script><p>经过一个非线性变化：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{y}_{i}^{(2)}=\tanh \left(W^{(2)} \boldsymbol{x}_{i}+\boldsymbol{b}^{(2)}\right)</script><p>然后对所有元素进行max-pooling：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{y}^{(3)}=\max _{i=1}^{n} \boldsymbol{y}_{i}^{(2)}</script><p> 最后接一个softmax完成分类：</p>
+<script type="math/tex; mode=display">\hat y = softmax(W^{(4)} \boldsymbol{y}^{(3)}+\boldsymbol{b}^{(4)})</script><p>这样子就将RNN和CNN结合到一起去了。</p>
 <blockquote>
 <p>这篇论文中有一个需要注意的点，比如下面这句话：<br>[I like NLP]<br>[w1 w2 w3]<br>然后将这个序列输入到left RNN中，首先是w1输入进行，根据上面的公式，我们可以知道得到的结果是$c_l(w_2)$，而在最后连接层的时候，我们就不太方便将[$c_l(w_2)$;$w_2$;$c_r(w_2)$]连接起来，所以这里我们进行一个处理，将left context处理成[UNK w1 w2]。同理在right context中我们也需要处理成[w2 w3 UNK]</p>
 </blockquote>
@@ -538,13 +546,13 @@
           
             <a href="/tags/NLP/" rel="tag"># NLP</a>
           
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
             <a href="/tags/文本分类/" rel="tag"># 文本分类</a>
           
             <a href="/tags/QIQC/" rel="tag"># QIQC</a>
           
             <a href="/tags/比赛/" rel="tag"># 比赛</a>
-          
-            <a href="/tags/CNN/" rel="tag"># CNN</a>
           
             <a href="/tags/RNN/" rel="tag"># RNN</a>
           
@@ -1055,6 +1063,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

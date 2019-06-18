@@ -503,7 +503,7 @@
 <p>输入: n = 1<br>返回: [“1:00”, “2:00”, “4:00”, “8:00”, “0:01”, “0:02”, “0:04”, “0:08”, “0:16”, “0:32”]</p>
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这是一道比较实际的题目，由于我们不知道具体n为几，所以用回溯算法是比较合适的。</p>
 <p>而题目中由于限定了顶部的四个代表了0-11小时，底部的0-59代表分钟。所以我们不用考虑进位的问题。所以当有超过这个限制的，我们需要进行剪枝，否则最后的结果就错了。</p>
-<h2 id="递归结构"><a href="#递归结构" class="headerlink" title="递归结构"></a>递归结构</h2><p>$$r(n)=r(n-1)+w$$<br>w代表从nums中选出一个数字。</p>
+<h2 id="递归结构"><a href="#递归结构" class="headerlink" title="递归结构"></a>递归结构</h2><script type="math/tex; mode=display">r(n)=r(n-1)+w</script><p>w代表从nums中选出一个数字。</p>
 <h2 id="递归边界"><a href="#递归边界" class="headerlink" title="递归边界"></a>递归边界</h2><p><code>if (n == step)</code></p>
 <h2 id="递归参数"><a href="#递归参数" class="headerlink" title="递归参数"></a>递归参数</h2><ul>
 <li>n：亮灯数量</li>
@@ -1054,6 +1054,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

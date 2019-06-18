@@ -96,19 +96,19 @@
 
 
 
-  <meta name="description" content="参考文献1：《Convolutional Neural Networks for Sentence Classification》参考文献2：《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》文章：自然语言中的CNN–">
-<meta name="keywords" content="NLP,文本分类,QIQC,比赛,CNN">
+  <meta name="description" content="参考文献1：《Convolutional Neural Networks for Sentence Classification》参考文献2：《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》文章：自然语言中的CNN—">
+<meta name="keywords" content="NLP,CNN,文本分类,QIQC,比赛">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用CNN进行文本分类">
 <meta property="og:url" content="https://jawhiow.github.io/2019/06/18/NLP/使用CNN进行文本分类/index.html">
 <meta property="og:site_name" content="静坐听雨，无问西东">
-<meta property="og:description" content="参考文献1：《Convolutional Neural Networks for Sentence Classification》参考文献2：《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》文章：自然语言中的CNN–">
+<meta property="og:description" content="参考文献1：《Convolutional Neural Networks for Sentence Classification》参考文献2：《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》文章：自然语言中的CNN—">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://jawhiow.github.io/images/1560570766202.png">
-<meta property="og:updated_time" content="2019-06-17T16:19:40.931Z">
+<meta property="og:updated_time" content="2019-06-18T04:54:05.133Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用CNN进行文本分类">
-<meta name="twitter:description" content="参考文献1：《Convolutional Neural Networks for Sentence Classification》参考文献2：《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》文章：自然语言中的CNN–">
+<meta name="twitter:description" content="参考文献1：《Convolutional Neural Networks for Sentence Classification》参考文献2：《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》文章：自然语言中的CNN—">
 <meta name="twitter:image" content="https://jawhiow.github.io/images/1560570766202.png">
 
 
@@ -431,7 +431,7 @@
                 
               
 
-              <time title="创建时间：2019-06-18 00:19:40" itemprop="dateCreated datePublished" datetime="2019-06-18T00:19:40+08:00">2019-06-18</time>
+              <time title="创建时间：2019-06-18 12:54:05" itemprop="dateCreated datePublished" datetime="2019-06-18T12:54:05+08:00">2019-06-18</time>
             
 
             
@@ -496,7 +496,7 @@
 
       
         <blockquote>
-<p>参考文献1：<a href="https://arxiv.org/abs/1408.5882" target="_blank" rel="noopener">《Convolutional Neural Networks for Sentence Classification》</a><br>参考文献2：<a href="https://arxiv.org/pdf/1510.03820.pdf" target="_blank" rel="noopener">《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》</a><br>文章：<a href="https://zhuanlan.zhihu.com/p/40276005" target="_blank" rel="noopener">自然语言中的CNN–TextCNN（基础篇）</a></p>
+<p>参考文献1：<a href="https://arxiv.org/abs/1408.5882" target="_blank" rel="noopener">《Convolutional Neural Networks for Sentence Classification》</a><br>参考文献2：<a href="https://arxiv.org/pdf/1510.03820.pdf" target="_blank" rel="noopener">《A Sensitivity Analysis of (and Practitioners’ Guide to) Convolutional Neural Networks for Sentence Classification》</a><br>文章：<a href="https://zhuanlan.zhihu.com/p/40276005" target="_blank" rel="noopener">自然语言中的CNN—TextCNN（基础篇）</a></p>
 </blockquote>
 <p>CNN通常在CV领域使用较多，而在NLP领域，我们也可以使用CNN进行处理一些任务，本文将分析使用<code>TextCNN</code>进行文本分类。</p>
 <p>首先先看一下参考文献一中的模型图：<br><img src="/images/1560570766202.png" alt="Alt text"></p>
@@ -509,12 +509,12 @@
 </ul>
 <p>对于这样简单的一个网络，我们来看一下它的前向传播公式：</p>
 <ul>
-<li>首先句子长度为$n$，$\mathbf{x}<em>{i} \in \mathbb{R}^{k}$表示句子中第$i$个单词对应的K维的词向量。使用$\oplus$表示<strong>连接</strong>操作，那么$\mathbf{x}</em>{1 : n}=\mathbf{x}<em>{1} \oplus \mathbf{x}</em>{2} \oplus \ldots \oplus \mathbf{x}_{n}$可以用来表示一句话使用了词向量表示以后的样子。</li>
-<li>定义一个卷积核，$\mathbf{w} \in \mathbb{R}^{h k}$用来在一个$h$长度的窗口上进行发现新的特征。按照图上表示的卷积核进行一次卷积得到一个数字：$c_{i}$，可以用下面的式子进行表示：<br>$$<br>c_{i}=f\left(\mathbf{w} \cdot \mathbf{x}<em>{i : i+h-1}+b\right)<br>$$<br><strong>注意：这里进行的是内积操作</strong><br>同理，多个位置进行卷积得到<br>$$<br>\mathbf{c}=\left[c</em>{1}, c_{2}, \dots, c_{n-h+1}\right]<br>$$<br>其中$\mathbf{c} \in \mathbb{R}^{n-h+1}$</li>
+<li>首先句子长度为$n$，$\mathbf{x}_{i} \in \mathbb{R}^{k}$, 表示句子中第 $i$个单词对应的K维的词向量。使用$\oplus$表示<strong>连接</strong>操作，那么$\mathbf{x}_{1 : n}=\mathbf{x}_{1} \oplus \mathbf{x}_{2} \oplus \ldots \oplus \mathbf{x}_{n}$可以用来表示一句话使用了词向量表示以后的样子。</li>
+<li>定义一个卷积核，$\mathbf{w} \in \mathbb{R}^{h k}$ 用来在一个 $h$ 长度的窗口上进行发现新的特征。按照图上表示的卷积核进行一次卷积得到一个数字：$c_{i}$，可以用下面的式子进行表示：<script type="math/tex; mode=display">c_{i}=f\left(\mathbf{w} \cdot \mathbf{x}_{i : i+h-1}+b\right)</script><strong>注意：这里进行的是内积操作</strong><br>同理，多个位置进行卷积得到<script type="math/tex; mode=display">\mathbf{c}=\left[c_{1}, c_{2}, \dots, c_{n-h+1}\right]</script>其中$\mathbf{c} \in \mathbb{R}^{n-h+1}$</li>
 </ul>
 <ul>
 <li>然后到了池化层，非常简单，直接$\hat{c}=\max {\mathbf{c}}$</li>
-<li>最后选择m个卷积核，后成一个$m$维的向量，作为全连接层的输入：$\mathbf{z}=\left[\hat{c}<em>{1}, \dots, \hat{c}</em>{m}\right]$，然后就是正常的全连接网络了：<br>$\hat y = softmax(\mathbf{w} \cdot \mathbf{z}+b)$</li>
+<li>最后选择m个卷积核，后成一个$m$维的向量，作为全连接层的输入：$\mathbf{z}=\left[\hat{c}_{1}, \dots, \hat{c}_{m}\right]$，然后就是正常的全连接网络了：<br>$\hat y = softmax(\mathbf{w} \cdot \mathbf{z}+b)$</li>
 </ul>
 <p>文献一种还进行了几个对比试验分别是：</p>
 <ul>
@@ -550,13 +550,13 @@
           
             <a href="/tags/NLP/" rel="tag"># NLP</a>
           
+            <a href="/tags/CNN/" rel="tag"># CNN</a>
+          
             <a href="/tags/文本分类/" rel="tag"># 文本分类</a>
           
             <a href="/tags/QIQC/" rel="tag"># QIQC</a>
           
             <a href="/tags/比赛/" rel="tag"># 比赛</a>
-          
-            <a href="/tags/CNN/" rel="tag"># CNN</a>
           
         </div>
       
@@ -569,8 +569,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/18/leetcode/62. 不同路径/" rel="next" title="62. 不同路径">
-                <i class="fa fa-chevron-left"></i> 62. 不同路径
+              <a href="/2019/06/18/leetcode/63. 不同路径 II/" rel="next" title="63. 不同路径 II">
+                <i class="fa fa-chevron-left"></i> 63. 不同路径 II
               </a>
             
           </div>
@@ -579,8 +579,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/18/leetcode/63. 不同路径 II/" rel="prev" title="63. 不同路径 II">
-                63. 不同路径 II <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/18/NLP/使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/" rel="prev" title="使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+                使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1063,6 +1063,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 
