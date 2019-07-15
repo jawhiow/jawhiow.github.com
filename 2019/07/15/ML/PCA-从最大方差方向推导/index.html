@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'P51PT1T34J',
+      apiKey: '24e9847b43e6e97bb253dc554f040eee',
+      indexName: 'Blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"我们没有找到任何搜索结果: ${query}","hits_stats":"找到约${hits}条结果（用时${time}ms）"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="预备知识内积两个向量A,B内积，我们知道形式是这样的：  \left(a_{1}, a_{2}, \cdots, a_{n}\right)^{\top} \cdot\left(b_{1}, b_{2}, \cdots, b_{n}\right)^{\top}=a_{1} b_{1}+a_{2} b_{2}+\cdots+a_{n} b_{n}但是这样我们并看不出来它的物理含义，我们换成这个式子：">
+<meta name="keywords" content="机器学习,公式推导,降维">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCA-从最大方差方向推导">
+<meta property="og:url" content="https://jawhiow.github.io/2019/07/15/ML/PCA-从最大方差方向推导/index.html">
+<meta property="og:site_name" content="静坐听雨，无问西东">
+<meta property="og:description" content="预备知识内积两个向量A,B内积，我们知道形式是这样的：  \left(a_{1}, a_{2}, \cdots, a_{n}\right)^{\top} \cdot\left(b_{1}, b_{2}, \cdots, b_{n}\right)^{\top}=a_{1} b_{1}+a_{2} b_{2}+\cdots+a_{n} b_{n}但是这样我们并看不出来它的物理含义，我们换成这个式子：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jawhiow.github.io/images/1552719466502.png">
+<meta property="og:updated_time" content="2019-07-15T11:50:52.235Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PCA-从最大方差方向推导">
+<meta name="twitter:description" content="预备知识内积两个向量A,B内积，我们知道形式是这样的：  \left(a_{1}, a_{2}, \cdots, a_{n}\right)^{\top} \cdot\left(b_{1}, b_{2}, \cdots, b_{n}\right)^{\top}=a_{1} b_{1}+a_{2} b_{2}+\cdots+a_{n} b_{n}但是这样我们并看不出来它的物理含义，我们换成这个式子：">
+<meta name="twitter:image" content="https://jawhiow.github.io/images/1552719466502.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="https://jawhiow.github.io/2019/07/15/ML/PCA-从最大方差方向推导/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>PCA-从最大方差方向推导 | 静坐听雨，无问西东</title>
+  
+
+
+
+
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f75a7ae01762c16070bd74fe01b13787";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">静坐听雨，无问西东</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jawhiow.github.io/2019/07/15/ML/PCA-从最大方差方向推导/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaster">
+      <meta itemprop="description" content="冲击大厂，加油！">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="静坐听雨，无问西东">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PCA-从最大方差方向推导
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-07-15 19:50:52" itemprop="dateCreated datePublished" datetime="2019-07-15T19:50:52+08:00">2019-07-15</time>
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习算法/" itemprop="url" rel="index"><span itemprop="name">机器学习算法</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+            <span id="/2019/07/15/ML/PCA-从最大方差方向推导/" class="leancloud_visitors" data-flag-title="PCA-从最大方差方向推导">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              
+                <span class="post-meta-item-text">阅读次数：</span>
+              
+                <span class="leancloud-visitors-count"></span>
+            </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><h3 id="内积"><a href="#内积" class="headerlink" title="内积"></a>内积</h3><p>两个向量A,B内积，我们知道形式是这样的：</p>
+<script type="math/tex; mode=display">
+\left(a_{1}, a_{2}, \cdots, a_{n}\right)^{\top} \cdot\left(b_{1}, b_{2}, \cdots, b_{n}\right)^{\top}=a_{1} b_{1}+a_{2} b_{2}+\cdots+a_{n} b_{n}</script><p>但是这样我们并看不出来它的物理含义，我们换成这个式子：</p>
+<script type="math/tex; mode=display">
+A \cdot B=|A||B| \cos (\alpha)</script><p>如果此时B的模为1，那么也就是：</p>
+<script type="math/tex; mode=display">
+A \cdot B=|A| \cos (\alpha)</script><p><strong>此时A和B的内积等于将A向B方向上进行投影的矢量长度。</strong></p>
+<p><img src="/images/1552719466502.png" alt="Alt text"></p>
+<h3 id="基"><a href="#基" class="headerlink" title="基"></a>基</h3><p>基在无所不在，比如我们常说的二维空间向量(3,2)，其实隐式引入了一个定义：以x轴和y轴上正方向长度为1的向量为标准。那么一个向量(3,2)实际是说在x轴投影为3而y轴的投影为2。<strong>注意投影是一个矢量，所以可以为负</strong>。</p>
+<p>所以，对于一个向量(3,2)来说，如果我们想求它在(1,0) (0,1)这组基下的坐标的话，分别内积即可。当然，内积完了还是(3,2)。</p>
+<p>所以我们大致可以得到一个结论，我们希望一组基向量的模长是1，这样方便我们求坐标，因为向量内积，当一个模长为1的时候，内积可以直接表示矢量投影。然后还需要这组基是线性无关的，当然，一般是用正交基，因为正交基性质比较好。</p>
+<p>那么此时，我们做一个小练习，对于(3,2)这个点，在$\left(\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right)$和$\left(-\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right)$这组基下的坐标是多少？</p>
+<p>(3,2)分别与之内积，最后得到$\left(\frac{5}{\sqrt{2}},-\frac{1}{\sqrt{2}}\right)$这个新坐标。</p>
+<h3 id="基变换的矩阵表示"><a href="#基变换的矩阵表示" class="headerlink" title="基变换的矩阵表示"></a>基变换的矩阵表示</h3><p>我们熟悉的线性代数上的求基下坐标一般是：</p>
+<script type="math/tex; mode=display">
+\left( \begin{array}{c}{p_{1}} \\ {p_{2}} \\ {\vdots} \\ {p_{R}}\end{array}\right) \left( \begin{array}{cccc}{a_{1}} & {a_{2}} & {\cdots} & {a_{M}}\end{array}\right)=\left( \begin{array}{cccc}{p_{1} a_{1}} & {p_{1} a_{2}} & {\cdots} & {p_{1} a_{M}} \\ {p_{2} a_{1}} & {p_{2} a_{2}} & {\cdots} & {p_{2} a_{M}} \\ {\vdots} & {\vdots} & {\ddots} & {\vdots} \\ {p_{R} a_{1}} & {p_{R} a_{2}} & {\cdots} & {p_{R} a_{M}}\end{array}\right)</script><p>其中$p_i$是一个行向量，表示第i个基，$a_j$是一个列向量，表示第j个原始数据记录。</p>
+<p>实际上也就是做了一个向量矩阵化的操作。<br>我们用刚刚上面的例子看一下：其中数据点是(1,1),(2,2),(3,3),基是$\left(\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right)$和$\left(-\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right)$</p>
+<script type="math/tex; mode=display">
+\left( \begin{array}{cc}{1 / \sqrt{2}} & {1 / \sqrt{2}} \\ {-1 / \sqrt{2}} & {1 / \sqrt{2}}\end{array}\right) \left( \begin{array}{lll}{1} & {2} & {3} \\ {1} & {2} & {3}\end{array}\right)=\left( \begin{array}{cc}{2 / \sqrt{2}} & {4 / \sqrt{2}} & {6 / \sqrt{2}} \\ {0} & {0} & {0}\end{array}\right)</script><h3 id="方差"><a href="#方差" class="headerlink" title="方差"></a>方差</h3><script type="math/tex; mode=display">
+\operatorname{Var}(a)=\frac{1}{m} \sum_{i=1}^{m}\left(a_{i}-\mu\right)^{2}</script><p>由于我们在PCA部分会中心化，所以均值为0，所以有：</p>
+<script type="math/tex; mode=display">
+\operatorname{Var}(a)=\frac{1}{m} \sum_{i=1}^{m} a_{i}^{2}</script><h3 id="协方差"><a href="#协方差" class="headerlink" title="协方差"></a>协方差</h3><script type="math/tex; mode=display">
+\operatorname{Cov}(a, b)=\frac{\Sigma_{i=1}^{m}\left(a_{i}-\overline{a}\right)\left(b_{i}-\overline{b}\right)}{m-1}</script><p>也是由于均值为0了，所以我们有：</p>
+<script type="math/tex; mode=display">
+\operatorname{Cov}(a, b)=\frac{1}{m} \sum_{i=1}^{m} a_{i} b_{i}</script><p>此处我们当样本数较大时，不必在意样本数m和m-1的区别，所以我们为了方便计算，分母取m。</p>
+<h3 id="协方差矩阵"><a href="#协方差矩阵" class="headerlink" title="协方差矩阵"></a>协方差矩阵</h3><p>我们举个简单的例子：一个只有两个特征的数据集，总共有n个样本，那么：</p>
+<script type="math/tex; mode=display">
+x_1=\left\{\begin{matrix}a_1\\b_1\end{matrix}\right\},...,x_i=\left\{\begin{matrix}a_i\\b_i\end{matrix}\right\},...x_n=\left\{\begin{matrix}a_n\\b_n\end{matrix}\right\}</script><script type="math/tex; mode=display">
+X=\left\{\begin{matrix}a_1 & a_2 & ... & a_n \\ b_1 & b_2 & ... & b_n \end{matrix}\right\}</script><p>X是样本矩阵。</p>
+<p>那么X的协方差矩阵的形式是这样的（记住，协方差是关于特征的，而不是样本的）：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{matrix} Cov(a,a) & Cov(a,b) \\ Cov(b,a) & Cov(b,b) \end{matrix}\right\}</script><p>那么我们进行计算，得到：</p>
+<script type="math/tex; mode=display">
+Cov(a,a)=\frac{1}{n}\Sigma_{i=1}^n{a_i^2}</script><script type="math/tex; mode=display">
+Cov(a,b)=Cov(b,a)=\frac{1}{n}\Sigma_{i=1}^{n}{a_ib_i}</script><script type="math/tex; mode=display">
+Cov(b,b)=\frac{1}{n}\Sigma_{i=1}^{n}{b_i^2}</script><p>现在我们已经知道了X的协方差矩阵。我们再看看$x_ix_i^T$等于什么</p>
+<script type="math/tex; mode=display">
+x_ix_i^T=\left\{\begin{matrix}a_i \\ b_i\end{matrix}\right\}\left\{\begin{matrix}a_i & b_i\end{matrix}\right\}=\left\{\begin{matrix}a_ia_i & a_ib_i \\ b_ia_i & b_ib_i\end{matrix}\right\}</script><p>那么</p>
+<script type="math/tex; mode=display">
+\frac{1}{n}XX^T=\frac{1}{n}\Sigma^n_{i=1}x_ix_i^T=\left\{\begin{matrix}\frac{1}{n}\Sigma_{i=1}^{n}{a_i^2} & \frac{1}{n}\Sigma_{i=1}^{n}{a_ib_i} \\ \frac{1}{n}\Sigma_{i=1}^{n}{b_ia_i} & \frac{1}{n}\Sigma_{i=1}^{n}{b_ib_i}\end{matrix}\right\}=\left\{\begin{matrix}Cov(a,a) & Cov(a,b) \\ Cov(b,a) & Cov(b,b)\end{matrix}\right\}</script><p>OK,所有数学原理介绍完毕，我们开始推导。</p>
+<h2 id="推导步骤"><a href="#推导步骤" class="headerlink" title="推导步骤"></a>推导步骤</h2><p>假设有一组样本点，$\left{\boldsymbol{v}_{1}, \boldsymbol{v}_{2}, \ldots, \boldsymbol{v}_{n}\right}$，那么我们首先对这组样本点中心化，我们也知道，我们的目的是让均值为0，方便我们计算。中心化后，样本点为$\left{\boldsymbol{x}_{1}, \boldsymbol{x}_{2}, \ldots, \boldsymbol{x}_{n}\right}=\left{\boldsymbol{v}_{1}-\boldsymbol{\mu}, \boldsymbol{v}_{2}-\boldsymbol{\mu}, \ldots, \boldsymbol{v}_{n}-\boldsymbol{\mu}\right}$</p>
+<p>假设我们现在从一个n维降维到d维，其中n&gt;d。这组d维的基是$w=(w_1,w_2…w_d)^T$，那么根据我们之前说的，我们样本点$x_i$在基w下的坐标是：$\left(\boldsymbol{x}_{i}, \boldsymbol{\omega}\right)=\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{\omega}$</p>
+<p>此时我们的方差是：</p>
+<script type="math/tex; mode=display">
+D(\boldsymbol{x})=\frac{1}{n} \sum_{i=1}^{n}\left(\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{\omega}\right)^{2}=\frac{1}{n} \sum_{i=1}^{n}\left(\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{\omega}\right)^{\mathrm{T}}\left(\boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{\omega}\right)=\frac{1}{n} \sum_{i=1}^{n} \omega^{\mathrm{T}} \boldsymbol{x}_{i} \boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{\omega}=\omega^{T}\left(\frac{1}{n} \sum_{i=1}^{n} x_{i} x_{i}^{\mathrm{T}}\right) \omega</script><p>我们定睛一看，这个不就是我们样本的协方差嘛</p>
+<script type="math/tex; mode=display">\frac{1}{n} \sum_{i=1}^{n} x_{i} x_{i}^{\mathrm{T}}</script><p>我们令这个矩阵为Σ。</p>
+<p>最终我们得到了我们的最优化问题，找到一个最优的基w使得，使得我们的方差最大。</p>
+<p>那么我们的原问题可以写成：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}{\max \left\{\omega^{\mathrm{T}} \Sigma \omega\right\}} \\ {\text {s.t.} \omega^{\mathrm{T}} \omega=1}\end{array}\right.</script><p>其中这里由于w是基，所以有$w^Tw=1$</p>
+<p>然后我们构造拉格朗日函数，</p>
+<script type="math/tex; mode=display">L(\omega)=\omega^{\mathrm{T}} \Sigma \omega + \lambda(1-\omega^T\omega)</script><p>然后对$\omega$求偏导，得到：</p>
+<script type="math/tex; mode=display">Σ ω=λ ω</script><p>此时我们的方差：</p>
+<script type="math/tex; mode=display">
+D(\boldsymbol{x})=\boldsymbol{\omega}^{\mathrm{T}} \Sigma \boldsymbol{\omega}=\lambda \boldsymbol{\omega}^{\mathrm{T}} \boldsymbol{\omega}=\lambda</script><p>马上就会发现，原来，x投影后的方差就是协方差矩阵的特征值。我们要找到最大的方差也就是协方差矩阵最大的特征值，最佳投影方向就是最大特征值所对应的特征向量。次佳投影方向位于最佳投影方向的正交空间中是第二大特征值对应的特征向量，以此类推。</p>
+<h2 id="PCA求解步骤"><a href="#PCA求解步骤" class="headerlink" title="PCA求解步骤"></a>PCA求解步骤</h2><p>至此我们得到了PCA的求解步骤：</p>
+<p>（1）对样本数据进行中心化处理。</p>
+<p>（2）求样本协方差矩阵。</p>
+<p>（3）对协方差矩阵进行特征值分解，将特征值从大到小排列。</p>
+<p>（4）取前d大的特征值对应的特征向量作为降维后的样本点。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://zhuanlan.zhihu.com/p/21580949" target="_blank" rel="noopener">PCA的数学原理(转)</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/公式推导/" rel="tag"># 公式推导</a>
+          
+            <a href="/tags/降维/" rel="tag"># 降维</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/18/NLP/使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）/" rel="next" title="使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）">
+                <i class="fa fa-chevron-left"></i> 使用BLSTM结合Attention进行文本分类（Kaggle比赛Quora Insincere Questions Classification）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/15/leetcode/1背包问题/" rel="prev" title="0/1背包问题">
+                0/1背包问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaster</p>
+              <div class="site-description motion-element" itemprop="description">冲击大厂，加油！</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/jawhiow" title="GitHub &rarr; https://github.com/jawhiow" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#预备知识"><span class="nav-number">1.</span> <span class="nav-text">预备知识</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#内积"><span class="nav-number">1.1.</span> <span class="nav-text">内积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基"><span class="nav-number">1.2.</span> <span class="nav-text">基</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基变换的矩阵表示"><span class="nav-number">1.3.</span> <span class="nav-text">基变换的矩阵表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方差"><span class="nav-number">1.4.</span> <span class="nav-text">方差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协方差"><span class="nav-number">1.5.</span> <span class="nav-text">协方差</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协方差矩阵"><span class="nav-number">1.6.</span> <span class="nav-text">协方差矩阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推导步骤"><span class="nav-number">2.</span> <span class="nav-text">推导步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCA求解步骤"><span class="nav-number">3.</span> <span class="nav-text">PCA求解步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaster</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.1.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.0"></script>
+
+  <script src="/js/motion.js?v=7.1.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.0"></script>
+
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/algolia-search.js?v=7.1.0"></script>
+
+
+
+  
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $('.leancloud_visitors');
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', '/classes/Counter/' + counter.objectId, JSON.stringify({ time: { '__op': 'Increment', 'amount': 1 } }))
+            
+              .done(function() {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.time + 1);
+              })
+            
+              .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+              })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1 }))
+                .done(function() {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function() {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+        .fail(function ({ responseJSON }) {
+          console.log('LeanCloud Counter Error: ' + responseJSON.code + ' ' + responseJSON.error);
+        });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + 'kvskSC3FCb6zRmn6STrb7t6f-gzGzoHsz')
+        .done(function({ api_server }) {
+          var Counter = function(method, url, data) {
+            return $.ajax({
+              method: method,
+              url: 'https://' + api_server + '/1.1' + url,
+              headers: {
+                'X-LC-Id': 'kvskSC3FCb6zRmn6STrb7t6f-gzGzoHsz',
+                'X-LC-Key': '88jJ5lIipbsH1JiPYAoBUlC4',
+                'Content-Type': 'application/json',
+              },
+              data: data
+            });
+          };
+          
+            addCount(Counter);
+          
+        });
+    });
+  </script>
+
+
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
